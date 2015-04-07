@@ -24,8 +24,11 @@
 <?php if ( !$form->isNew() ): ?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2><a title="<?php echo __('Records your event before it opens a new manifestation screen') ?>" id="manifestation-new" href="<?php echo url_for('manifestation/new?event='.$event->slug) ?>"></span> <?php echo __('New manifestation') ?></a></h2>
-    <h2><a title="<?php echo __('Records your event before it opens a new manifestation screen') ?>" id="manifestations-import-ics" href="<?php echo url_for('event/import?id='.$event->id) ?>"></span> <?php echo __('Import manifestations using ICS format') ?></a></h2>
+    <h2 class="new_manifestation"><a title="<?php echo __('Records your event before it opens a new manifestation screen') ?>" id="manifestation-new" href="<?php echo url_for('manifestation/new?event='.$event->slug) ?>"><?php echo __('New manifestation') ?></a></h2>
+    <h2 class="import_ics"><a title="<?php echo __('Records your event before it opens a new manifestation screen') ?>" id="manifestations-import-ics" href="<?php echo url_for('event/import?id='.$event->id) ?>" class="fg-button ui-state-default fg-button-icon-left">
+        <span class="ui-icon ui-icon-calendar"></span>
+        <?php echo __('Import an ICS file') ?>
+    </a></h2>
   </div>
 </div>
 <?php endif ?>
