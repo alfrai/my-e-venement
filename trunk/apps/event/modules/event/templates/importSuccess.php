@@ -7,7 +7,9 @@
     <?php include_partial('import_actions', array('event' => $event)) ?>
     <div class="ui-helper-clearfix"></div>
     
-    <?php include_partial('import_form', array('event' => $event, 'importForm' => $importForm,)) ?>
+    <div class="ui-widget ui-widget-content ui-corner-all import-ics">
+      <?php include_partial('import_form', array('event' => $event, 'importForm' => $importForm,)) ?>
+    </div>
     
     <?php include_partial('import_actions', array('event' => $event)) ?>
     <div class="ui-helper-clearfix"></div>
