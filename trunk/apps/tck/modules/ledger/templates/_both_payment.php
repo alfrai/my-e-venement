@@ -1,8 +1,7 @@
 <div class="ui-widget-content ui-corner-all" id="byPaymentMethod">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2>
-      <?php echo __("Payment modes") ?>
-    </h2>
+    <?php include_partial('both_extract') ?>
+    <h2><?php echo __("Payment modes") ?></h2>
   </div>
   <?php if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 ): ?>
   <?php endif ?>

@@ -15,7 +15,6 @@ $(document).ready(function(){
       arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')][$(this).find('[data-price-id]').attr('data-price-id')].push($(this));
     });
     
-    console.error(arr);
     // graphical process
     $.each(arr, function(manif_id, manif){
     $.each(manif, function(price_id, elts){
@@ -143,6 +142,7 @@ $(document).ready(function(){
     });
   });
   
+  if ( typeof Cookie != 'undefined' )
   setTimeout(function(){
     if ( Cookie.get('tck_ledger_cash_order_column') )
       $('#cash-ledger thead .'+Cookie.get('tck_ledger_cash_order_column')).click();

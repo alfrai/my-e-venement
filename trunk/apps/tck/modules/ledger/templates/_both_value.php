@@ -1,5 +1,6 @@
 <div class="ui-widget-content ui-corner-all" id="byValue">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
+    <?php include_partial('both_extract') ?>
     <h2><?php echo __("Values' summary") ?></h2>
   </div>
 
@@ -35,6 +36,7 @@
 
 <div class="ui-widget-content ui-corner-all" id="byValueSynthesis">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
+    <?php include_partial('both_extract') ?>
     <h2><?php echo __("Ticketting synthesis") ?></h2>
   </div>
 
