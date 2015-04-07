@@ -34,7 +34,7 @@ class eventActions extends autoEventActions
     ));
     $ws['book_all'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'all'));
     $vs['book_all'] = new sfValidatorBoolean(array('true_values' => array('all'), 'required' => false));
-    $ws['file'] = new sfWidgetFormInputFile(array('label' => ' '), array('accept' => 'text/calendar'));
+    $ws['file'] = new sfWidgetFormInputFile(array('label' => 'iCal/ICS File'), array('accept' => 'text/calendar'));
     $vs['file'] = new sfValidatorFile(array('mime_types' => array('text/calendar')));
     
     // import the ICS file

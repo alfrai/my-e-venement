@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>iCal/ICS File</source>
+        <target>Fichier iCal/ICS</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Main location</source>
+        <target>Salle principale</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Book all</source>
+        <target>Tout réserver</target>
+      </trans-unit>
+      <trans-unit>
         <source>ICS file imported.</source>
         <target>Fichier ICS importé.</target>
       </trans-unit>
