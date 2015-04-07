@@ -1,7 +1,7 @@
 function event_checkpoints_autocompleter()
 {
   jQuery(' input[name="autocomplete_checkpoint[organism_id]"]')
-  .autocomplete(event_organism_ajax_url, jQuery.extend({}, {
+  .autocomplete(LI.event_organism_ajax_url, jQuery.extend({}, {
     dataType: 'json',
     parse:    function(data) {
       var parsed = [];
@@ -15,7 +15,7 @@ function event_checkpoints_autocompleter()
 }
 function event_checkpoints_list_load(url)
 {
-  url = url ? url : event_checkpoint_list_url;
+  url = url ? url : LI.event_checkpoint_list_url;
   $('.sf_admin_form .checkpoint_list').load(url+' .sf_admin_list',function(){
     $('.sf_admin_form .checkpoint_list tfoot input').remove();
     $('.sf_admin_form .checkpoint_list tfoot a').click(function(){
@@ -91,8 +91,10 @@ function event_checkpoints_new_load(data)
 }
 
 $(document).ready(function(){
-  $('.sf_admin_form .checkpoint_new').load(event_checkpoint_new_url+' .sf_admin_form form',
-    event_checkpoints_new_load);
-  event_checkpoints_list_load();
+  if ( LI.event_checkpoint_new_url != undefined )
+  {
+    $('.sf_admin_form .checkpoint_new').load(LI.event_checkpoint_new_url+' .sf_admin_form form', event_checkpoints_new_load);
+    event_checkpoints_list_load();
+  }
 });
 

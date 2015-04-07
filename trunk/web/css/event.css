@@ -51,7 +51,6 @@
 #sf_admin_container .sf_admin_form_field_show_picture .widget { text-align: center; }
 
 /* import ICS */
-#more .new_manifestation { float: left; }
 #more .import_ics .ui-icon { display: inline-block; position: relative; top: 2px; }
-#more .import_ics { margin-top: -6px; text-align: right; }
-qsd#more .import_ics a { background-color: rgba(0,0,0,0.2); border-radius: 3px; padding: 3px 8px 3px 2px; }
+#more .import_ics { margin-top: -18px; text-align: right; float: right; }
+#more .import_ics a { padding-left: 1em; }
