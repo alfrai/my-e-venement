@@ -90,4 +90,5 @@
 
 .ui-widget-content .record:hover { background-color: rgba(242,241,237,0.7); }
 .ui-widget-content .record { background-image: url("../images/export.png"); text-decoration: none; background-repeat: no-repeat; background-position: center center; padding: 2px; display: inline-block; width: 16px; height: 16px; background-color: rgba(242,241,237,0.5); margin-top: -4px; }
+.ui-widget-content h1 + .record { margin-top: -24px; }
 .ui-widget-content .record span { display: none; }

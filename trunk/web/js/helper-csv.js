@@ -21,19 +21,24 @@
 ***********************************************************************************/
 
 jQuery.fn.toCSV = function(){
-  var data = jQuery(this);
   var csv = [];
-  var metaobj = [''];
-  if ( data.find('tbody').length > 0 )
-    metaobj = ['> thead', '> tbody', '> tfoot'];
-  
-  $.each(metaobj, function(i, search){
-    data.find(search+' > tr').each(function(){
-      var cells = [];
-      jQuery(this).find('th, td').each(function(){
-        cells.push(jQuery(this).text().replace(/"/g, '""'));
+  jQuery(this).each(function(){
+    if ( csv.length > 0 )
+      csv.push([]); // a blank line as separator between tables
+    
+    var data = jQuery(this);
+    var metaobj = [''];
+    if ( data.find('tbody').length > 0 )
+      metaobj = ['> thead', '> tbody', '> tfoot'];
+    
+    $.each(metaobj, function(i, search){
+      data.find(search+' > tr').each(function(){
+        var cells = [];
+        jQuery(this).find('th, td').each(function(){
+          cells.push(jQuery(this).text().replace(/"/g, '""'));
+        });
+        csv.push(cells);
       });
-      csv.push(cells);
     });
   });
   
