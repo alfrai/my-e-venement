@@ -1,0 +1,19 @@
+== forcer le paiement avant toute impression ==
+
+même si ça ne semble pas correspondre aux usages dans le commerce (usage consistant à ce que le client voit ce qu'il achète avant de payer), il est maintenant possible (sur la nouvelle interface) de retenir toute impression tant que l'ensemble des billets n'a pas été payé. c'est un contrôle simple par l'interface, qui ne passe pas par la base de données.
+
+apps/tck/config/app.yml:
+all:
+  transaction:
+    force_payment_before_printing: true
+
+
+== placement numéroté: retenir le passage automatique à l'écran suivant ==
+
+parce que certaines structures vont vouloir gérer le passage de l'écran de réservation des places à celui de l'impression des billets, le passage automatique est maintenant désactivable dans une option de configuration :
+
+apps/tck/config/app.yml:
+all:
+  transaction:
+    seated_plan:
+      auto_next: false

@@ -1,0 +1,33 @@
+== DESCRIPTION ==
+
+Avoir la possibilité de récupérer (voire générer si elle n'existe pas) une facture pour une opération.
+
+
+== INTERNAUTES ==
+
+1. Se connecter à e-voucher v2 avec son email + mot de passe
+2. Retrouver une commande passée
+3. Cliquer sur le lien qui va bien dans le statut de la commande
+4. Un PDF s'ouvre alors
+
+
+== MISE EN PLACE ==
+
+Ne pas oublier de paramétrer le fichier apps/pub/config/app.yml avec les propriétés suivantes (données en exemple) :
+
+# apps/pub/config/app.yml
+all:
+  seller:
+    logo: logo-200.jpg
+    name: Ligue des Pyrénées
+    address: 2 rue des Régaires
+    postalcode: 31000
+    city: TOULOUSE
+    country: France
+    other:
+    invoice_prefix: FB
+
+Sinon le risque c'est d'avoir une facture sans la partie haute et une mise en page en vrac.
+
+Conseil:
+Essayer de faire en sorte que les infos soient les même dans le apps/tck/config/app.yml et dans le apps/pub/config/app.yml.

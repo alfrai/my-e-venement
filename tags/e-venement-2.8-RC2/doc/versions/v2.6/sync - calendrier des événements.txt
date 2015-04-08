@@ -1,0 +1,116 @@
+== Pré-requis ==
+
+e-venement n'a besoin d'aucune librairie particulière pour permettre l'export et la synchronisation e-venement -> système tiers.
+
+Les systèmes tiers quant à eux doivent supporter la synchronisation au format iCal (format standard) et le protocol HTTP. Les systèmes supportant la synchronisation avec des serveurs CalDAV (protocole standard) devraient normalement tous pouvoir fonctionner avec e-venement.
+
+
+== Paramétrage d'e-venement ==
+
+Paramétrer e-venement consiste en deux choses :
+- permettre l'accès à e-venement par le système tiers (partage de clé secrète et association de cette clé à un utilisateur e-venement)
+- paramétrer le système d'alarmes
+
+=== 1. la clé secrète partagée ===
+
+Pour ce faire, définissez une clé secrète partagée longue et complexe, par exemple basé sur le MD5 d'une phrase elle-même complexe. Notez la bien. Nous l'appellerons par la suite CLESECRETE pour plus de simplicité.
+
+
+=== 2. le compte lié à cette application tierse ===
+
+Paramétrez un compte spécifique pour cela sur e-venement (ex: "synchronizator"), ou bien utilisez un compte utilisateur. Nous l'appellerons par la suite SYNCHRONIZATOR pour plus de simplicité.
+
+Attention, les données envoyées au système tiers seront relatives aux permissions de cet utilisateur, qui fonctionne comme n'importe quel utilisateur.
+
+Attention, si vous définissez un compte utilisateur spécifique, donnez-lui un mot de passe vide, ce qui évitera qu'il soit utilisable pour une connexion normale.
+
+
+=== 3. Les alarmes ===
+
+Il est possible de paramétrer une ou plusieurs alarmes pour les manifestations qui seront synchronisées. Elles sont paramétrables relativement à l'heure où se tiendra la manifestation (pas la réservation). Elles peuvent s'exprimer en minutes, heures, jours, semaines et mois (et sur une base d'anglais) et en général ce sont des valeurs négatives ("avant"). Quelques exemples :
+- -30 minutes : 30 minutes avant
+- -1 hour     : une heure avant
+- -2 days     : deux jours avant
+- -2 weeks    : deux semaines avant
+- -1 month    : un mois avant
+
+Il est également possible de paramétrer les types d'alarme souhaités. Par défault un "popup" (méthode "display") s'affiche (popup sur votre logiciel tiers, mais également l'alarme classique de vos terminaux mobiles s'ils sont synchronisés avec e-venement). Il est également possible de paramétrer ces différentes méthodes :
+- audio, joue le son par défaut sur le système
+- email, envoie un email aux adresses électroniques liées à cette manifestation (ici la personne qui a réservé et les organismes organisateurs)
+- display, est le système d'alarme standard du système synchronisé au calendrier, habituellement une fenêtre "popup"
+
+Par défaut, l'alarme utilisée est "display" à "-1 hour". 
+
+
+=== 4. La configuration d'e-venement ===
+
+dans le fichier apps/event/config/app.yml, vérifiez ou ajoutez les données suivantes :
+
+all:
+  synchronization:
+    security_token:
+      CLESECRETE: SYNCHRONIZATOR
+    alarms:
+      when: [-4 hours, -1 hour]
+      what: [display, email]
+    pending_alarms:
+      when: [-1 week, -2 days]
+      what: [display, email]
+
+Ici les alarmes par défaut seront utilisées (-1 hour et display) :
+
+all:
+  synchronization:
+    security_token:
+      CLESECRETE: SYNCHRONIZATOR
+
+Ici aucune alarme ne sera paramétrée, les manifestations seront juste affichés :
+
+all:
+  synchronization:
+    security_token:
+      CLESECRETE: SYNCHRONIZATOR
+    alarms:
+      what: []
+
+
+== Paramétrage des systèmes tiers ==
+
+Les paramètres à préciser sont les suivants :
+
+<e-venement>  : le nom de domaine + chemin d'accès à votre instance d'e-venement
+<CLESECRETE>  : la clé secrète partagée avec e-venement, telle qu'elle y est paramétrée
+[transp]      : rend les VEVENTs transparents
+[only_pending]: ne retourne les manifestations en attente, et prend en compte les paramètres
+                spécifiques pour les alarmes
+
+Dans les systèmes tiers, il est juste nécessaire de donner l'adresse de synchronisation iCal telle que suit :
+http[s]://<e-venement>/event.php/event/calendar?token=CLESECRETE[&trans][&pending]
+
+
+=== Zimbra ===
+
+Pour l'exemple, prenons un système Zimbra.
+- Aller dans les calendriers
+- Cliquer sur la petite "roue" des options
+- Cliquer sur "ajouter un calendrier externe"
+- Puis "ajouter un calendrier externe (autre)"
+- Enfin, choisir "Abonnement iCal"
+- Et saisir l'adresse indiquée plus haut
+
+Ensuite, la synchronisation devrait se faire toutes les 12 heures automatiquement et peut être forcée en faisant un clic-droit sur le calendrier puis "recharger".
+
+
+== Limites de la solution ==
+
+=== Alarmes "email" gérées via Zimbra ===
+
+Les alarmes par email ne sont honorées que lorsque les alarmes email sont paramétrées pour l'adresse liée au compte sur lequel le calendrier a été synchronisé.
+
+Autrement dit, prenons le cas suivant :
+- une alarme email est prévue pour (conjointement)
+ - baptiste.simon@libre-informatique.fr
+ - contact@libre-informatique.fr
+- le calendrier a été synchronisé par baptiste.simon@libre-informatique.fr
+Alors (par défaut) :
+- seul baptiste.simon@libre-informatique.fr recevra l'alerte

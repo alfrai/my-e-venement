@@ -1,0 +1,3 @@
+default:
+  javascripts: [menu,summary]
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css, accounting, main, summary, print-list: {media: print}]

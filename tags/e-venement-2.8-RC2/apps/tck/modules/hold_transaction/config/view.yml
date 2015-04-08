@@ -1,0 +1,29 @@
+all:
+  stylesheets: [tck-hold-transaction]
+  javascripts: [tck-hold-transaction, helper]
+
+indexSuccess:
+  javascripts: [list-scroll]
+
+changeRankSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+
+plusSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+minusSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+addContactSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+addProfessionalSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+

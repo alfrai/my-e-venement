@@ -1,0 +1,33 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           vat
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          vat
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        value: { label: Rate, help: eg. 0.0920 for 9.20% }
+        accounting_account: { label: Account, help: For accounting }
+        name: { help: eg. 9.20% }
+      list:
+        display: [name, value, accounting_account]
+        object_actions:
+          _delete: ~
+          _edit: ~
+        title: Taxes list
+      filter:
+        display: [name, value, accounting_account]
+      form:
+        display: [name, value, accounting_account]
+      edit:
+        title: Edit tax %%name%%
+      new:
+        title: New tax

@@ -1,0 +1,9 @@
+.links { padding-left: 10px; }
+.links > * { font-size: 0.9em; }
+.links .link { border: 1px solid whitesmoke; border-radius: 4px; width: 200px; float: left; margin-right: 2%; height: 10em; padding: 5px; overflow: hidden; cursor: pointer; }
+.links .link:hover { border: 1px solid silver; }
+.links .link h4 { text-align: center; margin: 0 0 5px 0; }
+.links .link h4 a { text-decoration: none; }
+.links .link h4 a:hover, .links .link:hover h4 a { text-decoration: underline; }
+.links .link p { margin: 0; padding: 0; }
+.links .link > div { font-size: 0.85em; }
