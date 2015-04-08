@@ -92,10 +92,9 @@
       
       $('#li_transaction_field_price_new').fadeIn('slow');
     }).focusout(function(){
-      console.error('glop');
       var elt = this;
       setTimeout(function(){
-        if ( $('#li_transaction_field_content [data-gauge-id].ui-state-highlight').length == 0 )
+        if ( $('#li_transaction_field_content [data-gauge-id].ui-state-highlight, #li_transaction_field_content [data-declination-id].ui-state-highlight').length == 0 )
         {
           $('#li_transaction_field_price_new').fadeOut('slow');
           $('#li_transaction_field_price_new .dispatch input').toggle();
