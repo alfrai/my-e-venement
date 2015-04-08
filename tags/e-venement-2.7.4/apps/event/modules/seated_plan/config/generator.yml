@@ -1,0 +1,55 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           SeatedPlan
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          seated_plan
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions:
+        _edit:
+          credentials: event-seated-plan-edit
+        _new:
+          credentials: event-seated-plan-new
+        _batchDelete:
+          credentials: event-seated-plan-del
+        _delete:
+          credentials: event-seated-plan-del
+      fields:
+        seat_diameter:
+          label: Plot diameter behind a seat
+          help: px
+        background:
+          label: Background color
+          help: HTML colors
+        list_nb_seats:
+          label: Size
+          type: number
+        OnlinePicture: { label: Picture }
+        list_workspaces: { label: Workspaces }
+        workspaces_list: { label: Workspaces }
+      list:
+        display: [Location, _list_workspaces, _list_nb_seats, description]
+        table_method: retreiveOrderedList
+        sort: ['l.name, w.name', '']
+        max_per_page: 50
+        object_actions:
+          _edit: ~
+          _delete: ~
+      filter:
+        display: [location_id, workspaces_list, background]
+      form:
+        display:
+          General: [location_id, workspaces_list, description, _show_nb_seats]
+          Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
+          Online Sales: [OnlinePicture, _show_online_picture, _form_online_picture_del]
+      edit:    ~
+      new:     ~
+      show:
+        display: [_show_raw_picture]

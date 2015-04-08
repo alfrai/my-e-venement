@@ -1,0 +1,72 @@
+.sf_form_field_events_list li { margin-left: 20px; }
+#sf_fieldset_ticketting a { text-decoration: none; }
+#sf_fieldset_ticketting a:hover { text-decoration: underline; }
+#sf_fieldset_ticketting table .pro td { font-weight: bold; text-decoration: underline; }
+#sf_fieldset_ticketting table .meta_event td { font-weight: bold; font-style: italic; }
+#sf_fieldset_ticketting table td { padding: 0 5px; }
+#sf_fieldset_ticketting table td span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  overflow: hidden;
+  display: block;
+}
+#sf_fieldset_ticketting table td.manif span { white-space: normal; }
+#more .sf_admin_form_tab_menu > div > .sf_admin_form_field_contact_id { display: none; }
+#more .duplicates { padding-bottom: 5px; }
+
+#member-cards .ui-widget-content { margin: 5px; padding: 0 5px; }
+#member-cards .new { float: right; width: 380px; }
+#member-cards .new #card_duplicate, #member-cards .new #card_type_value, #member-cards .new #card_type_payment_method { float: right; }
+#member-cards .new #card_type_value input { width: 4em; text-align: right; }
+#member-cards .list {
+  min-height: 50px;
+  padding: 5px 5px 5px 20px;
+  margin-right: 405px;
+}
+#member-cards .list table { clear: none; }
+#member-cards .list .card { float: left; padding-right: 10px; }
+#member-cards .list .sf_admin_action_delete {
+  list-style-type: none;
+  font-size: 80%;
+  padding: 0.2em 0 0.3em 0;
+}
+#member-cards #card_type_list {
+  float: left;
+  list-style-type: none;
+  margin: 5px 10px;
+}
+#member-cards #card_type_actions { display: inline-block; padding-top: 12px; }
+
+#sf_fieldset_ticketting .archive .happens_at { text-align: right; }
+#sf_fieldset_ticketting tr:not(.archive) + .archive > * > span { border-top: 1px dashed black; padding-top: 10px; }
+#sf_fieldset_ticketting tr:not(.archive) + .archive > * { padding-top: 10px; }
+
+.sf_admin_form_field_Relationships ol, .sf_admin_form_field_YOBs ol { margin-left: 25px; }
+.sf_admin_form_field_Relationships th,
+.sf_admin_form_field_YOBs table input.ac_input, .sf_admin_form_field_YOBs th { display: none; }
+.sf_admin_form_field_Relationships table table, .sf_admin_form_field_YOBs table table { border: 1px solid #C0C0C0; border-radius: 4px; padding: 5px; margin-bottom: 5px; }
+.sf_admin_form_field_YOBs table table { padding-right: 2em; }
+.sf_admin_form_field_YOBs table table tfoot { position: absolute; margin-top: -32px; margin-left: 104px; }
+.sf_admin_form_field_YOBs table table tfoot td { font-weight: bold; width: 1.8em; text-align: center; line-height: 1em; }
+.sf_admin_form_field_Relationships table table, .sf_admin_form_field_Relationships table table tr, .sf_admin_form_field_Relationships table table td,
+.sf_admin_form_field_YOBs table table, .sf_admin_form_field_YOBs table table tr, .sf_admin_form_field_YOBs table table td,
+.sf_admin_form_field_YOBs table input { display: inline-block; }
+.sf_admin_form_field_YOBs table table td { width: 30%; }
+.sf_admin_form_field_YOBs > table > tbody > tr { float: left; margin-right: 10px; }
+#content .sf_admin_form .sf_admin_form_field_YOBs table input[type=text] { width: 14px; text-align: right; }
+#content .sf_admin_form .sf_admin_form_field_YOBs table table tr + tr + tr input[type=text] { width: 28px; }
+.sf_admin_form_field_YOBs table table tr + tr + tr + tr { display: block; }
+.sf_admin_form_field_YOBs table table tr + tr + tr + tr td { display: block; width: 100%; }
+#tdp-content .sf_admin_form_field_YOBs table table tr + tr + tr + tr input[type=text],
+#content .sf_admin_form .sf_admin_form_field_YOBs table table tr + tr + tr + tr input[type=text] { width: 90px; text-align: left; }
+#tdp-content .sf_admin_form_field_YOBs table input[type=text], #content .sf_admin_form .sf_admin_form_field_YOBs table input[type=text],
+#content .sf_admin_form .sf_admin_form_field_Relationships select, #content .sf_admin_form .sf_admin_form_field_Relationships input[type=text]
+{ margin: 0; }
+
+#tdp-content .sf_admin_form_row .label label { font-size: inherit; }
+
+#tdp-content .sf_admin_form_field_Relationships select,
+#tdp-content .sf_admin_form_field_Relationships input[type=text],
+#content .sf_admin_form .sf_admin_form_field_Relationships select,
+#content .sf_admin_form .sf_admin_form_field_Relationships input[type=text] { width: 130px; }

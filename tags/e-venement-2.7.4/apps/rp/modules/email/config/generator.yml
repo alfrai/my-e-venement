@@ -1,0 +1,51 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Email
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          email
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        field_from:     { label: From: }
+        field_subject:  { label: Subject: }
+        field_to:       { label: To: }
+        field_cc:       { label: Cc: }
+        field_bcc:      { label: Bcc: }
+        content:        { label: Content: }
+        test_address:   { label: Test email address: }
+        updated_at:     { label: Last access }
+        sf_guard_user_id: { label: User }
+        load:           { label: Load and replace content }
+      list:
+        title: List of emails sent
+        display: [User,field_subject,sent,created_at,updated_at]
+        sort: [updated_at,desc]
+      filter:
+        display: [sf_guard_user_id,sent,field_subject,contacts_list,professionals_list,organisms_list]
+      show:
+        display:
+          NONE:      [User, _show_sent, _show_timestampable]
+          Fields:    [_show_field_from, _show_field_to, _show_field_cc, _show_field_bcc]
+          Relations: [_show_contacts_list, _show_professionals_list, _show_organisms_list]
+          Content:   [field_subject, _show_content]
+      form:    ~
+      edit:
+        display:
+          1. Content:   [field_from, field_subject, _attachments, content, _load_button]
+          2. Recievers: [_form_contacts_list, _form_professionals_list, _form_organisms_list]
+          3. Validate:  [test_address, _test_button]
+          4. Send:      [read_receipt, _send_button]
+      new:
+        display:
+          1. Content:   [field_from, field_subject, _attachments, content, _load_button]
+          2. Recievers: [_form_contacts_list, _form_professionals_list, _form_organisms_list]
+          3. Validate:  [test_address, _test_button]
+          4. Send (test first!):      [_send_empty]

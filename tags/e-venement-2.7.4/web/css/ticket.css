@@ -1,0 +1,367 @@
+.alert { border: 2px solid orange; border-radius: 4px; }
+.action { margin: 5px 2px 0 2px; padding: 5px; }
+
+#manifestations > .backup { display: none; }
+
+#transaction-id {
+  position: absolute;
+  right: 40px;
+  margin-top: 18px;
+  font-weight: bold;
+  cursor: default;
+  font-size: 150%;
+}
+#transaction-id span { font-weight: normal; }
+#transaction-id.translinked { border-bottom: 1px solid red; }
+
+#manifestations select, .manifestations_list select { font-size: 10px; width: 80px; }
+#manifestations .manifestations_add {
+  height: 200px;
+  margin-right: 270px;
+  overflow: auto;
+}
+#manifestations li .manif { padding: 5px; }
+#manifestations .manifestations_add span { background-color: white; }
+#manifestations .manifestations_add .selected { border-bottom: 1px gray dashed; }
+.manifestations_list, #manifestations ul {
+  padding: 3px 0 10px 0;
+  margin: 5px 0;
+  list-style-type: none;
+}
+
+.tickets_form { margin-right: 270px; }
+.tickets_form.full .manifestations_list { min-height: 155px; }
+.manifestations_list ul { display: table; width: 100%; }
+.manifestations_list li { display: table-row; }
+.manifestations_list li > span.prices { padding: 0 10px; text-align: right; }
+.manifestations_list li > span {
+  display: table-cell;
+  padding: 0 5px;
+}
+.manifestations_list li > .manif { white-space: nowrap; }
+.manifestations_list .prices { width: 100%; }
+.manifestations_list .prices .ticket_prices {
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px dashed gray;
+  padding: 2px 7px 2px 0;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.manifestations_list .prices .ticket_prices.notprinted .price,
+.manifestations_list .prices .ticket_prices.integrated .price { cursor: pointer; }
+.manifestations_list .prices .ticket_prices.integrated input[type=text],
+.manifestations_list .prices .ticket_prices.integrated,
+.manifestations_list .prices .ticket_prices.printed input[type=text],
+.manifestations_list .prices .ticket_prices.printed {
+  background-color: #ddd;
+  color: black;
+}
+#prices .ticket_prices input.nb {
+  width: 2em;
+  border: 0;
+  font-size: 90%;
+  text-align: right;
+}
+.manifestations_list .prices .value { display: none; }
+.manifestations_list .prices .done { background-color: gray; }
+.manifestations_list .prices .selected { background-color: silver; }
+
+.sf_admin_flashes { margin: 5px 0; }
+
+.manifestations_list .total { font-weight: bold; text-align: right; }
+.manifestations_list .total { text-align: right; }
+.manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }
+
+#payment { min-height: 250px; }
+#payment form {
+  position: absolute;
+  width: 400px;
+}
+#payment .sf_admin_list {
+  margin-left: 420px;
+  width: 350px;
+}
+#payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
+#payment .sf_admin_list .related.label .sf_admin_text { font-weight: bold; font-style: normal; }
+#payment .sf_admin_list .change .sf_admin_text,
+#payment .sf_admin_list .related.total .sf_admin_text,
+#payment .sf_admin_list .total .sf_admin_text,
+#payment .sf_admin_list .topay .sf_admin_text { padding-left: 30px; font-weight: bold; }
+#payment .sf_admin_list .change .sf_admin_list_td_list_value { text-decoration: underline; }
+#payment form { padding: 5px; padding-top: 0; }
+#payment form .sf_admin_form_row { padding-top: 0; padding-bottom: 0; }
+#payment form label { display: inline-block; width: 100px; }
+#payment form .errors { padding-bottom: 8px; }
+#payment .sf_admin_list .related { font-style: italic; }
+#payment .end-line td { border-bottom-width: 3px; }
+
+#print form { display: inline-block; }
+#print .integrate { margin-right: 20px; }
+#print .partial { margin-left: 20px; }
+#print .all, .partial-print .all { margin-left: 20px; }
+#print input[type=submit].ui-state-default { padding: 3px 10px; cursor: pointer; }
+
+.submit .tickets {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid black;
+  font-size: 120%;
+}
+
+.action.closed {
+  font-size: 13px;
+}
+.action.closed .thanks {
+  font-size: 22px;
+  text-align: center;
+  padding: 100px 0;
+}
+.action.closed .transaction_new {
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 20px;
+  border: 1px dashed silver;
+}
+
+#description { width: 350px; padding: 2px 5px; float: right; margin-top: 5px; }
+#description textarea { width: 335px; height: 2em; font-size: 100%; }
+
+#contact { display: inline-block; min-height: 38px; }
+#contact .title { display: inline-block; margin-top: 15px; }
+#contact .delete-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/delete.png);
+  background-position: 0 -2px;
+}
+#contact .create-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/new.png);
+  background-position: 0 -2px;
+}
+#contact #micro-show {
+  position: absolute;
+  right: 35px;
+  width: 350px;
+  background-color: white;
+  height: 288px;
+  z-index: 500;
+  overflow: auto;
+  padding: 5px;
+  display: none;
+  border-top: 0;
+  border-radius-topright: 0px;
+}
+#contact #micro-show .vcard { padding-top: 5px; }
+#contact #micro-show .vcard > * { display: block; }
+#contact #micro-show .vcard > * > * { display: inline; }
+#contact #micro-show .vcard > * > * > * { display: block; }
+#contact #micro-show .vcard .region { display: none; }
+#contact #micro-show .vcard .postal-code { float: left; margin-right: 1em; }
+#contact #micro-show .vcard .locality { clear: right; }
+#contact #micro-show .vcard address { border-bottom: 1px solid rgb(166, 201, 226); margin-bottom: 2px; padding-bottom: 2px; }
+#contact #micro-show .vcard hr { border: 0; border-bottom: 1px solid rgb(166, 201, 226); margin: 2px 0; }
+#contact #micro-show label {
+  min-width: 75px;
+  display: inline-block;
+}
+#contact #micro-show .sf_admin_form_row {
+  margin: 5px;
+  padding: 0;
+}
+#contact #micro-show h1 { font-size: 12px; font-weight: bold; }
+#contact #micro-show .tdp-line.city .tdp-country { display: block; }
+#contact #micro-show .tdp-line.city .tdp-country { display: block; }
+#contact #micro-show textarea, #contact #micro-show input[type=text] {
+  border: 0;
+  font-size: 12px;
+}
+#contact #micro-show input[type=submit], #contact #micro-show button, #contact #micro-show label,
+#contact #micro-show .sf_admin_actions_form, #contact #micro-show .tdp-actions,
+#contact #micro-show .tdp-line.city .show_region,
+#contact #micro-show .tdp-line.city .sf_admin_form_field_cities,
+#contact #micro-show .tdp-line.more,
+#contact #micro-show .tdp-line.personal_description,
+#contact #micro-show .tdp-line.groups { display: none; }
+
+#contact .open {
+  position: absolute;
+  right: 395px;
+  height: 22px;
+  width: 5px;
+  background-color: white;
+  z-index: 501;
+}
+#contact .contact_url { display: none; }
+#contact .professional,
+#contact .contact { font-size: 150%; }
+
+#cancel-tickets .link a, #checkpoint .link a {
+  display: block;
+  padding: 150px 10px;
+  text-align: center;
+  font-size: 20px;
+}
+#cancel-tickets .link, #checkpoint .link {
+  margin: 5px;
+}
+#cancel-tickets.failed .link, #checkpoint.failed .link {
+  background-color: OrangeRed;
+}
+#cancel-tickets.passed .link,
+#checkpoint.passed .link {
+  background-color: LightGreen;
+}
+#checkpoint ul {
+  list-style-type: none;
+  margin: 5px 10px;
+  padding: 5px;
+}
+#checkpoint label {
+  width: 100px;
+  display: inline-block;
+}
+#checkpoint .comment textarea { height: 40px; }
+#checkpoint .comment {
+}
+#checkpoint .checkpoint_id {
+  position: absolute;
+  margin-left: 280px;
+  margin-top: -1em;
+}
+#checkpoint .comment label, #checkpoint .checkpoint_id label {
+  display: block;
+}
+
+#prices .tickets_id {
+  display: none;
+  position: absolute;
+  border: 1px solid gray;
+  background-color: silver;
+  padding: 2px 3px;
+  max-width: 120px;
+  white-space: normal;
+  text-align: left;
+}
+#prices .ticket_prices:hover .tickets_id { display: block; }
+#prices [name="ticket[nb]"] { text-align: center; }
+
+.partial-print h2, .partial-print .prices {
+  margin-bottom: 10px;
+}
+
+#force-alert { display: none; }
+#gauge-alert {
+  position: absolute;
+  border: 2px solid orange;
+  border-radius: 4px;
+  padding: 5px 10px;
+  background-color: silver;
+  font-weight: bold;
+  font-size: 150%;
+  top: 250px;
+  left: 250px;
+  width: 400px;
+  display: none;
+  text-align: center;
+}
+.prices .workspace.alert {
+  padding-left: 3px;
+  margin-left: -5px;
+}
+#prices .workspaces .ws-name { padding: 1px 22px 1px 4px; border: 2px solid silver; font-size: 10px; text-decoration: none; width: 80px; white-space: nowrap; }
+#prices .workspaces select { cursor: pointer; }
+#prices .workspaces option { cursor: default; }
+#prices .workspaces option.alert { font-style: italic; border: 0; color: orange; }
+
+#manifestations .workspaces { display: none; }
+.prices .workspace {
+  display: block;
+  cursor: default;
+}
+.prices .workspace .ws-name, .prices .workspace .ws-gauge {
+  float: left;
+  padding-top: 3px;
+}
+.prices .workspace .ws-name { text-decoration: none; }
+.prices .workspace .ws-gauge {
+  width: 100px;
+  display: inline-block;
+  margin-right: 5px;
+  cursor: crosshair;
+  height: 1em;
+}
+.prices .workspace .ws-gauge span { display: inline-block; overflow: hidden; }
+.prices .workspace .ws-gauge .url { display: none; }
+.prices .workspace .ws-gauge .free { background-color: green; }
+.prices .workspace .ws-gauge .printed { background-color: red; }
+.prices .workspace .ws-gauge .ordered { background-color: orange; }
+.prices .workspace .ws-gauge .asked { background-color: blue; }
+.prices .manif_prices_list { display: none; }
+
+#manifestations .manif .name, #prices .manif .name {
+  max-width: 140px;
+  min-width: 100px;
+  height: 1em;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.manif:hover { background-color: #fffccc; }
+
+#payment .reset { margin-left: 10px; }
+
+#seating-plan {
+  position: absolute;
+  padding: 5px;
+  z-index: 701;
+  top: 100px;
+  bottom: 100px;
+  left: 100px;
+  right: 100px;
+}
+#seating-plan .ui-widget-content {
+  padding: 5px;
+}
+#seating-plan .direct {
+  margin-bottom: 10px;
+}
+#seating-plan .graphical {
+  min-height: 350px;
+}
+
+#tickets .tickets {
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px dashed gray;
+  padding: 2px 7px 2px 7px;
+  border-radius: 3px 3px 3px 3px;
+  white-space: nowrap;
+}
+#tickets .total { float: right; font-weight: bold; padding-top: 3px; }
+#tickets .total:before { content: '= '; }
+
+#prices .prices_list .cancel {
+  font-size: 0;
+   background-position: -32px -80px;
+   display: inline-block;
+}
+#prices .prices_list.cancel {
+  background-color: orange;
+  border: 2px solid gray;
+}
+
+#validation form p {
+  float: left;
+}
+#validation form + form p {
+  float: none;
+  text-align: right;
+}
+
+#seated-plan { position: absolute; top: 0; padding-bottom: 100px; width: 100%; left: 0; background-color: rgba(0,0,0,0.5); z-index: 1000; text-align: center; }
+#seated-plan iframe { margin-top: 220px; width: 1000px; height: 500px; overflow: auto; padding: 5px; }
