@@ -1,4 +1,3 @@
-glop
 <?php
 $first = ($pager->getPage() * $pager->getMaxPerPage() - $pager->getMaxPerPage() + 1);
 $last = $first + $pager->getMaxPerPage() - 1;
