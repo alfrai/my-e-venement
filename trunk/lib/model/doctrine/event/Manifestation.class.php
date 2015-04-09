@@ -180,8 +180,7 @@ class Manifestation extends PluginManifestation implements liUserAccessInterface
     try { $this->getFromCache('get-infos-tickets'); }
     catch ( liEvenementException $e )
     {
-      $this->setInCache($this->_getInfosTickets($options));
-      return $this->getInfosTickets($options);
+      return $this->setInCache('get-infos-tickets', $this->_getInfosTickets($options));
     }
   }
   private function _getInfosTickets($options = array())

@@ -226,7 +226,6 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   protected function setInCache($name, $value)
   {
     $this->cache[$name] = $value;
-    
-    return $this;
+    return $value;
   }
 }

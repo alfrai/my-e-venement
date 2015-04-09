@@ -39,6 +39,8 @@
     foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
     {
       $vat[$rate][$event->id][$manif->id] = $amount; // taxes feeding
+      if ( !isset($total['vat'][$rate]) )
+        $total['vat'][$rate] = 0;
       $total['vat'][$rate] += $amount; // total feeding
     }
   } // endif; endforeach;
