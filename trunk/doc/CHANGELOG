@@ -1,3 +1,227 @@
+== v2.7 -> v2.8 ==
+2015-04-09 "Elderberry Wine"
+Général:
+  bugs:
+  - Dans les cas de e-venement v2 installé depuis les premières versions, certaines TVA n'étaient pas définies sur les manifestations, le script de migration permet d'éviter des effets de bord éventuels
+  - Meilleur support des recherches "rapides" passant par les tables "index" (Contacts, Events, etc.)
+  - Meilleur support de MacOSX (<CTRL>/<COMMAND>)
+  - Correction de la mise à jour par lot des indexes (e-venement:search-index)
+  améliorations:
+  - Ajout d'un délai (optionnel) lors de l'envoi d'emailings pour éviter les envois en masse trop rapides, évitant de se passer pour un spammeur
+  - Meilleur support de l'envoi d'emails
+  - Script de migration affichant des avertissements utiles pour une installation/migration "propre"
+  - Script de migration embarquant des vérifications avant/après sur les billets, pour éviter les pertes d'informations
+  - Script de migration gérant l'internationalisation des objets en base
+  - Traçabilité des actions automatiques (via les garbage collectors par exemple) assurée sur les objets "Traceable"
+  - Support de l'internationalisation dans les filtres par défaut
+  - Dans les listes standard, le passage à la page suivante se fait automatiquement une fois que l'on a atteind le bas de la page courante
+  - Amélioration du support des terminaux mobiles / tactiles dans les fonctions de base d'e-venement (écran d'accueil, sous-menus, crontrôle de billets, ...)
+  - Ajout d'un système de cache sur les données à afficher, utilisé en fonction des besoins dans les différents modules d'e-venement
+  - Amélioration de l'affichage du flux d'actualités sur l'écran d'accueil d'e-venement
+  - Remplacement du terme "Mettre à jour" par "Enregistré", plus clair et source de moins de confusion chez les utilisateurs
+  nouveautés:
+  - Ajout d'un système de "ramasses poussière" (aussi connu sous le nom de "garbage collectors") permettant l'exécution de tâches récurrentes (via crontab)
+  - Support de systèmes complexes intégrant des bases de données PostgreSQL "master" et "slaves"
+  - Création d'un framework permettant la mise en place de systèmes de failover (à travers une tâche cron de "ping SQL")
+  - Support de l'internationalisation de l'interface
+  - Ajout d'un système de création très facile (pour les développeurs) d'extractions de données côté client (JS/jQuery)
+  - Ajout d'un système de cache (utilisant sf_cache_dir) très puissant utilisable en lieu et place de partials
+
+Boutique / Point of Sales:
+  améliorations:
+  - Internationalisation complète des produits
+  - Possibilité de préparer des produits pour qu'un contenu numérique soit disponible uniquement après achat, sur l'espace client de la vente en ligne
+  nouveautés:
+  - Ajout d'un module de boutique complet, intégré totalement au système de vente de billets existant (attention, la gestion de stock est prévue pour des versions ultérieures)
+
+Vente en ligne:
+  bugs:
+  - Correction de problèmes liées à des virgules flottantes imprécises
+  - Meilleur support des devises en fonction de la langue d'affichage (ex: fr -> 15 €, en: €15)
+  - Meilleur support de tous les navigateurs connus, au-delà des standards
+  - Support des permissions plus solide
+  améliorations:
+  - Refonte profonde du module, sans que cela ne soit non plus une réécriture complète
+  - Optimisations diverses (dont: ajout par défaut de classes à l'objet <body> permettant de situer aisément le contexte de navigation (utilisateur e-venement, culture, module, action, nom de l'application, méta-événement, etc.))
+  - Possibilité de paramétrer quelle sera la page d'accueil par défaut de la vente en ligne
+  - Expérience générale d'achat largement améliorée
+  - Amélioration de l'affichage du panier
+  - Ajout d'une case à cocher obligatoire (sous forme option dans le module) pour les CGV
+  - Possibilité d'aiguiller des billets sur des personnes en particulier dans le cadre du placement numéroté
+  - Envoi des billets en PDF par email (optionnel)
+  nouveautés:
+  - Support du placement numéroté géré directement par les internautes, avec gestion des orphelins, d'un placement également automatique
+  - Support des terminaux tactiles, mobiles, ...
+  - Ajout de la boutique en ligne, pour pouvoir vendre des produits
+  - Gestion des espaces client totalement revue prenant maintenant une dimension nouvelle, avec mise à disposition des contenus réservés des produits après achat, possibilité de rajouter une photo de profil, de refuser tout contact email "promotionnel"...
+  - Internationnalisation complète de l'interface (actuellement disponible en anglais et en français)
+  - Statistiques détaillées sur les origines des internautes (sites web, campagnes de communication, etc.), leur comportement (opération aboutie ou non), leurs commandes (montant, préparation préalable, etc...)
+  - Prise en compte des images des événements
+  - Support des frais de billetterie / des frais de port pour les produits
+  - Prise en charge de profils de cartes d'abo particuliers (ex: une carte d'abo n'est valide que si des billets pour au minimum 3 billets sont dans le panier)
+  - Support d'une option "réservation en ligne", permettant la prise en charge de processus particulier (ex: invitations de professionnels amenés à gérer eux-même leur parcours événementiel, en respectant certaines contraintes)
+  - Ajout d'un mécanisme de crochets (hooks) pour l'ajout de modules externes (ex: Apple Passbook)
+  - Possibilité de vendre des "produits à prix libre", autrement dit des "dons"
+  - Possibilité d'ajouter un QRCode sur les manifestations permettant un ajout automatique au calendrier...
+  - Possibilité de mettre en place plusieurs ventes en lignes autonomes 
+
+Événementiel:
+  bugs:
+  - Correction du calcul des dates des manifestations
+  - Correction de l'affichage des manifestations dans la liste des événements, dans le cas d'événements avec un très grand nombre de manifestations
+  - Les dépédances entre manifestations pouvaient "rester bloquer", ça a été corrigé
+  - L'introduction de frais de billetterie est maintenant pris en compte dans les "déséquilibres" des manifestations
+  améliorations:
+  - GRR: Gestion des conflits plus fine, avec l'ajout d'une option permettant de repérer soit les conflits factuels soit les conflits potentiels
+  - Filtres sur les manifestations complétés
+  - Duplication des manifestations complétée, renforcée, accélérée... et il est maintenant possible de dupliquer plusieurs manifestations d'un coup, en passant par les actions groupées de la liste des manifestations.
+  - Utilisation du système de cache pour accélérer grandement l'affichage des manifestations
+  - Optimisation du temps de chargement des fiches manifestations (au-delà de l'usage du sfCacher)
+  - Possibilité de changer l'événement d'une manifestation, si l'utilisateur dispose des permissions nécessaires
+  - Possibilité de fermer une jauge à la vente sur place, indépendament de l'autorisation de vendre en ligne
+  - Très nettes avancées dans le support des plans numérotés !! (support du SVG, mise à l'échelle automatique, déplacement en glissé-déposé compatible écrans tactiles, raccourcis clavier...)
+  - Affichage uniquement à la demande des plans numérotés (avant l'affichage des plans numérotés étaient "par défaut" et pouvait prendre un temps important)
+  - Il est maintenant possible d'afficher un plan général au niveau de la fusion des jauges (son affichage correct dépend du fait d'avoir une même image à la même échelle pour tous les sous-plans de la salle)
+  - Possibilité d'afficher les contrôles d'accès en temps quasi-réel (plusieurs secondes de décalage)
+  - Possibilité de cliquer sur une place vide d'un plan d'une manifestation, qui ouvrira alors une opération de billetterie avec la place déjà "dans le panier"
+  - Passage du calendrier en FullCalendar v2, ajout par défaut de la vue "ressource/jour", lissage de la forme des différentes vues
+  - Meilleure impression du calendrier (toutes vues)
+  nouveautés:
+  - Internationalisation des événements, des tarifs, etc.
+  - Possibilité d'ajouter des images aux événements, afin d'affiner la gestion de la vente en ligne
+  - Possibilité d'ajouter un lot de manifestations dans un événement, définies au format iCal/ICS
+  - Ajout d'un onglet "statistiques" dans les manifestations, permettant de mieux saisir son potentiel (si "à venir") / sa réussite (si "passée")
+  - Concept de prix applicables à des tarifs sur des jauges (jusqu'à présent seuls des prix applicables à des tarifs sur des manifestations étaient possibles)
+  - Possibilité de grouper des jauges (introduction du concept de zones, ou de catégories de places, ou de groupes de publics ; spécialement utile que les internautes s'y retrouvent plus simplement dans la vente en ligne)
+  - Concept de voisinage entre les places permettant de repérer les places orphelines en vente en ligne
+  - Concept de qualité des places, permettant de jouer très finement sur la priorisation des ventes
+  - Introduction du concept de "places retenues" permettant la gestion de VIP, de ventes par des partenaires (y compris FranceBillet, Ticketnet/Ticketmaster...)
+  
+RP:
+  bugs:
+  - Retrait de la police "Times New Roman" utilisée jusque là par défault dans les étiquettes pour une police sans "Sans-Serif", aux normes postales
+  - Correction de petits bugs sur l'affichage des pictogrammes des groupes remarquables
+  - Correction d'un bug dans l'édition d'information des contacts / organismes depuis leur liste
+  - Correction d'un bug se présentant lors de l'enregistrement d'organismes composés de beaucoup de contacts (ex. > 25)
+  - Corrections dans la gestion des groupes depuis ceux-là directement
+  - Correction du nom d'une permission, nom enregistré en base avec un espace préliminaire source d'erreur
+  - Correction du filtre des contacts sur les catégories d'événements
+  - Correction du code HTML généré dans les emailings (dans certains cas, des tags doublés provoquaient des erreurs d'affichage chez certains fournisseurs de services email)
+  - Passer à la page suivante lors de la visualisation de doublons dans les contacts est maintenant pleinement fonctionnel
+  améliorations:
+  - La gestion des droits sur les groupes communs est plus intuitive lors de la création d'un nouveau groupe
+  - Ajout de champs Cc: et Bcc: dans les emails
+  - L'extractions des données pro est mieux supportées, même lorsqu'aucun filtre sur "pro" n'est défini
+  - Liens plus clairs entre un contact/organisme et la billetterie
+  - Support des étiquettes au format AVERY L7160 et L6173
+  - Ajout d'une notion de NPAI (n'habite plus à l'adresse indiquée) sur tous les emails
+  - Mise à jour des codes postaux français
+  - Meilleur support des droits sur les groupes communs
+  - Accélération de l'affichage des fiches individuelles (contacts et organismes) lorsqu'un grand nombre de groupes sont présents
+  - Accélération de la recherche rapide sur des contacts et des organismes
+  nouveautés:
+  - Possibilité d'importer directement un fichier CSV de contacts
+  - Possibilité d'envoyer de nouveaux mots de passe par lot à une liste de contacts
+  - Les contacts peuvent maintenant être repérés comme parlant une des langues supportées par l'instance en cours du logiciel
+  - Les contacts peuvent maintenant avoir une photo, et cette photo peut être prise "en direct" via une webcam installé sur le poste des opérateurs
+  - Si l'écran est assez large, les données affichées sur les contacts et les organismes sont adaptées, étendues, etc...
+  - Ajout d'un message "flash" sur les contacts à afficher une seule fois lors du premier contrôle d'accès (billetterie)
+  - Possibilité d'incorporer une image ajoutée préalablement en P.J. dans le corps d'un emailing
+
+Questionnaires:
+  améliorations:
+  - Possibilité d'extraire la structure du questionnaire au format QueXML (https://launchpad.net/quexml)
+  - Internationalisation
+  nouveautés:
+  - Création d'un système de questionnaires en ligne, dont les résultats sont traitables "par population" comme individuellement
+
+Groupes et scolaires:
+  bugs:
+  - Correction d'un bug orphelin dans les fiches contact, générant une création sans fin d'entrées
+  - Correction des extractions CSV
+  améliorations:
+  - Meilleure prise en compte des permissions dans l'édition d'une fiche contact
+  - Affichage plus détaillé des entrées dans les fiches contact (transposable, détransposer, confirmé...)
+  - Affichage du nom de salle au niveau des noms des spectacles
+
+Cartes d'abonnement:
+  bugs:
+  - Amélioration sur le plugin liBarcodePlugin pour éviter des bugs sur les cartes d'abo
+  améliorations:
+  - Internationalisation des données en base concernant les cartes d'abonnement
+  nouveautés:
+  - Les cartes d'abonnement peuvent maintenant être associées à un produit, méthode permettant de pouvoir leur attribuer un coût intrinsèque
+  
+Plugins:
+  améliorations:
+  - Mise à jour de DomPDF (sfDomPDFPlugin)
+  - Mise à jour de iCalcreator (sfiCalCreatorPlugin)
+  - Amélioration de liBarcodePlugin
+  nouveautés:
+  - Création d'un système de modules pour les paiements en ligne, permettant plus de souplesse au paramétrage, plus d'autonomie de développement...
+  - Ajout du support de paiement en ligne HiPay
+  - Ajout d'un plugin pour le support du format Passbook
+
+Statistiques:
+  bugs:
+  - Correction de certains calculs sur les stats géographiques (dont la distinction perso/pro dans les opérations)
+  améliorations:
+  - Améliorations des extractions
+  - Ajout d'un filtre sur les groupes dans les stats géographiques
+  - Possibilité de sauvegarder les graphes en tant qu'images
+  nouveautés:
+  - Ajout d'un module permettant de traiter l'origine des ventes en ligne (incluant l'injection de logs Apache via une tâche Symfony)
+
+Billetterie:
+  bugs:
+  - Ajout des bons de commande PDF, qui avait été oubliés
+  - Correction de l'affichage des documents comptables PDF
+  - Correction de nombreux dysfonctionnements isolés dans l'interface de vente
+  - Correction d'un bug isolé sur le calcul du total d'une opération
+  - Correction de bugs croisés sur les critères de filtre des livres comptables
+  - Correction d'un bug sur l'impression partielle de billets
+  - Correction d'un bug majeur survenant lors de la suppression de billets
+  - Correction de bugs sur la génération des QRCode et consolidation du modèle de fonctionnement
+  - Correction de la gestion de la TVA dans les documents comptables (bons de commande, factures...)
+  améliorations:
+  - Ajout de la quantité de places disponibles dans une jauge dans le cadre du placement numéroté
+  - Support des prix par jauge
+  - Plus de sécurité sur les permissions des utilisateurs
+  - Possibilité de rafraîchir les manifestations et la boutique sans recharger l'ensemble de l'écran
+  - Refonte de l'interface de contrôle d'accès, permettant : des scans de billets < 0.5s (contre 3s avant), des scans à la chaîne avec persistance des données sur les billets précédents, la compatibilité complète avec des smartphones ou tablettes
+  - Ajout d'un filtre sur les bons de commande pour obtenir uniquement les bons de commande avec ou sans billet
+  - Messages d'erreurs à la sortie d'une opération optimisés
+  - Le journal d'un billet est maintenant accessible (en plus de son ID) par sa manifestation et son numéro de place
+  - Possibilité d'ajouter des numéros aux paiements (ex: numéro de chèque, numéro de transaction du paiement en ligne), qui se retrouvent ensuite dans le livre de caisse
+  - Support des frais de billetterie et frais de port partout où cela est nécessaire
+  - Possibilité d'avoir une option pour "auto-intégrer" les billets vendus et payés
+  - Les numéros de billets sont cliquables directement dans l'interface de vente pour accéder à leur journal
+  - Les tarifs s'affichent maintenant en sur-impression du clavier visuel
+  - Possibilité d'ordonnancer les livres des ventes / de caisse différemment de la mise en page "par défaut", et possibilité d'avoir un livre des ventes "moins détaillé" pour pouvoir le communiquer à des partenaires
+  - Possibilité d'abandonner une opération en cours sur l'interface dite "tactile", comme c'était le cas sur l'"ancienne" interface
+  - Support complet des imprimantes TSP700II de chez Star (avec nouveau gabarit de billets par défaut)
+  nouveautés:
+  - Ajout d'une impression simplifiée en PDF pour la billetterie dématérialisée
+  - Support de la vente de produits (dans l'interface de vente, les livres comptables, etc.)
+  - Possibilité de placer un billet avant d'en définir son tarif
+  - Possibilité de flécher des billets spécifiques sur des contacts
+  - Ajout d'un ramasse poussière (garbage collector) chargé de retirer les places conservées par d'anciens billets, de clôturer les opérations qui pourraient l'être, etc...
+  - Ajout d'une liste des opérations réalisées, filtrable
+  - Support des produits à prix libre (ex: dons)
+  - L'interface de vente dite "tactile" est maintenant l'interface par défaut. Celle dite "ancienne" est abandonnée.
+  - Ajout d'un module de listing et de suivi des contrôles d'accès en quasi-temps réel (mise à jour toutes les X secondes)
+  - Possibilité de définir qu'une manifestation fonctionne par contre-marques, et que les "billets" imprimés alors seront des contre-marques / vouchers
+  - Possibilité d'accorder des réductions arbitraires sur des billets
+  - Ajout d'un système puissant de retenues ("Holds") permettant la gestion des VIPs, des ventes par les partenaires...
+  - Possibilité d'extraire tout ou partie d'un journal détaillé / bordereau de manifestation
+
+Failover:
+  nouveautés:
+  - Création de la partie "master" d'un système de failover hautement résilient
+  - Ajout d'un système de "ping" SQL entre Master et Slave pour passer en "recovery" automatiquement
+  - Ajout d'une interface de suivi de ces "pings"
+
+
 == v2.6 -> v2.7 ==
 2014-09-16 "Tiramisu Amaretto"
 
