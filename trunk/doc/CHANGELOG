@@ -1,3 +1,157 @@
+== v2.6 -> v2.7 ==
+2014-09-16 "Tiramisu Amaretto"
+
+Général:
+  bugs:
+  - corrections diverses sur des appels de partials
+  - il était impossible de supprimer un utilisateur si un compte de l'e-venement messaging network (jabber) lui était encore lié
+  améliorations:
+  - ordonnancement de la liste des permissions
+  - ajout des credentials pour les images
+  - améliorations des messages d'informations dans l'administration des utilisateurs
+  - ajout d'une case à cocher permettant de tout cocher/décocher dans les permissions des utilisateurs
+  - possibilité, sur l'écran d'accueil, de spécifier un nombre d'objets à afficher ainsi que la période où les rechercher
+Événementiel:
+  bugs:
+  - correction d'un bug bloquant les instances d'e-venement ayant la gestion des ressource désactivé
+  - correction de plusieurs bugs concernant la gestion des réservations
+  - correction d'un bug concernant la suppression de plusieurs événements via leur liste
+  - corrections dans la duplication de manifestations
+  - correction d'un bug qui amenait potentiellement au transtypage des manifestations en location et inversement
+  améliorations:
+  - ajout d'une "roue des couleurs" pour paramétrer les couleurs des manifestations
+  - les informations supplémentaires de manifestations sont activables/désactivables via une option dans le app.yml, et s'affichent un peu partout lorsqu'il y en a de paramétrées
+  - retrait des jauges graphiques lors de l'édition des manifestations, de manière à accélérer les affichages et transitions
+  - ajout d'une recherche intégrée à la liste des événements
+  - améliorations des listes de spectateurs et de billet
+  - plusieurs petites améliorations dans l'interface
+  - améliorations diverses dans le calendrier des manifestations
+  - i18n
+  - la recherche sur les âges dans les filtres des événements a été largement améliorée
+  - nombreuses améliorations et réécritures pour la gestion des ressources, qui en fait une fonctionnalité mature
+  - possibilité d'extraire directement en CSV les spectateurs d'une manifestation, avec un résumé de leur commande
+  nouveautés:
+  - possibilité de filter les événements sur les couleurs de leurs manifestations
+  - ajout de raccourcis pour trouver les manifestations/événements d'une période simple (aujourd'hui / cette semaine / ce mois)
+  - les événements peuvent maintenant être dupliqués
+  - placement numéroté graphique, de grande finition (dont des éléments de "démo" dans les fixtures)
+  - système d'alarme (par email) prévenant des manifestations à venir, des réservations en cours...
+  - ordonnancement manuel des "salles", par un numéro d'ordre
+  - possibilité de spécifier manifestation par manifestation le nombre de billet vendu par opération (avant c'était une limite globale)
+  - possibilité de spécifier une jauge "préférée" à montrer en priorité (au lieu d'une fusion des jauges) (numéro d'ordre de l'espace de travail < 0)
+  - possibilité de demander à voir une jauge économique à la place d'une jauge en nombre de places (numéro d'ordre de l'espace de travail > 999 + spécification d'un chiffre d'affaire attendu)
+Général:
+  bugs:
+  améliorations:
+  - factorisation de l'usage des images
+  - mise en cache de 48h des images
+  - script de migration (plus d'interactivité)
+  - indexes "unique" dans le schéma
+  - liens externes pour le code source de "logiciels" tiers (Symfony-1.5, Jappix)
+  - grandes améliorations du code javascript, dont à propos du nommage de base des fichiers
+  - recherche globale plus précautionneuse des droits des utilisateurs, et optimisée
+  - mise à jour de la librairie DomPDF
+  - mise à jour de Jappix
+  nouveautés:
+  - possibilité d'activer via le app.yml les plugins symfony, au vol
+  - possibilité de créer des menus perso, instance par instance
+Scolaires et groupes:
+  bugs:
+  - corrections de petits bugs JS
+  - ajout de droits d'accès
+  améliorations:
+  - beaucoup de petites améliorations graphiques
+  - beaucoup d'optimisation de code
+  - meilleure prise en compte des billets annulés en billetterie (tck)
+  - possibilité de désactiver l'affichage amélioré des tableaux à la demande (pour les gros événements, pour les performances)
+  - ajout de l'icône étoile représentant des billets annulés dans la vue par contact
+  nouveautés:
+  - ajout de possibilités d'extractions
+  - possibilité de saisie des demandes par utilisateur
+  - ajout du nombre moyen de billets pris par un contact
+  - extractions possibles de date à date également
+Relations aux publics:
+  bugs:
+  - correction d'un bug dans l'export de groupe
+  - capture d'une exception sur les emails mal écrits dans les emailings, pour renforcer le système et le rendre plus explicite
+  - correction de bugs sur les cartes d'abonnement
+  - correction du calcul de l'argent dépensé en billetterie dans les filtres des contacts
+  améliorations:
+  - optimisation de code pour les groupes
+  - i18n
+  - amélioration de l'usage de TinyMCE pour les emailings
+  - factorisation de l'affichage hiérarchique des filtres
+  - amélioration des étiquettes : sortie en PDF pour renforcer la stabilité de leur mise en page ; ajout de modèles de base (ex: L7159) ; gestion des étiquettes en grand nombre (passant par plusieurs lots d'étiquettes)
+  - meilleure traçabilité des modifications sur les contacts et les organismes
+  - si l'on consulte un organisme ou un contact et que l'on clique sur l'icône accédant à la liste de l'autre type, alors on obtient la liste correspondant à l'objet que l'on vient de quitter
+  - optimisation de l'affichage des données de billetterie, pour éviter d'être noyés dans des informations non pertinentes
+  - améliorations diverses dans la fusion de contacts (dont l'archivage des contacts fusionnés)
+  - améliorations diverses concernant les cartes d'abonnement et leur affichage un peu partout dans le logiciel
+  - amélioration des filtres sur les contacts avec quelques ajouts
+  - amélioration dans la saisie des URL des organismes (HTTP:// est présupposé si rien n'est précisé par exemple)
+  - ajout de la notion de contact le plus important d'un organisme
+  - le titre des contacts peut devenir une liste déroulante à la place du champ auto-complété
+  nouveautés:
+  - le design "TDP" est maintenant "par défaut"
+  - ajout des archives de billetterie (souvent issues de e-venement v1) dans le design TDP
+  - possibilité de sauvegarder des filtres de manière dynamique
+  - on voit maintenant la liste des homonymes éventuels lors de la création d'un contact
+  - il est maintenant possible de forcer l'ajout d'un numéro de téléphone au moins pour un contact
+  - optimisations de l'affichage des données du module pour les écrans larges (responsive design)
+  - possibilité d'éditer directement un contact depuis la liste
+  - possibilité de forcer les majuscules dans certains champs des contacts et des organismes
+  - possibilité de chercher l'intersection entre des groupes, à la place de l'union des groupes (par défaut)
+  - possibilité d'ajouter automatiquement des contacts créés dans des groupes (option paramétrable par utilisateur, y compris pour la vente en ligne)
+Statistiques:
+  bugs:
+  - correction d'un bug dans les billets par tarif
+  améliorations:
+  - extractions plus complètes dans le remplissage des jauges
+  nouveautés:
+  - module de statistiques géographiques
+Billetterie:
+  bugs:
+  - création de contact depuis une opération de billetterie plus résiliente
+  améliorations:
+  - impression de grandes opérations optimisée
+  - l'ordre de suppression de billets se fait ainsi : 1. non intégrés, 2. sans place numérotée, 3. les billets les moins chers, 4. les derniers ajouts sont supprimés en premier
+  - améliorations dans le journal d'un billet
+  - placement numéroté graphique pleinement opérationnel et en production depuis plusieurs mois dans plusieurs endroits
+  - ajout de filtres dans les bons de commande et factures pour rechercher un organisme ou un contact
+  - possiblité de rechercher les dettes se situant entre deux dates
+  - prévention de la saisie de mauvaises dates de paiement (ex: 14 à la place de 2014) qui "perdaient" les règlement dans les livres
+  nouveautés:
+  - envoi d'emails lors de changement sur une opération qui a été commencée en ligne, voire pour toutes les opérations ayant un contact (option paramétrable)
+  - nouvelle interface tactile de billetterie, fonctionnant sur la base de webservices en AJAX/JSON, permettant la fermeture automatique des opérations, et implémentant toutes les nouvelles fonctionnalités de la v2.7 et à venir, affichage plus logique des billets annulés dans l'opération d'origine
+  - possibilité de noter une opération comme un dépôt (pratique dans l'extraction de l'état des jauges dans les statistiques)
+  - possibilité d'avoir les bons de commande et les factures en PDF
+e-voucher v1:
+  informations:
+  - e-voucher v1 est maintenant "deprecated", e-venement v2.7 est la dernière version à supporter officiellement le lien
+  - amélioration du blocage des manifestations après leur paiement (correction de sécurité++, pour cause de non support par CITELIS)
+  améliorations:
+  - envoi d'informations plus judicieuses à propos des événements
+e-voucher:
+  bugs:
+  - correction de l'affichage des totaux
+  - correction de bugs dans l'affichage des tarifs
+  améliorations:
+  - ajout de l'image du plan numéroté "spécial en ligne" lorsque le cas se présente
+  - ajout de "hooks" sur la création d'opérations pour permettre l'exentension de l'application
+  - les propriétés étendues des manifestations sont maintenant affichables en ligne (extra-spec, extra-desc)
+  - les compagnies sont maintenant visibles dans la liste des événements
+  - support du "devil eye" dans IE si e-voucher est intégré sous forme d'iframe dans un site tiers
+  - un tarif n'a plus besoin d'être coché "en ligne" pour être vendable dans e-voucher, les droits de l'utilisateur symfony sur ceux-ci suffisent
+  nouveautés:
+  - possibilité pour les internautes d'ajouter un commentaire à leur commande
+  - les emails envoyés depuis la vente en ligne incluent maintenant les code-barre des billets
+  - passage de la gestion des modes de paiement sous forme de plugins Symfony
+  - beaucoup de nouveaux modes de paiement en ligne (Tipi, Systempay, Payplug et "sur place")
+  - intégration du fait que maintenant que les manifestations dans e-venement disposent de leur propre caractéristique de limitation du nombre de billets vendus en une seule opération
+  - possibilité d'afficher un ordonnancement des événements "par mois", facilement via un paramètre de configuration
+  - possibilité de faire de l'authentification des internautes un préalable à toute commande (permet de restreindre l'accès à la VeL aux contacts connus)
+
+
 == v2.5 -> v2.6 ==
 2013-11-18 "Breizh Hydromel"
 
