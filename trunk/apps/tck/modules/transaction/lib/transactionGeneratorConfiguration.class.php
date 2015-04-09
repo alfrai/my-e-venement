@@ -14,8 +14,8 @@ class transactionGeneratorConfiguration extends BaseTransactionGeneratorConfigur
   {
     parent::__construct();
     
-    if ( sfConfig::get('app_options_design',false) )
+    if ( sfConfig::get('app_options_design', 'tdp') )
     require_once sfContext::getInstance()->getConfigCache()
-      ->checkConfig('modules/transaction/config/'.sfConfig::get('app_options_design').'.yml',true);
+      ->checkConfig('modules/transaction/config/'.sfConfig::get('app_options_design', 'tdp').'.yml',true);
   }
 }
