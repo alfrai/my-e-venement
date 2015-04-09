@@ -1,0 +1,8 @@
+all:
+  credentials: [admin-power]
+index:
+  credentials: [tck-reports]
+show:
+  credentials: [tck-reports]
+filter:
+  credentials: [tck-reports]

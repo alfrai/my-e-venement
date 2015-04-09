@@ -1,0 +1,34 @@
+== DESCRIPTION ==
+
+certains clients veulent avoir la possibilité d'accéder à leurs propres sauvegardes par eux-même quand il le souhaitent
+
+
+== UTILISATION ==
+
+dans le menu Paramétrage > Général > Archivage, on accède à la liste des backups de la base de données spécifiques au client (si la configuration a été bien faite). Cliquer sur un nom de fichier lance le téléchargement de l'archive, en passant à travers le framework, ce qui garantit la vérification des droits avant d'accéder au fichier (contrairement à un accès direct au système de fichiers).
+
+
+== PARAMÉTRAGE ==
+
+=== système ===
+
+/!\ /!\ /!\ /!\ /!\ 
+ATTENTION: il faut bien limiter chaque client aux fichiers qui lui sont propres, sinon : fuite d'information majeure !!!
+/!\ /!\ /!\ /!\ /!\ 
+
+le paramétrage se fait dans le fichier apps/default/config/app.yml de la manière suivante :
+all:
+  backups:
+    directory: /data/backup
+    files_search: pgsql.dev.dump.*.gz
+    #ls_limit: -1 # < 0 means no limit, > 0 gives the maximum number of files to show
+
+il est vital de bien paramétrer "files_search" pour limiter le listing uniquement aux fichiers relatifs à la plateforme que vous paramétrez. la syntaxe est aussi simple que pour un "ls" dans le système de fichiers sous UNIX. les "*" et "?" sont pris en compte ; les "/" et autres "." sont eux supprimés des noms de fichiers.
+
+le reste se passe de commentaire...
+
+=== utilisateurs ===
+
+seuls les utilisateurs ayant le droit admin-backups peuvent accéder à ce module.
+ce droit est octroyé par l'appartenance au seul groupe du même nom : "admin-backups".
+

@@ -1,0 +1,72 @@
+== objectif ==
+
+rendre le processus de vente :
+- compatible avec les écrans tactiles
+- préparer l'interface aux ventes autres (dont boutique)
+- plus efficace, mieux écrit, plus ergonomique
+- compatible avec l'existant, sans danger pour la mise en page des billets actuels
+- rendre les processus d'annulation plus lisibles
+
+
+== les annulations ==
+
+dorénavant les billets annulés sont affichés sur l'opération "mère", ainsi que les remboursements d'annulation. il faut donc s'habituer à la nouvelle lecture des informations, à savoir :
+- le numéro de l'opération d'annulation liée est notée de manière permanante dans le cadre des informations, et est cliquable
+- les billets annulés sont "grisés" comme les billets imprimés, mais d'une couleur plus chaude / rouge et ils sont "intouchables"
+- les remboursements d'annulation se retrouvent dans la liste des paiements (pelle-mêle), mais affichés en italique et le numéro de leur opération s'affiche au survol de la souris
+
+du coup, il s'affiche par exemple :
+ 2TP pour  38€
+ 1TR pour  15€
+-1TR pour -15€
+TOTAL      38€
+
+si on clique sur un mode de règlement sans préciser le montant et si l'annulation n'a pas été remboursée, c'est 53€ qui est ajouté. si on a déjà remboursé 15€, alors c'est bien 38€ qui arrivent avec au final :
+
+chèque              38€
+special annulation  15€
+special annulation -15€ (avec le numéro de l'opération d'annulation qui apparaît au survol)
+TOTAL               38€
+
+la validation de l'opération ne sera alors faite que si le montant complet des billets originaux sont réglés dans l'opération "mère", qu'il s'agisse de modes de règlement spéciaux ou non.
+
+
+== astuces ==
+
+=== vérifier/valider/verrouiler ===
+
+toute opération se verrouille automatiquement si elle est valide du moment que l'utilisateur la quitte de manière conventionnelle (tout sauf kill -9 firefox, ou coupure de courant). si l'opération ne valide pas, alors un message de confirmation apparaît, que l'utilisateur peut refuser ou accepter.
+
+
+=== sur-réservations ===
+
+toute sur-réservation fait apparaître un message d'alerte. cela n'arrive que sur les impressions et les intégrations, pas avant (réservation/bon de commande par exemple).
+si le logiciel est paramétrer pour interdire les sur-réservations et que l'utilisateur en cours n'a pas le droit tck-admin, alors ce message est bloquant.
+
+
+=== rafraîchissement forcé des jauges ===
+
+pour forcer le rafraîchissement d'une jauge, il suffit de double cliquer sur le bloc "jaune" correspondant dans le contenu de la commande. sinon, les jauges sont mises en cache pour éviter les calculs intempestifs.
+
+
+=== sortie visuelle de l'opération ===
+
+toute sortie visuelle de l'opération (changement de fenêtre, d'onglet, etc.) supprime l'affichage des jauges et remet à zéro tous les caches déjà effectués.
+
+
+=== retrouver les ids et les places numérotées des billets ===
+
+pour connaître les ids des billets se cachant derrière une ligne de commande, il suffit de cliquer sur le nom du tarif pour les faire apparaître accompagnés, le cas échéant, des numéros de place affectés aux billets.
+
+
+=== clavier virtuel ===
+
+le clavier virtuel réagit en fonction des zones sélectionnées (en jaune lors d'un clic) dans l'interface. selon la zone, il s'agira d'un clavier alphabétique ou d'un clavier numérique. habituellement c'est la première zone de texte disponible qui est alors complétée par le clavier virtuel.
+
+un comportement moins normal existe cependant pour saisir le nom du tarif des billets à dupliqués, lorsque l'on clique sur la case à cocher à droite du bouton "Imprimer". normalement le clavier devrait compléter alors la zone sélectionnée, mais si ce champ est déjà complété, alors c'est lui qui sera choisi en priorité. dans le cadre d'une utilisation sans aucun clavier il a fallu trouver une astuce pour la saisie du premier caractère, permettant ensuite d'utiliser le clavier virtuel. pour ce faire, un premier clic sur la zone de texte la sélectionne, et un second permet d'ajouter un espace vide comme premier caractère (ce qui n'a pas d'incidence sur la suite). à ce moment le clavier virtuel devient utilisable pour ce champ un peu particulier.
+
+
+=== usage du clavier sur les items à vendre ===
+
+lors de l'utilisation d'un véritable clavier, les flèches du haut et du bas peuvent être utiliser pour passer d'une ligne à l'autre dans l'interface une fois qu'un premier élément est sélectionné.
+

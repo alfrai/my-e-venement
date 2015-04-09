@@ -1,0 +1,62 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Product
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          product
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        product_category_id: { label: Category }
+        prices_list: { help: Choose what price will be displaid }
+        prices: { help: then set up their values }
+        accounting_account: { label: Account, help: A facilitator for accounting }
+        meta_event_id: { help: "Associating a product to a meta-event insures that it will not be sold again after this meta-event or if your users do not have access to this meta-event." }
+        vat_id: { help: "If it remains unset, it means 0%." }
+        shipping_fees_vat_id: { label: VAT on shipping fees, help: "If it remains unset, it means 0%." }
+        shipping_fees: { help: PIT }
+        description: { help: "Especially useful for online sales." }
+        list_codes: { label: Codes }
+        linked_meta_events_list: { label: Meta events }
+        linked_workspaces_list: { label: Workspaces }
+        linked_manifestations_list: { label: Manifestations }
+        linked_prices_list: { label: Prices }
+        linked_products_list: { label: Products }
+      list:
+        display: [Category, name, short_name, MetaEvent, Vat, _list_codes, online]
+        sort: [pt.name, '']
+        object_actions:
+          _edit: ~
+          _duplicate:
+            icon: plus
+            action: duplicate
+          _delete: ~
+      filter:
+        display: [meta_event_id, product_category_id, code, name, short_name, prices_list, vat_id, online]
+      form:
+        display:
+          General: [name, short_name, product_category_id, prices_list, prices, vat_id, shipping_fees, shipping_fees_vat_id, online]
+          Declinations: [_show_description_for_buyers_help, declinations, _form_declination_del]
+          Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
+          Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]
+      edit:
+        title: Edit product %%name%%
+        actions:
+          #_delete: ~
+          _add_declination:
+            ui-icon: circle-plus
+            action: addDeclination
+          _copy:
+            ui-icon: plus
+            action: duplicate
+            label: Duplicate
+          _save: ~
+          _list: ~
+      new:     ~

@@ -1,0 +1,3 @@
+default:
+  javascripts: [-jquery]
+  stylesheets: [contact-card-form]

@@ -1,0 +1,45 @@
+<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')) ?>
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           SurveyQuery
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          survey_query
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        Options: { label: Typical answers, help: Only used with appropriate fields }
+      list:
+        display: [Survey, =name, can_be_empty, stats, weight, rank]
+        sort: ['survey_name, rank', '']
+        actions:        []
+        object_actions: []
+        batch_actions:  []
+      filter:           []
+      form:
+        display:
+          General: [_show_survey, name, Options]
+          Details: [type, can_be_empty, stats, rank, weight]
+      edit:
+        actions:
+          _save:
+            credentials: [srv-query-edit]
+          _back:
+            action: backToSurvey
+            label: <?php echo __('List', null, 'sf_admin').PHP_EOL ?>
+            ui-icon: arrowreturnthick-1-w
+          _delete:
+            credentials: [srv-query-del]
+          _show:    ~
+      new:
+        actions:
+          _save:
+            credentials: [srv-query-new]
+      show:    ~

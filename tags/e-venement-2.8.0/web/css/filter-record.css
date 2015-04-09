@@ -1,0 +1,6 @@
+.ui-dialog-buttonset #sf_admin_filter_save { color: black; display: inline-block; min-width: 300px; }
+.ui-dialog-buttonset #sf_admin_filter_save button { float: none; position: relative; top: -1px; }
+.ui-dialog-buttonset #sf_admin_filter_save a { padding: 6px 12px; margin-right: 0.8em; }
+.ui-dialog-buttonset #sf_admin_filter_save * { cursor: pointer; font-size: 1em; }
+.ui-dialog-buttonset #sf_admin_filter_save input[type=submit] { background-color: transparent; border: 0; margin: -3px; padding: 0; font-size: 1em; }
+.ui-dialog .sf_admin_list table { width: 100% !important; }

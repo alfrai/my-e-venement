@@ -1,0 +1,58 @@
+/* control module */
+.sf_admin_actions, .sf_admin_actions_block,
+.sf_admin_list .sf_admin_list_th_list_created_at, .sf_admin_list .sf_admin_list_td_created_at,
+.sf_admin_list .sf_admin_list_th_Checkpoint, .sf_admin_list .sf_admin_list_td_checkpoint_id,
+.sf_admin_list .sf_admin_list_th_id, .sf_admin_list .sf_admin_list_td_id,
+.sf_admin_list .sf_admin_list_th_list_type, .sf_admin_list .sf_admin_list_td_list_type,
+.sf_admin_list .sf_admin_list_td_ticket_id, .sf_admin_list .sf_admin_list_th_list_ticket_id { display: none; }
+.sf_admin_list .sf_admin_list_td_comment { font-size: 75%; }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_date, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; }
+.sf_admin_list tbody .sf_admin_row a:hover { text-decoration: underline; }
+.sf_admin_list tr.failure .sf_admin_td_actions { display: none; }
+@media screen and (max-width: 1500px) {
+  .sf_admin_list .sf_admin_list_th_list_manifestation, .sf_admin_list .sf_admin_list_td_list_manifestation { display: none; }
+}
+@media screen and (max-width: 1900px) {
+  .sf_admin_list .sf_admin_list_td_list_ticket_id .error { display: inline-block; max-width: 6em; overflow: hidden; text-overflow: ellipsis; }
+}
+
+/* tickets control */
+#checkpoint ul { list-style-type: none; margin: 5px 10px; padding: 5px; }
+#checkpoint ul li { padding: 0 5px; margin: 0; }
+#checkpoint label { width: 100px; display: inline-block; }
+#checkpoint .control-comment { display: none; }
+#checkpoint .control-comment textarea { height: 40px; }
+#checkpoint select { max-width: calc(100% - 120px); }
+
+.control { margin: 10px; padding: 5px; position: relative; overflow: hidden; transition: height 0.5s; }
+.control .deleted, .control .deleted * { color: silver; }
+.control .message { font-weight: bold; display: inline-block; }
+.control h2 { display: inline-block; margin-right: 10px; }
+#checkpoint .control .tickets { padding-top: 0; margin-top: 0; }
+.control .tickets > * > * { display: block; margin-top: 10px; }
+.control .tickets .ticket .value, .control .tickets .seat .num { font-size: 120%; font-weight: bold; }
+.control .tickets .seat .num { font-size: 250%; float: left; margin-top: -5px; margin-right: 10px; font-size: 350%; }
+.control .tickets .ticket .users:before { content: '('; }
+.control .tickets .ticket .users:after { content: ')'; }
+.control.ui-state-success { background-color: #ecfeed; }
+.control .contacts { margin-top: 10px; font-weight: bold; font-size: 150%; }
+.control .contacts hr:first-child { border: 0; margin: 0; }
+.control .contacts hr { clear: both; }
+.control .contacts .flash { font-weight: bold; margin: 5px 0; border: 1px dotted; }
+.control .contacts .comment { font-style: italic; }
+.control .contacts .professional { margin-top: 5px; }
+.control .contacts .image { float: left; margin-right: 10px; width: 150px; }
+.control .contacts .image img { max-width: 150px; }
+#checkpoint .control .errors { margin: 10px 0 0 0; padding: 0; }
+
+@media screen and (min-width: 1000px) {
+  .control .contacts { position: absolute; margin-top: 0; top: 5px; right: 5px; width: calc(100% - 700px); }
+}
+@media screen and (max-width: 1000px) {
+  #checkpoint select, #checkpoint input, #checkpoint button { font-size: 250%; }
+  #checkpoint .ticket_id { float: left; max-width: 25%; }
+  #checkpoint label { display: none; }
+  #checkpoint .checkpoint_id select { width: 66%; margin-left: 2%; }
+  #checkpoint input[type=submit] { position: absolute; top: 70px; left: 300px; }
+  #checkpoint .ticket_id input { max-width: 100%; }
+}

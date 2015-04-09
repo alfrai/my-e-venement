@@ -1,0 +1,7 @@
+li.gauge { padding: 0px 15px 0px 5px; margin-left: 20px; height: auto; }
+.gauge .raw { background-color: green; padding: 0; margin: 5px; border-radius: 7px; overflow: hidden; height: 5em; }
+.gauge .raw > .text > * { display: block; }
+.gauge .raw > :not(.text) { display: inline-block; height: 100%; font-size: 0px; }
+.gauge .raw > .ordered { background-color: orange; }
+.gauge .raw > .printed { background-color: red; }
+.gauge .raw > .asked { background-color: blue; }

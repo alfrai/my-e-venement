@@ -1,0 +1,16 @@
+default:
+  javascripts: [jquery,menu]
+  layout: nude
+
+newSuccess:
+  stylesheets: [view]
+createSuccess:
+  stylesheets: [view]
+updateSuccess:
+  stylesheets: [view]
+editSuccess:
+  stylesheets: [view]
+  javascripts: [contact-edit]
+showSuccess:
+  stylesheets: [view]
+  javascripts: [contact-show]

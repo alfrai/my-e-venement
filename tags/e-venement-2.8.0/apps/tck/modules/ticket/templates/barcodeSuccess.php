@@ -1,0 +1,3 @@
+<?php
+  $ticket->renderBarcode();
+?>

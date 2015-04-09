@@ -1,0 +1,18 @@
+dataNumbers:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+dataChoices:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+csvNumbers:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="survey-query.csv"
+csvChoices:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="survey-query.csv"

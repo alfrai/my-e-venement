@@ -1,0 +1,6 @@
+h2 { font-size: 25px; }
+#content { padding: 0 10px 10px 10px; }
+ol { margin: 10px 0 10px 30px; }
+ol li { margin-bottom: 5px; }
+ol li .size { display: inline-block; width: 5em; text-align: right; }
+ol li span { padding-right: 5px; }

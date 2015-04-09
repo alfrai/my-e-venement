@@ -1,0 +1,45 @@
+all:
+  credentials: [event-seated-plan]
+  
+edit:
+  credentials: [event-seated-plan-edit]
+update:
+  credentials: [event-seated-plan-edit]
+new:
+  credentials: [event-seated-plan-new]
+create:
+  credentials: [event-seated-plan-new]
+delete:
+  credentials: [event-seated-plan-del]
+batchDelete:
+  credentials: [event-seated-plan-del]
+show:
+  credentials: [[event-seated-plan, tck-seat-allocation]]
+
+batchSeatSetRank:
+  credentials: [event-seated-plan-edit]
+seatSetRank:
+  credentials: [event-seated-plan-edit]
+seatAdd:
+  credentials: [event-seated-plan-edit]
+seatDel:
+  credentials: [event-seated-plan-edit]
+delPicture:
+  credentials: [event-seated-plan-edit]
+
+getSeats:
+  credentials: [event-seats-allocation]
+getShortnames:
+  credentials: [event-seats-allocation]
+getTransactions:
+  credentials: [event-seats-allocation]
+getGroups:
+  credentials: [event-seats-allocation]
+getRanks:
+  credentials: [event-seats-allocation]
+getDebts:
+  credentials: [event-seats-allocation, tck-overview]
+getHoldSeats:
+  credentials: [event-hold]
+getControls:
+  credentials: [event-seats-allocation]
