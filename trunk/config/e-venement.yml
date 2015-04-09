@@ -15,15 +15,15 @@
 #    along with e-venement; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # 
-#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+#    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 # 
 #**********************************************************************************/
 all:
   about:
     name: e-venement
     contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Mick LOEFFEL, Très Tôt Théâtre, Le 3ème étage de l'Opéra de Paris, Libre Informatique, Symfony Team, #symfony-fr]
-    version: 2.8-RC2
+    version: 2.8.0
   internals:
     charset:
       old:    ISO-8859-1
