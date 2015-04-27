@@ -153,6 +153,12 @@ class sfWebRequest extends sfRequest
     $this->fixParameters();
   }
 
+  public function getUserAgent()
+  {
+    $pathArray = $this->getPathInfoArray();
+    return isset($pathArray['HTTP_USER_AGENT']) ? $pathArray['HTTP_USER_AGENT'] : '';
+  }
+
   /**
    * Returns the content type of the current request.
    *
