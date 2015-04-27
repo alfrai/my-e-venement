@@ -39,11 +39,12 @@
   $vars['options']['header'] = array(
     'method'          => __('Payment method'),
     'value'           => __('Value'),
-    'account'         => __('Account'),
+    'account'         => __('Detail'),
     'transaction_id'  => __('Transaction'),
     'contact'         => __('Contact'),
     'date'            => __('Date'),
     'user'            => __('User'),
+    'account'         => __('Account'),
   );
   
   include_partial('global/csv',$vars);

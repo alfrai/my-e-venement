@@ -82,7 +82,7 @@
 #li_transaction_field_content .item { padding: 0 0 0 15px; user-select: none; -moz-user-select: none; }
 #li_transaction_field_content .item tr > * { vertical-align: top; }
 #li_transaction_field_content .item .nb { text-align: right; width: 38px; }
-#li_transaction_field_content .declinations { display: inline-table; width: 395px; }
+#li_transaction_field_content .declinations { display: inline-table; width: 390px; }
 #li_transaction_field_content .declinations td { vertical-align: bottom; }
 #li_transaction_field_content .declinations tr:hover td { font-weight: bold; }
 #li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { padding-right: 10px; }
@@ -158,6 +158,7 @@
 #li_transaction_field_payment_new ul label { width: auto; }
 #li_transaction_field_payment_new .field_value, #li_transaction_field_payment_new .field_created_at { margin-bottom: 0.5em; }
 #li_transaction_field_payment_new .field_value input { width: 60px; }
+#li_transaction_field_payment_new .field_detail input { width: 120px; }
 #li_transaction_field_payment_new .field input[type=text] { text-align: center; }
 #li_transaction_field_payment_new .field_detail input[type=text] { text-align: left; }
 #li_transaction_field_payment_new .submit { float: right; margin-top: -8px }

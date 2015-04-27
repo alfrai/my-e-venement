@@ -149,6 +149,10 @@
         <target>Détails</target>
       </trans-unit>
       <trans-unit>
+        <source>Detail</source>
+        <target>Détail</target>
+      </trans-unit>
+      <trans-unit>
         <source>Created by</source>
         <target>Créé par</target>
       </trans-unit>

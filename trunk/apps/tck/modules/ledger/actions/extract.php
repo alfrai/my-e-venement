@@ -151,11 +151,12 @@
       $this->options['fields'] = array(
         'method',
         'value',
-        'account',
+        'reference',
         'transaction_id',
         'contact',
         'date',
         'user',
+        'account',
       );
       $this->executeCash($request);
       
@@ -165,11 +166,12 @@
         $this->lines[] = array(
           'method'          => (string) $method,
           'value'           => (string) $payment->weight_value,
-          'reference'       => $method->account,
+          'reference'       => $payment->detail,
           'transaction_id'  => '#'.$payment->transaction_id,
           'contact'         => (string)( $payment->Transaction->professional_id ? $payment->Transaction->Professional : $payment->Transaction->Contact ),
           'date'            => format_date($payment->created_at),
           'user'            => (string)$payment->User,
+          'account'         => $method->account,
         );
       
       return 'Cash';
