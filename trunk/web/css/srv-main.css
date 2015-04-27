@@ -23,3 +23,8 @@
 .widget { margin-top: 5px; }
 .sf_admin_form_field_show_extract { text-align: right; }
 .sf_admin_form_field_show_extract a.fg-button { float: none; }
+
+#sf_admin_container.sf_admin_show .sf_admin_form_row { display: inherit; }
+#sf_admin_container.sf_admin_show .sf_admin_form_row label { display: inherit; width: auto; }
+#sf_admin_container.sf_admin_show .sf_admin_form_row .radio_list { display: block; }
+#sf_admin_container.sf_admin_show .sf_admin_form_row .radio_list > * { display: inline-block; }

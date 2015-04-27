@@ -58,10 +58,13 @@ class SurveyAnswerFormFilter extends BaseSurveyAnswerFormFilter
     return parent::getFields() + array(
       'survey_id' => 'SurveyId',
       'contact_id' => 'ContactId',
+      'apply_to_survey_id' => 'SurveyId',
       'apply_to_manifestation_id' => 'ApplyToManifestationId',
     );
   }
   
+  public function addApplyToSurveyIdColumnQuery(Doctrine_Query $q, $field, $values)
+  { $this->addSurveyIdColumnQuery($q,$field,$values); }
   public function addSurveyIdColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( $values )

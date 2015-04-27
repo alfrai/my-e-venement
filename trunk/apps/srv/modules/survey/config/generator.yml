@@ -55,5 +55,6 @@ generator:
           NULL: [_show_stats]
       show:
         display:
-          Public form: [_show_form]
+          General: [name, description, _show_queries, _show_extract_structure]
           Answers:     [_show_answers]
+          Statistics: [_show_stats]

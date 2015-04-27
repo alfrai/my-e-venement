@@ -149,10 +149,6 @@
         <target>Nombre de réponses au questionnaire</target>
       </trans-unit>
       <trans-unit>
-        <source>Public form</source>
-        <target>Formulaire publique</target>
-      </trans-unit>
-      <trans-unit>
         <source>AnswersGroups</source>
         <target>Groupes de réponses</target>
       </trans-unit>
