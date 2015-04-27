@@ -16,6 +16,7 @@ class ControlForm extends BaseControlForm
   public function configure()
   {
     parent::configure();
+    $this->disableCSRFProtectionOnUserAgent();
     
     unset($this->widgetSchema['sf_guard_user_id']);
     unset($this->widgetSchema['version']);

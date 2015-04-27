@@ -1,4 +1,7 @@
-function event_checkpoints_autocompleter()
+if ( LI == undefined )
+  var LI = {};
+
+LI.event_checkpoints_autocompleter = function()
 {
   jQuery(' input[name="autocomplete_checkpoint[organism_id]"]')
   .autocomplete(LI.event_organism_ajax_url, jQuery.extend({}, {
@@ -13,17 +16,17 @@ function event_checkpoints_autocompleter()
   }, { }))
   .result(function(event, data) { jQuery('input[name="checkpoint[organism_id]"]').val(data[1]); });
 }
-function event_checkpoints_list_load(url)
+LI.event_checkpoints_list_load = function(url)
 {
   url = url ? url : LI.event_checkpoint_list_url;
   $('.sf_admin_form .checkpoint_list').load(url+' .sf_admin_list',function(){
     $('.sf_admin_form .checkpoint_list tfoot input').remove();
     $('.sf_admin_form .checkpoint_list tfoot a').click(function(){
-      event_checkpoints_list_load($(this).prop('href'));
+      LI.event_checkpoints_list_load($(this).prop('href'));
       return false;
     });
     $('.sf_admin_form .checkpoint_list tbody a').click(function(){
-      $('.sf_admin_form .checkpoint_new').load($(this).prop('href')+'/edit .sf_admin_form form',event_checkpoints_new_load);
+      $('.sf_admin_form .checkpoint_new').load($(this).prop('href')+'/edit .sf_admin_form form',LI.event_checkpoints_new_load);
       return false;
     });
     
@@ -41,8 +44,8 @@ function event_checkpoints_list_load(url)
         },
         success: function(data) {
           $('.sf_admin_form .checkpoint_new').html($($.parseHTML(data)).find('.sf_admin_form form'));
-          event_checkpoints_new_load(data);
-          event_checkpoints_list_load();
+          LI.event_checkpoints_new_load(data);
+          LI.event_checkpoints_list_load();
         }
       });
       
@@ -51,11 +54,11 @@ function event_checkpoints_list_load(url)
   });
 }
 
-function event_checkpoints_new_load(data)
+LI.event_checkpoints_new_load = function(data)
 {
   data = $.parseHTML(data);
   
-  event_checkpoints_autocompleter();
+  LI.event_checkpoints_autocompleter();
   $('.sf_admin_form .checkpoint_new').prepend($(data).find('.sf_admin_flashes'));
   setTimeout(function(){
     $('.sf_admin_flashes .notice').fadeOut(function(){ $(this).remove(); });
@@ -83,18 +86,17 @@ function event_checkpoints_new_load(data)
   $('.sf_admin_form .checkpoint_new form').submit(function(){
     $.post($(this).prop('action'),$(this).serialize()+'&_save_and_add=on',function(data){
       $('.sf_admin_form .checkpoint_new').html($($.parseHTML(data)).find('.sf_admin_form form'));
-      event_checkpoints_new_load(data);
-      event_checkpoints_list_load();
+      LI.event_checkpoints_new_load(data);
+      LI.event_checkpoints_list_load();
     });
     return false;
   });
 }
 
-$(document).ready(function(){
+$(document).ready(function(){ setTimeout(function(){
   if ( LI.event_checkpoint_new_url != undefined )
   {
-    $('.sf_admin_form .checkpoint_new').load(LI.event_checkpoint_new_url+' .sf_admin_form form', event_checkpoints_new_load);
-    event_checkpoints_list_load();
+    $('.sf_admin_form .checkpoint_new').load(LI.event_checkpoint_new_url+' .sf_admin_form form', LI.event_checkpoints_new_load);
+    LI.event_checkpoints_list_load();
   }
-});
-
+},500); }); // the timeout is a hack because .js files are run before inline JS... and this script needs vars that are defined inline...

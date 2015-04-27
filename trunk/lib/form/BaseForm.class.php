@@ -10,14 +10,20 @@
  */
 class BaseForm extends sfFormSymfony
 {
-  public function configure()
-  {
-  }
-  
   public function renderFormTag($url, array $attributes = array())
   {
     if ( !isset($attributes['autocomplete']) )
       $attributes['autocomplete'] = 'off';
     return parent::renderFormTag($url,$attributes);
+  }
+  
+  public function disableCSRFProtectionOnUserAgent()
+  {
+    if ( sfContext::hasInstance() 
+      && sfContext::getInstance()->getRequest() instanceof sfWebRequest 
+      && strpos(sfContext::getInstance()->getRequest()->getUserAgent(), 'e-venement-app/') === 0 )
+      $this->disableCSRFProtection();
+    
+    return $this;
   }
 }
