@@ -10,3 +10,8 @@ task:
     class: sfDoctrineDatabase
     param:
       profiler: false
+
+# if you are making the experience of the bug described here :
+# http://www.e-venement.org/2015/04/09/e-venement-v2-8-0-elderberry-wine/#comment-9551
+# https://bugs.php.net/bug.php?id=68276
+# you can force not to use SSL adding ";sslmode=disabled" at the end of your dsn: string
