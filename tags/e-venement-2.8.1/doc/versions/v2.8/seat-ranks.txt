@@ -1,0 +1,35 @@
+== DESCRIPTION ==
+
+pour pouvoir faire du placement numéroté assisté par IA, il faut des critères pour créer des algorithmes.
+le classement des places par rang a été créé pour cela, mais également à des fins marketting ("attention Mme la comtesse, il reste encore les deux meilleures places de la salle")
+
+
+
+== MISE EN PLACE ==
+
+dans les plans numérotés:
+
+un nouvel onglet est apparu dans le plans numérotés, appelé "rangs".
+le formulaire qui s'y trouve permet d'automatiser le paramétrage de ces rangs, autant que faire ce peut.
+note: si l'écran d'attente tourne en boucle, c'est qu'une erreur s'est produite.
+
+il est aussi possible de paramétrer le rang des places de manière unitaire en cliquant-droit sur une place.
+
+
+
+== UTILISATION QUOTIDIENNE ==
+
+=== fiche manifestation (lecture) ===
+
+On retrouve le meilleur siège encore disponible sous la jauge et le chiffre d'affaire attendu
+
+
+=== liste des manifestations ===
+
+il est possible de cocher une ou plusieurs manifestations pour avoir un comparatif des 5 meilleures places disponibles
+dans la liste, la meilleure place encore disponible est visible directement pour chaque manifestation (actions batch).
+
+
+=== liste des événements ===
+
+il est possible de cocher un ou plusieurs événement pour avoir un comparatif des 5 meilleures places disponibles sur l'ensemble de leurs manifestations (actions batch).

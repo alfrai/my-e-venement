@@ -1,0 +1,8 @@
+.ui-widget .ui-widget-header {
+  padding: 5px;
+}
+.ui-widget .ui-widget-content {
+  margin: 2px;
+  padding: 10px;
+  min-height: 400px;
+}

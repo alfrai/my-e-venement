@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MetaEvent
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          meta_event
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_name: { label: Name }
+      list:
+        display: [_list_name]
+        object_actions: []
+        batch_actions: []
+        actions: []
+      filter:
+        display: []
+      form:    ~
+      edit:    ~
+      new:     ~

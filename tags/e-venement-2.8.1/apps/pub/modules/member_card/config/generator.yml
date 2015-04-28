@@ -1,0 +1,38 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MemberCard
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          member_card
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions:
+        _new:
+          credentials: [pr-card-mod]
+        _edit:
+          credentials: [pr-card-mod]
+      fields:
+        expire_at: { label: Expire at }
+      list:
+        display: [_name, Contact, expire_at, _value]
+        sort: [created_at, desc]
+        object_actions:
+          _show: ~
+          _delete:
+            credentials: [pr-card-mod]
+        batch_actions: {}
+        table_method: retreiveListOfActivatedCards
+      filter:
+        display: [member_card_type_id, contact_id, expire_at]
+      form:    ~
+      edit:    ~
+      new:     ~
+      show:
+        display:
+          NONE: [name, _show_value, _show_prices_list, _show_tickets_list, expire_at, created_at, _id]

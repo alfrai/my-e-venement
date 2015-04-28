@@ -1,0 +1,37 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Tax
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          tax
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        users_list: { label: Users }
+        manifestations_list: { label: Manifestations }
+        prices_list: { label: Prices }
+        value: { help: "for percentages 7 means 7%, for fixed value VAT is included and depends on each manifestation" }
+        list_value: { label: Value, type: number }
+      list:
+        display: [name, _list_value]
+        title: Taxes list
+        sort: ['type, name', '']
+      filter:
+        display:
+          Base: [name, type, value]
+          Relations: [users_list, manifestations_list, prices_list]
+      form:
+        display:
+          Base: [name, type, value]
+          Relations: [users_list, manifestations_list, prices_list]
+      edit:
+        title: Tax %%name%%
+      new:
+        title: New tax

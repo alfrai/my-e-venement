@@ -1,0 +1,44 @@
+== objectif ==
+
+pouvoir vendre des places numérotés en ligne
+
+
+== réalisation ==
+
+=== pré-requis ===
+
+cf. l'intégration de plans dans la partie événementielle
+avoir des opérateurs habiles avec le placement numéroté est attentifs aux ventes en ligne
+
+
+=== comment un spectateur réservant en ligne se rend compte de la place qu'il va réserver ? ===
+
+1. le spectateur choisi ses billets sur des zones dans la salle, mais ne choisit pas sa place au numéro près.
+2. il peut laisser un commentaire en direction de vos opérateurs de billetterie pour préciser sa commande.
+3. il reçoit juste après son paiement un email avec ses billets/contremarque précisant qu'une place lui sera attribuée dans les jours à venir.
+4. vos opérateurs reçoivent la commande et vont sur l'opération, où ils affectent une place numéroté au billets commandés en ligne, si possible en suivant les recommandations que le spectateur a laissé au moment de sa commande.
+5. le spectateur reçoit un nouvel email avec ses billets définitifs incluant le numéro de place attribuée.
+6. si des duplicatas sont imprimés avant la date du spectacle, alors le spectateur ayant commandé en ligne reçoit ses duplicatas (ou une information les concernant, dans le cadre d'une billetterie non dématérialisée) par email également
+
+
+=== pourquoi le spectateur ne peut pas choisir sa place directement dans la salle ? ===
+
+pour ce faire il faudrait présenter l'état de la salle au spectateur... hors cela signifierait de communiquer largement l'état des ventes au moment de la commande en ligne.
+ex: imaginons un concert très "en vue", qui ne ferait pas le plein 1 semaine avant sa date... et que cela se sache...
+
+de plus, on arriverait vite à mi-vente avec une salle en "gruyère" avec l'impossibilité de vendre des places côte-à-côte pour les derniers spectateurs, ce qui pourrait avoir un effet de dissuasion commercialement regrettable.
+
+
+=== et alors pourquoi le logiciel ne déciderait pas pour le spectateur directement ? ===
+
+... en lui montrant alosr sur le vif la place qui lui est attribuée ...
+
+les développeurs du logiciel ont pris le choix de ne pas le faire, pour plusieurs raisons :
+- ce serait très complexe
+- et extrêmement dangereux (pour la satisfaction des spectateurs et parce que nous savons tous qu'un logiciel avec 0 bug n'existe pas, imaginons ce que cela peut donner pour un placement numéroté complexe)
+- puisque les places numérotés doivent être "bloquées" un certain temps afin que l'opération de vente puisse se réaliser, il serait très gênant d'avoir des spectateurs qui, en ligne, fassent bcp d'essais pour trouver leur configuration idéale, bloquant potentiellement la jauge temporairement...
+- parce que personne n'est plus intelligent et plus pertinent qu'un être humain pour répondre aux attentes d'autres êtres humains
+- parce que c'est plus simple et plus sûr ainsi, surtout sur le long terme
+
+
+

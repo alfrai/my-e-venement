@@ -1,0 +1,14 @@
+== module ==
+
+se gère dans le menu paramétrage > vente en ligne > questionnaires
+
+les questionnaires se retrouvent ensuite de manière transversale dans l'ensemble des éléments d'e-venement (manifestations, contacts, opérations de billetterie, etc.)
+
+ils sont automatiques sur la vente en ligne, relativement à ce que l'internaute aura dans son panier. chaque questionnaire a ses propres liens de dépendance.
+
+
+== droits ==
+
+deux groupes ont été créés :
+srv-overview: permet l'accès en lecture aux questionnaires + aux réponses
+srv-mod: permet l'accès complet aux questionnaires (mais pas aux réponses)

@@ -1,0 +1,27 @@
+CONTEXTE:
+
+TIPI est un système de paiement en ligne mis en place par le ministère public. TIPI est un système en 3 tiers, qui ressemble à cela dans le cadre de e-venement (je résume) :
+e-voucher <-> TIPI <-> Trésor Public
+
+a priori TIPI est bien foutu côté Trésor Public.
+côté e-voucher, TIPI ne semble pas avoir été prévu (à la base) pour renvoyer un retour dans ce sens. en effet, au départ, ce sont des contribuables qui arrivent sur ce système, qui rentrent une référence de dette et son montant et le règle. ensuite c'est le Trésor Public qui faisait le rapprochement. sauf que les gars, en 2011, ils se sont dit en fin de dev que ça pourrait servir à d'autres choses que payer des dettes... et qu'il serait bon d'ajouter un retour vers la "boutique". ils ont donc fait ça avec les pieds, sans aucun contrôle, allant mm jusqu'à renvoyer 5 à 10x la confirmation de paiement sans ID unique (dans un cadre différent du remboursement de dettes) permettant de savoir qu'il s'agit d'un doublon...
+
+au final, e-voucher communique en clair et sans "signature" les éléments à faire payer par TIPI... qui seraient donc tout à fait modifiables par un utilisateur un peu malin, ce qui permettrait par exemple de :
+- valider la réservation d'une commande de 10€ avec 1€
+- jouer les faussaires et se faire passer pour TIPI auprès du
+  commerçant, afin de valider chez le commerçant une commande non payée
+  via TIPI
+
+l'idée est donc de dire que l'interface de retour de TIPI vers e-voucher n'est qu'une aide au fonctionnement, mais ne peut être considéré comme une preuve de paiement (c'est aussi le cas avec les autres systèmes, mais un certain nombre de mécanismes existent pour garantir la fiabilité des échanges). autrement dit, toute opération apparaissant comme réglée en ligne sur e-voucher SE DOIT d'être vérifiée auprès du Trésor.
+
+
+SOLUTION TECHNIQUE:
+
+une batterie de "durcisseurs" a été ajoutée dans le protocole de TIPI de e-venement pour assurer de manière plus forte que les échanges ne sont pas détournés :
+
+- vérification de l'origine de la validation (pour augmenter les chances que ce soit TIPI qui réponde)
+
+- ajout du numéro d'opération et du montant de la transaction (signé par "e-voucher") en paramètre de l'adresse de confirmation de TIPI pour e-voucher, qui est reconstruit et comparé lors de la réception de la requête faisant suite au paiement... ce qui permet de savoir si le retour correspond bien à ce qui a été envoyé. cela dit, même si cette fois il faut être plus "équipé", ce système est facilement démontable en brut-force (là où par défaut, il faut juste être inventif). disons que c'est une protection de plus.
+
+- ajout également d'un système "light" de vérification permettant de savoir si le paiement est déjà passé, afin d'éviter l'enregistrement de 10 paiements consécutifs, comme l'envoie TIPI de manière étonnante.
+

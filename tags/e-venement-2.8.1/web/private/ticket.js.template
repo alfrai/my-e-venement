@@ -1,0 +1,43 @@
+$(document).ready(function(){
+  
+  /**
+    * Doing the validation for "abonnements" and special prices
+    *
+    **/
+
+  $('#print form.print input[type=submit]').click(function(){
+    msg = '';
+    nb = 0;
+    tarifs = $('.manifestations_list .prices .name:contains(AP):not(:contains(AAP)), .manifestations_list .prices .name:contains(AR):not(:contains(AAR)), .manifestations_list .prices .name:contains(AJ):not(:contains(AAJ))');
+    tarif  = tarifs.first().html();
+    
+    if ( tarifs.length == 0 )
+      return true;
+    
+    // une personne connue
+    if ( $('#contact input[name="transaction[contact_id]"]').val() == '' )
+      msg = "- Vous devez sélectionner une personne nominativement pour pouvoir lui appliquer un tarif abonnés\n";
+    
+    // le même tarif abonné partout
+    if ( $('.manifestations_list .prices .name:contains('+tarif+'):not(:contains(A'+tarif+'))').length != tarifs.length )
+      msg = "- Vous ne pouvez avoir qu'un seul type de tarif abonné sur une opération...\n";
+    
+    // un seul tarif par spectacle
+    $('.manifestations_list .prices .ticket_prices .name:contains('+tarif+'):not(:contains(A'+tarif+'))').parent().each(function(){
+      if ( $(this).find('.nb').html() != 1 )
+        msg += "- Vous ne pouvez sélectionner qu'un seul tarif abonné par spectacle pour pouvoir valider l'achat\n";
+      else if ( parseFloat($(this).find('.value').html()) > 0 )
+        nb++;
+    });
+    
+    // au moins trois tarifs
+    if ( nb < 3 )
+      msg += "- Vous devez avoir au moins 3 tarifs abonnés payants\n";
+    
+    if ( msg )
+    {
+      alert(msg);
+      return false;
+    }
+  });
+});

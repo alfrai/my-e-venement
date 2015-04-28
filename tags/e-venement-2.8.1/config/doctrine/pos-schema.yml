@@ -1,0 +1,280 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+ProductCategory:
+  package: pos
+  actAs:
+    Timestampable: ~
+    I18n:
+      fields: [name]
+    Sluggable:
+      fields: [name]
+    Searchable:
+      fields: [name]
+  columns:
+    name:
+      type:     string(255)
+      notblank: true
+      notnull:  true
+    vat_id: integer
+    online:
+      type: boolean
+      default: false
+      notnull: true
+    product_category_id: integer
+  relations:
+    Vat:
+      foreignAlias: ProductCategories
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Parent:
+      class: ProductCategory
+      foreignAlias: Children
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+Product:
+  package: pos
+  actAs:
+    I18n:
+      fields: [name, short_name, description]
+    Sluggable:
+      fields: [name]
+    Searchable:
+      fields: [name, short_name]
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type:     string(255)
+      notblank: true
+      notnull:  true
+    short_name: string(127)
+    meta_event_id: integer
+    product_category_id: integer
+    description: string
+    picture_id:
+      type: integer
+      unique: true
+    accounting_account: string(50)
+    vat_id: integer
+    shipping_fees:
+      type: decimal(8)
+      scale: 2
+      default: 0
+      notnull: true
+    shipping_fees_vat_id: integer
+    online:
+      type: boolean
+      default: true
+      notnull: true
+  relations:
+    Category:
+      class: ProductCategory
+      foreignAlias: Products
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    MetaEvent:
+      foreignAlias: Products
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Picture:
+      foreignType: one
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Prices:
+      class: Price
+      refClass: PriceProduct
+      foreignAlias: Products
+    Vat:
+      foreignAlias: Products
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    ShippingFeesVat:
+      foreignAlias: ShippingFees
+      local: shipping_fees_vat_id
+      class: Vat
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    LinkedManifestations:
+      class: Manifestation
+      refClass: ProductManifestationLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedPrices:
+      class: Price
+      refClass: ProductPriceLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedWorkspaces:
+      class: Workspace
+      refClass: ProductWorkspaceLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedMetaEvents:
+      class: MetaEvent
+      refClass: ProductMetaEventLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedProducts:
+      class: Product
+      refClass: ProductProductLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+ProductDeclination:
+  package: pos
+  actAs:
+    I18n:
+      fields: [name, description, description_for_buyers]
+    Searchable:
+      fields: [name]
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    code:
+      type: string(50)
+      unique: true
+    description: string
+    description_for_buyers: string
+    product_id:
+      type: integer
+      notnull: true
+    prioritary:
+      type: boolean
+      default: false
+  relations:
+    Product:
+      foreignAlias: Declinations
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+ProductLink:
+  package: pos
+  actAs:
+    Timestampable: ~
+  columns:
+    product_id:
+      type: integer
+      notnull: true
+    fk_id:
+      type: integer
+      notnull: true
+ProductManifestationLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductPriceLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductMetaEventLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductWorkspaceLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductProductLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+
+BoughtProduct:
+  package: pos
+  inheritance:
+    extends: Itemable
+    type: concrete
+  columns:
+    product_declination_id: integer
+    price_id: integer
+    vat_id: integer
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    declination:
+      type: string(255)
+      notnull: true
+      notblank: true
+    code: string(50)
+    price_name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    integrated_at: timestamp
+    description_for_buyers: string
+    barcode: string
+    member_card_id: integer
+    ticket_id: integer
+    shipping_fees:
+      type: decimal(8)
+      scale: 2
+      default: 0
+      notnull: true
+    shipping_fees_vat:
+      type: decimal(5)
+      scale: 4
+      default: 0
+      notnull: true
+  relations:
+    Transaction:
+      foreignAlias: BoughtProducts
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    User:
+      class: sfGuardUser
+      foreignAlias: BoughtProducts
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Declination:
+      local: product_declination_id
+      class: ProductDeclination
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Vat:
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: BoughtProducts
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Ticket:
+      foreignAlias: BoughtProducts
+      onDelete: CASCADE
+      onUpdate: CASCADE
