@@ -90,10 +90,8 @@
     $this->online_payment->BankPayment->save();
   }
   
-  error_log('before email');
   // sending emails to contact and organizators
   $this->sendConfirmationEmails($transaction, $this);
-  error_log('after email');
   
   return sfView::NONE;
 
