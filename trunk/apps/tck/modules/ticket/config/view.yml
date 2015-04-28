@@ -26,6 +26,10 @@ controlResult:
 controlSuccess:
   stylesheets: [ticket, tck-control]
   javascripts: [tck-control?<?php echo date('Ymd') ?>, /private/tck-control?<?php echo date('Ymd') ?>, helper?<?php echo date('Ymd') ?>]
+checkpointAjaxJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
   
 duplicateSuccess:
   stylesheets: [ticket-cancel]

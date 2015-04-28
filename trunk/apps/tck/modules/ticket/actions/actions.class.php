@@ -268,6 +268,10 @@ class ticketActions extends sfActions
   {
     return require('control.php');
   }
+  public function executeCheckpointAjax(sfWebRequest $request)
+  {
+    return require('checkpoint-ajax.php');
+  }
   public function executeControlCancel(sfWebRequest $request)
   {
     return require('control-cancel.php');
