@@ -82,6 +82,7 @@ $(document).ready(function(){
 if ( LI.seatedPlanInitializationFunctions == undefined )
   LI.seatedPlanInitializationFunctions = [];
 LI.seatedPlanInitializationFunctions.push(function(selector){
+  LI.seatedPlanMouseup = function(){}; // to avoid any prompt after the seats rendering
   $(selector).find('.seat.txt').mouseenter(function(event){
     if ( event.buttons == 0 || (!event.ctrlKey && !event.metaKey) )
       return;

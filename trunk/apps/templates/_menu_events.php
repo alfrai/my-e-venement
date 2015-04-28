@@ -51,7 +51,7 @@
           <?php endif ?>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('event-hold') ): ?>
-          <li><a href="<?php echo cross_app_url_for('event','hold') ?>"><?php echo __('Holds',array(),'menu') ?></a></li>
+          <li class="spaced"><a href="<?php echo cross_app_url_for('event','hold') ?>"><?php echo __('Holds',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php include_partial('global/menu_extra', array('name' => 'events')) ?>
        </ul>

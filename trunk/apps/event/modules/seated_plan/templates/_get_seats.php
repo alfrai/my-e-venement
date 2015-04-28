@@ -75,7 +75,7 @@
         break;
       
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && ($hold = $seat->isHeldFor($seated_plans_gauges[$spid]->Manifestation )) )
+        && ($hold = $seat->isHeldFor($seated_plans_gauges[$spid]->Manifestation)) )
       {
         $q = Doctrine::getTable('HoldTransaction')->createQuery('ht')
           ->leftJoin('ht.Transaction t')
