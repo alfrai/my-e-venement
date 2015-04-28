@@ -13,8 +13,14 @@ class SurveyPublicForm extends SurveyForm
   public function configure()
   {
     parent::configure();
+    $sf_user = sfContext::hasInstance() ? sfContext::getInstance()->getUser() : NULL;
     
     $group = new SurveyAnswersGroup;
+    if ( $sf_user && $sf_user->getTransaction()->contact_id )
+      $group->contact_id = $sf_user->getTransaction()->contact_id;
+    if ( $sf_user && $sf_user->getTransaction()->id )
+      $group->transaction_id = $sf_user->getTransaction()->id;
+    
     unset($this->object->AnswersGroups);
     $this->object->AnswersGroups[] = $group;
     
@@ -48,10 +54,18 @@ class SurveyPublicForm extends SurveyForm
       
       if ( $sf_user && !$group['contact_id'] && $sf_user->getTransaction()->contact_id )
         $values['AnswersGroups'][$gid]['contact_id'] = $sf_user->getTransaction()->contact_id;
-      if ( $sf_user && !$group['contact_id'] && $sf_user->getTransaction()->id )
+      if ( $sf_user && !$group['transaction_id'] && $sf_user->getTransaction()->id )
         $values['AnswersGroups'][$gid]['transaction_id'] = $sf_user->getTransaction()->id;
     }
     
     parent::doBind($values);
+  }
+  
+  public function doSave($con = NULL)
+  {
+    if (null === $con)
+      $con = $this->getConnection();
+    $this->updateObject();
+    $this->saveEmbeddedForms($con);
   }
 }

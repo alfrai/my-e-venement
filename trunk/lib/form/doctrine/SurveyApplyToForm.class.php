@@ -22,6 +22,10 @@ class SurveyApplyToForm extends BaseSurveyApplyToForm
       'model' => 'Professional',
       'url' => cross_app_url_for('event', 'professional/ajax'),
     ));
+    $this->widgetSchema   ['group_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Group',
+      'url' => cross_app_url_for('rp', 'group/ajax'),
+    ));
     
     $this->useFields(array(
       'everywhere',

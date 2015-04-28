@@ -18,6 +18,10 @@ class SurveyAnswerForm extends BaseSurveyAnswerForm
     parent::configure();
     $this->widgetSchema['survey_query_id'] = new sfWidgetFormInputHidden;
     $this->widgetSchema['lang'] = new sfWidgetFormInputHidden;
+    
+    $sf_user = sfContext::hasInstance() ? sfContext::getInstance()->getUser() : NULL;
+    if ( $sf_user )
+      $this->setDefault('lang', $sf_user->getCulture());
   }
   
   public function forge(SurveyQuery $query)
