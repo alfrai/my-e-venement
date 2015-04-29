@@ -88,7 +88,8 @@
         $ht = $q->fetchOne();
         
         // Inside a ticketting process
-        if ( $sf_request->hasParameter('ticketting') && !$ht )
+        if ( $sf_request->hasParameter('ticketting')
+          && (!$ht || $ht->hold_id != $hold->id) )
           continue(2);
         // inside a Hold
         elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold->id != $sf_request->getParameter('hold_id', NULL) )
