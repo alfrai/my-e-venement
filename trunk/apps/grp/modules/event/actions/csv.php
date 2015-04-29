@@ -44,7 +44,8 @@
     ->leftJoin('m.Event e')
     ->leftJoin("e.Translation etranslation WITH lang = '".$this->getUser()->getCulture()."'")
     ->leftJoin('et.Price pr')
-    ->orderBy('m.happens_at, etranslation.name, o.name, c.name, pr.name');
+    ->leftJoin('pr.Translation prt WITH prt.lang = ?', $this->getUser()->getCulture())
+    ->orderBy('m.happens_at, etranslation.name, o.name, c.name, prt.name');
   if ( ($meid = intval($request->getParameter('manifestation_id'))) > 0 )
     $q->andWhere('me.id = ?',$meid);
   if ( $dates = $request->getParameter('dates',false) )
