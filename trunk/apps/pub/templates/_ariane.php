@@ -36,12 +36,12 @@
   </div>
   <?php $nb++ ?>
   <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access <?php echo $sf_user->isStoreActive() ? 'with-store' : '' ?>">
-    <?php echo link_to(sfConfig::get('app_informations_index',__('Events')), '@homepage') ?>
+    <?php echo link_to(sfConfig::get('app_informations_index',__('Events')), '@homepage', array('class' => 'event')) ?>
     <?php if ( $sf_user->isStoreActive() ): ?>
-    <?php echo link_to(sfConfig::get('app_informations_store',__('Store')), 'store/index') ?>
+    <?php echo link_to(sfConfig::get('app_informations_store',__('Store')), 'store/index', array('class' => 'store')) ?>
     <?php endif ?>
     <?php if ( $sf_user->getGuardUser()->MemberCards->count() > 0 ): ?>
-    <?php echo link_to(sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member cards'),'card/index') ?>
+    <?php echo link_to(sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member cards'),'card/index', array('class' => 'mc')) ?>
     <?php endif ?>
   </div>
   <?php $nb++ ?>
