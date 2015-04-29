@@ -14,23 +14,6 @@ $(document).ready(function(){
       LI.pubCartReady[i]();
   });
   
-  // auto-redirects
-  if ( location.hash != '#debug' )
-  {
-    // if no event is available but the store is present, go to the store
-    if ( $('.mod-event.action-index').length == 1
-      && $('.mod-event.action-index .sf_admin_list table').length == 0
-      && $('.mod-event.action-index #ariane .event.with-store').length > 0
-      || $('.mod-meta_event.action-index').length == 1
-      && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 0
-      && $('#ariane .event.with-store a.store').length == 1 )
-      window.location = $('#ariane .event.with-store a.store').prop('href');
-    
-    // redirect into the only meta-event of the @homepage if no alternative
-    else if ( $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
-      window.location = $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
-  }
-  
   // adding the store at the end of meta events when it is appropriate
   if ( $('.mod-meta_event.action-index').length == 1
     && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length > 0
@@ -39,6 +22,23 @@ $(document).ready(function(){
       .toggleClass('odd').toggleClass('even')
       .insertAfter($('.mod-meta_event.action-index .sf_admin_list .sf_admin_row:last'))
       .find('td').html('').append($('#ariane .event.with-store a.store'));
+  
+  // auto-redirects
+  if ( location.hash != '#debug' )
+  {
+    // if no event is available but the store is present, go to the store
+    if ( $('.mod-event.action-index').length == 1
+      && $('.mod-event.action-index .sf_admin_list table').length == 0
+      && $('.mod-event.action-index #ariane .event.with-store').length > 0
+      || $('.mod-meta_event.action-index').length == 1
+      && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a:not(.store)').length == 0
+      && $('#ariane .event.with-store a.store').length == 1 )
+      window.location = $('#ariane .event.with-store a.store').prop('href');
+    
+    // redirect into the only meta-event of the @homepage if no alternative
+    else if ( $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
+      window.location = $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
+  }
   
   // removing empty gauges
   $('.mod-manifestation.action-show .adding-tickets .gauge').each(function(){
