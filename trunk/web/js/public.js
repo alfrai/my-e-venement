@@ -21,7 +21,7 @@ $(document).ready(function(){
     $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row:last').clone()
       .toggleClass('odd').toggleClass('even')
       .insertAfter($('.mod-meta_event.action-index .sf_admin_list .sf_admin_row:last'))
-      .find('td').html('').append($('#ariane .event.with-store a.store'));
+      .find('td').html('').append($('#ariane .event.with-store a.store').clone());
   
   // auto-redirects
   if ( location.hash != '#debug' )
