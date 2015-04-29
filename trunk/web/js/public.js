@@ -14,15 +14,22 @@ $(document).ready(function(){
       LI.pubCartReady[i]();
   });
   
-  // if no event is available but the store is present, go to the store
-  if ( location.hash != '#debug'
-    && $('.mod-event.action-index .sf_admin_list table').length == 0
-    && $('.mod-event.action-index #ariane .event.with-store').length > 0 )
-    window.location = $('.mod-event.action-index #ariane .event.with-store a + a').prop('href');
+  if ( location.hash != '#debug' )
+  {
+    // if no event is available but the store is present, go to the store
+    if ( $('.mod-event.action-index').length == 1
+      && $('.mod-event.action-index .sf_admin_list table').length == 0
+      && $('.mod-event.actiion-index #ariane .event.with-store').length > 0
+      || $('.mod-meta_event.action-index').length == 1
+      && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 0
+      && $('#ariane .event.with-store a + a').length == 1 )
+      window.location = $('#ariane .event.with-store a + a').prop('href');
   
-  // redirect into the only meta-event of the @homepage if no alternative
-  if ( location.hash != '#debug' && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
-    window.location = $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
+    // redirect into the only meta-event of the @homepage if no alternative
+    if ( $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
+      window.location = $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
+  }
+  
   
   // removing empty gauges
   $('.mod-manifestation.action-show .adding-tickets .gauge').each(function(){

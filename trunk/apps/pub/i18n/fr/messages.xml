@@ -928,6 +928,10 @@
         <source>Connection</source>
         <target>Connexion</target>
       </trans-unit>
+      <trans-unit>
+        <source>Events</source>
+        <target>Évenements</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
