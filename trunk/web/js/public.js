@@ -31,7 +31,7 @@ $(document).ready(function(){
       && $('.mod-event.action-index .sf_admin_list table').length == 0
       && $('.mod-event.action-index #ariane .event.with-store').length > 0
       || $('.mod-meta_event.action-index').length == 1
-      && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row a:not(.store)').length == 0
+      && $('.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 0
       && $('#ariane .event.with-store a.store').length == 1 )
       window.location = $('#ariane .event.with-store a.store').prop('href');
     
