@@ -15,7 +15,7 @@ batchDelete:
   credentials: [srv-survey-del]
 
 extract:
-  credentials: [srv-survey-extract]
+  credentials: [srv-extract]
 extractContent:
-  credentials: [srv-survey-extract]
+  credentials: [srv-extract]
 
