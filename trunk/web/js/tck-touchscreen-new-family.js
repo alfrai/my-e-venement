@@ -8,7 +8,7 @@
     $('#li_transaction_field_content .new-family [name=autocompleter]').keyup(function(e){
       var val = $(this).val();
       var elt = this;
-      setTimeout(function(){
+      setTimeout(function(){ // this timeout is to execute a HTTP request for a bulk for letters instead of for every single keyup()
         if ( val == $(elt).val() ) // then launch the request
         {
           var select = $(elt).closest('.new-family').find('select');
@@ -38,7 +38,10 @@
               });
               
               // if only one option is available w/o looking for something special, select this only option
-              if ( $(elt).val() == '' && select.find('option').length == 1 && location.hash != '#debug' )
+              if ( $(elt).val() == '' && select.find('option').length == 1
+                && location.hash != '#debug'
+                && $(elt).closest('.bunch').find('.family:not(.total)').length == 0
+              )
               {
                 select.find('option').prop('selected', true);
                 select.focusout();
@@ -151,6 +154,6 @@ LI.addFamilies = function(elt){
     
     setTimeout(function(){
       bunch.find('.families:not(.sample) .family:not(.total):last .item:first').click();
-    }, 2000);
+    }, 1000);
   }
 }

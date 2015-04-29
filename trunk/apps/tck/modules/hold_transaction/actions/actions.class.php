@@ -372,7 +372,9 @@ class hold_transactionActions extends autoHold_transactionActions
       $this->hold_transaction->Transaction->closed = false;
       $this->hold_transaction->save();
     }
-    $this->redirect('transaction/edit?id='.$this->hold_transaction->transaction_id.'#manifestations-'.$this->hold_transaction->Hold->manifestation_id);
+    $hash = in_array($this->hold_transaction->Hold->manifestation_id, $this->hold_transaction->Transaction->Tickets->toKeyValueArray('id', 'manifestation_id'))
+      ? '' : '#manifestations-'.$this->hold_transaction->Hold->manifestation_id;
+    $this->redirect('transaction/edit?id='.$this->hold_transaction->transaction_id.$hash);
   }
   public function executeNew(sfWebRequest $request)
   {
