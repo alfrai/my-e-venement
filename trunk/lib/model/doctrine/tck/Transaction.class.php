@@ -183,7 +183,8 @@ class Transaction extends PluginTransaction
     if ( $ticket->member_card_id )
     {
       if ( isset($mcs[$ticket->member_card_id]) )
-        $mcs[$ticket->member_card_id]->value -= $ticket->value;
+        $price += $ticket->value;
+        //$mcs[$ticket->member_card_id]->value -= $ticket->value;
     }
     else
     {
