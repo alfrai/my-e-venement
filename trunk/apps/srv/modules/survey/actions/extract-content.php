@@ -32,6 +32,7 @@ $this->lines['title']['name']         = (string)$survey;
 $this->lines['title']['professional'] = '';
 $this->lines['title']['organism']     = '';
 $this->lines['title']['transaction']  = '';
+$this->lines['title']['tickets']      = '';
 foreach ( $this->survey->Queries as $query )
 {
   foreach ( $query->Options as $option )
@@ -45,6 +46,7 @@ $this->lines['details']['name']         = __('Contact');
 $this->lines['details']['professional'] = __('Function');
 $this->lines['details']['organism']     = __('Organism');
 $this->lines['details']['transaction']  = __('Transaction');
+$this->lines['details']['tickets']      = __('Tickets');
 foreach ( $this->survey->Queries as $query )
 {
   $this->lines['details'][$query->slug] = '';
@@ -61,6 +63,16 @@ foreach ( $this->survey->AnswersGroups as $group )
   $this->lines[$i]['professional'] = (string)$group->Professional->name_type;
   $this->lines[$i]['organism'] = (string)$group->Professional->Organism;
   $this->lines[$i]['transaction'] = '#'.$group->transaction_id;
+  
+  // counting valid tickets in the transaction
+  $cpt = 0;
+  foreach ( $group->Transaction->Tickets as $ticket )
+  {
+    if ( $ticket->hasBeenCancelled() || $ticket->duplicating )
+      continue;
+    $cpt++;
+  }
+  $this->lines[$i]['tickets'] = $cpt;
   
   foreach ( $group->Answers as $answer )
   {

@@ -23,6 +23,7 @@ class SurveyTable extends PluginSurveyTable
         ->leftJoin("$alias.Translation st")
         ->leftJoin("$alias.Queries q")
         ->leftJoin("q.Translation qt")
-        ->orderBy("$alias.name, q.rank, qt.name");
+        ->orderBy("$alias.name, q.rank, qt.name")
+      ;
     }
 }

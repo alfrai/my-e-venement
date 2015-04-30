@@ -13,6 +13,37 @@ require_once dirname(__FILE__).'/../lib/surveyGeneratorHelper.class.php';
  */
 class surveyActions extends autoSurveyActions
 {
+  public function executeDuplicate(sfWebRequest $request)
+  {
+    $this->forward404Unless($survey = Doctrine::getTable('Survey')->find($request->getParameter('id')));
+    $new = $survey->copy();
+    $new->name = $new->name.' (copy '.date('Y-m-d H:i:s').')';
+    
+    foreach ( $survey->Queries as $query )
+    {
+      $q = $query->copy();
+      foreach ( $query->Translation as $qt )
+        $q->Translation[] = $qt->copy();
+      foreach ( $q->Options as $option )
+        $q->Options[] = $option->copy();
+      $q->slug = NULL;
+      $new->Queries[] = $q;
+    }
+    
+    foreach ( $survey->ApplyTo as $at )
+    {
+      $go = false;
+      foreach ( array('date_from', 'date_to','manifestation_id', 'group_id', 'contact_id', 'professional_id', 'organism_id', 'everywhere') as $field )
+        $go = true;
+      if ( $go )
+        $new->ApplyTo[] = $at->copy();
+      else
+        $at->delete();
+    }
+    
+    $new->save();
+    $this->redirect('survey/edit?id='.$new->id);
+  }
   public function executeExtractContent(sfWebRequest $request)
   {
     $this->executeEdit($request);
@@ -107,5 +138,14 @@ class surveyActions extends autoSurveyActions
       $surveys[$survey->id] = (string) $survey;
     
     return $this->renderText(json_encode($surveys));
+  }
+  
+  protected function getPager()
+  {
+    $pager = $this->configuration->getPager('Survey');
+    $pager->setQuery($this->buildQuery()->removeDqlQueryPart('orderby'));
+    $pager->setPage($this->getPage());
+    $pager->init();
+    return $pager;
   }
 }

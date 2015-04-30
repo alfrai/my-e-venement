@@ -20,6 +20,9 @@ generator:
         object_actions:
           _show: ~
           _edit: ~
+          _duplicate:
+            action: duplicate
+            ui-icon: plus
           _delete:
             credentials: [srv-survey-del]
         actions:
