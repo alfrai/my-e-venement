@@ -31,7 +31,7 @@ class surveyActions extends autoSurveyActions
   public function executeShow(sfWebRequest $request)
   {
     parent::executeShow($request);
-    $this->form = new SurveyPublicForm($this->survey);
+    $this->form = new SurveyForm($this->survey);
   }
   
   public function executeCommit(sfWebRequest $request)
