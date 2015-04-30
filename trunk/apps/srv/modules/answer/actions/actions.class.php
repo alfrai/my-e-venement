@@ -15,6 +15,13 @@ class answerActions extends autoAnswerActions
 {
   protected $special_filters = array();
   
+  public function executeDeleteAnswer(sfWebRequest $request)
+  {
+    $this->forward404Unless($answer = Doctrine::getTable('SurveyAnswer')->find($request->getParameter('id')));
+    $answer->delete();
+    return sfView::NONE;
+  }
+  
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);

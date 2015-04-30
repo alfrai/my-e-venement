@@ -18,6 +18,13 @@ LI.srv_survey_answers_pagination = function(url){
       });
     });
     list.appendTo($('#srv-answers'));
+    
+    // deleting answers
+    $('#sf_fieldset_answers .sf_admin_action_delete_answer a').click(function(){
+      var answer = $(this).closest('.sf_admin_row');
+      $.get($(this).prop('href'), function(){ $(answer).remove(); });
+      return false;
+    });
   });
 }
 
