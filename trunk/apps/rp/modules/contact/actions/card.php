@@ -32,11 +32,11 @@
     else
       $params['created_at'] = date('Y-m-d H:i:s');
     
-    $params['expire_at'] = sfConfig::has('app_cards_expiration_delay')
-      ? date('Y-m-d H:i:s',strtotime(sfConfig::get('app_cards_expiration_delay'),strtotime($params['created_at'])))
-      : (strtotime(date('Y').'-'.sfConfig::get('app_cards_expiration_date')) > strtotime('now')
-      ? date('Y').'-'.sfConfig::get('app_cards_expiration_date')
-      : (date('Y')+1).'-'.sfConfig::get('app_cards_expiration_date'));
+    $params['expire_at'] = sfConfig::has('project_cards_expiration_delay')
+      ? date('Y-m-d H:i:s',strtotime(sfConfig::get('project_cards_expiration_delay'),strtotime($params['created_at'])))
+      : (strtotime(date('Y').'-'.sfConfig::get('project_cards_expiration_date')) > strtotime('now')
+      ? date('Y').'-'.sfConfig::get('project_cards_expiration_date')
+      : (date('Y')+1).'-'.sfConfig::get('project_cards_expiration_date'));
     
     if ( !$request->hasParameter('id') )
       $request->setParameter('id',$params['contact_id']);
