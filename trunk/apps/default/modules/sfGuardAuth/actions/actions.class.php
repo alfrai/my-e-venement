@@ -25,9 +25,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
       'ready' => filter_var($request->getRemoteAddress(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) || sfConfig::get('project_network_ipv6_ready',true),
       'on' => filter_var($request->getRemoteAddress(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)
     );
-    $r = parent::executeSignin($request);
-    $this->form->disableCSRFProtectionOnUserAgent();
-    return $r;
+    return parent::executeSignin($request);
   }
   public function executeError404(sfWebRequest $request)
   {

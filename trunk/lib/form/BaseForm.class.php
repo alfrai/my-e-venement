@@ -19,10 +19,12 @@ class BaseForm extends sfFormSymfony
   
   public function disableCSRFProtectionOnUserAgent()
   {
-    if ( sfContext::hasInstance() 
-      && sfContext::getInstance()->getRequest() instanceof sfWebRequest 
+    if ( sfContext::hasInstance()
+      && sfContext::getInstance()->getRequest() instanceof sfWebRequest
       && strpos(sfContext::getInstance()->getRequest()->getUserAgent(), 'e-venement-app/') === 0 )
+    {
       $this->disableCSRFProtection();
+    }
     
     return $this;
   }

@@ -15,5 +15,6 @@ class sfGuardFormSignin extends BasesfGuardFormSignin
    */
   public function configure()
   {
+    $this->disableCSRFProtectionOnUserAgent();
   }
 }
