@@ -32,6 +32,7 @@ generator:
         batch_actions:
           _printTickets:
             label: Print tickets
+            credentials: [tck-print-ticket]
         object_actions:
           _showUp:
             action: show

@@ -6,3 +6,5 @@ show:
   credentials: [tck-reports]
 filter:
   credentials: [tck-reports]
+printTickets:
+  credentials: [tck-print-ticket]
