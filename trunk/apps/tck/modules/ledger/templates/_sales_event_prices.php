@@ -25,7 +25,7 @@
           $taxes += $manif->Tickets[$j]->taxes;
           if ( !isset($x[$manif->Tickets[$j]->vat]) )
             $x[$manif->Tickets[$j]->vat] = 0;
-          $x[$manif->Tickets[$j]->vat] += round($manif->Tickets[$j]->value+$manif->Tickets[$j]->taxes - ($manif->Tickets[$j]->value+$manif->Tickets[$j]->taxes)/(1+$manif->Tickets->get($j)->vat),2);
+          $x[$manif->Tickets[$j]->vat] += round($manif->Tickets[$j]->value+$manif->Tickets[$j]->taxes - ($manif->Tickets[$j]->value+$manif->Tickets[$j]->taxes)/(1+$manif->Tickets[$j]->vat),2);
         }
         $i += $k-1;
         echo $qty;

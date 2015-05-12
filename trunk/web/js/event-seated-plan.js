@@ -279,6 +279,16 @@
       }).prependTo(ref)
       .clone(true).addClass('txt').prependTo(ref)
       
+      // avoiding triggering the mouseup() & mousedown() Event on .picture
+      .mouseup(function(event){
+        event.stopPropagation();
+        return false;
+      })
+      .mousedown(function(event){
+        event.stopPropagation();
+        return false;
+      })
+      
       // plot removal
       .dblclick(function(event){
         // reset a seat allocation ...
@@ -441,8 +451,8 @@
         }).prependTo(ref);
       
       // adding a behaviour to pre-seat
-      $('.sf_admin_form_field_show_picture .picture .anti-handling').mousemove(function(event){
-        var ref = $(this).closest('.picture');
+      $('.sf_admin_form_field_show_picture .picture').mousemove(function(event){
+        var ref = $(this);
         
         if ( scale == undefined )
           var scale = ref.attr('data-scale') ? parseFloat(ref.attr('data-scale')) : 1;
