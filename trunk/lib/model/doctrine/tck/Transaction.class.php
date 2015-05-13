@@ -138,13 +138,26 @@ class Transaction extends PluginTransaction
   {
     if ( $all_inclusive === true )
     {
+      $mc = 0;
+      if ( $this->MemberCards->count() > 0 )
+      {
+        $mc = $this->getMemberCardPrice($including_not_printed);
+        $tltmc = $this->getTicketsLinkedToMemberCardPrice($including_not_printed);
+        if ( $tltmc > $mc )
+          $mc = 0;
+        else
+          $mc -= $tltmc;
+      }
+      
       return $this->getTicketsPrice($including_not_printed)
-        + $this->getMemberCardPrice($including_not_printed)
         + $this->getProductsPrice($including_not_printed)
-        - $this->getTicketsLinkedToMemberCardPrice($including_not_printed);
+        + $mc
+      ;
     }
     
-    return $this->getTicketsPrice($including_not_printed) + $this->getProductsPrice($including_not_printed);
+    return $this->getTicketsPrice($including_not_printed)
+      + $this->getProductsPrice($including_not_printed)
+    ;
   }
   public function getMemberCardPrice($including_not_activated = false)
   {
