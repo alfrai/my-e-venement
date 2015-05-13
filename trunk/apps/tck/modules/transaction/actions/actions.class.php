@@ -40,10 +40,6 @@ class transactionActions extends autoTransactionActions
   {
     $this->redirect('transactionsList/index');
   }
-  public function executeBatchPrint(sfWebRequest $request)
-  {
-    $this->ids = explode('-',$request->getParameter('ids'));
-  }
   public function executeDispatch(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));

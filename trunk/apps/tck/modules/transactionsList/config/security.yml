@@ -6,5 +6,5 @@ show:
   credentials: [tck-reports]
 filter:
   credentials: [tck-reports]
-printTickets:
+batch:   #batchPrintTickets:
   credentials: [tck-print-ticket]

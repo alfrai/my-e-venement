@@ -42,7 +42,7 @@ class transactionsListActions extends autoTransactionsListActions
     }
     
     if ( count($this->success) > 0 )
-      $this->redirect('transaction/batchPrint?ids='.implode('-', $this->success));
+      $this->redirect('ticket/print?ids='.implode('-', $this->success));
     
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->getUser()->setFlash('error', __('No given transaction has any printable ticket.'));

@@ -30,7 +30,6 @@
     
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
-      ->andWhere('t.id = ?',$request->getParameter('id'))
       ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
       ->andWhere('tck.price_id IS NOT NULL')
       ->leftJoin('m.Location l')
@@ -40,7 +39,15 @@
       ->leftJoin('e.Companies c')
       ->leftJoin('tck.Gauge g')
       ->leftJoin('g.Workspace ws')
-      ->orderBy('m.happens_at, tck.price_name, tck.id');
+      ->orderBy('m.happens_at, tck.price_name, tck.id')
+    ;
+    $this->ids = array();
+    if ( $request->getParameter('id', false) )
+      $this->ids[] = $request->getParameter('id');
+    if ( $request->getParameter('ids', false) )
+    foreach ( explode('-',$request->getParameter('ids')) as $id )
+      $this->ids[] = $id;
+    $q->andWhereIn('t.id',$this->ids);
     
     // partial printing
     $this->toprint = array();
@@ -53,11 +60,12 @@
       $q->andWhereIn('tck.id',$tids);
     }
     
-    $this->transaction = $q->fetchOne();
+    $this->transactions = $q->execute();
     $this->manifestation_id = $request->getParameter('manifestation_id');
     
     // if any ticket needs a seat, do what's needed
-    $this->redirectToSeatsAllocationIfNeeded('print');
+    foreach ( $this->transactions as $this->transaction )
+      $this->redirectToSeatsAllocationIfNeeded('print');
     
     $fingerprint = NULL;
     $this->print_again = false;
@@ -74,7 +82,8 @@
       $fingerprint = date('YmdHis').'-'.$this->getUser()->getId();
       $this->grouped_tickets = true;
       
-      foreach ( $this->transaction->Tickets as $ticket )
+      foreach ( $this->transactions as $transaction )
+      foreach ( $transaction->Tickets as $ticket )
       {
         try {
           // member cards
@@ -155,7 +164,8 @@
     // normal / not grouped tickets
     else
     {
-      foreach ( $this->transaction->Tickets as $ticket )
+      foreach ( $this->transactions as $transaction )
+      foreach ( $transaction->Tickets as $ticket )
       {
         try {
           // duplicates
@@ -291,8 +301,9 @@
       }
     }
 
+    foreach ( $this->transactions as $transaction )
     $this->dispatcher->notify(new sfEvent($this, 'tck.tickets_print', array(
-      'transaction' => $this->transaction,
+      'transaction' => $transaction,
       'tickets'     => $this->tickets,
       'duplicate'   => $this->duplicate,
       'user'        => $this->getUser(),
@@ -301,7 +312,9 @@
     if (!( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 ))
       return 'Success';
     
-    $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
+    $this->content = '';
+    foreach ( $this->transactions as $transaction )
+      $this->content .= $transaction->renderSimplifiedTickets(array('only' => $this->tickets));
     if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
     {
       $this->setLayout(false);
