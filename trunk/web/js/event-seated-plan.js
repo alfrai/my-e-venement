@@ -249,7 +249,7 @@
     // adding the seat / plot
     var seat = $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
       .attr('title', name
-        + (data.info ? ' ('+data.info+')' : '')
+        + (data.info ? ' - '+data.info : '')
         + (data.rank ? ' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+data.rank+')' : '')
         + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+' #'+occupied.ticket_id+')' : '')
       )

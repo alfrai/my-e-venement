@@ -37,6 +37,7 @@ class PriceForm extends BasePriceForm
       ->setOption('expanded',true)
       ->setOption('order_by',array('name',''));
     unset(
+      $this->widgetSchema['gauges_list'],
       $this->widgetSchema['member_cards_list'],
       $this->validatorSchema['member_cards_list'],
       $this->widgetSchema['manifestations_list']
