@@ -1,3 +1,4 @@
+<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')); ?>
 generator:
   class: sfDoctrineGenerator
   param:
@@ -47,6 +48,10 @@ generator:
         table_method: retreiveOrderedList
         sort: ['l.name, w.name', '']
         max_per_page: 50
+        batch_actions:
+          _delete: ~
+          _merge:
+            label: <?php echo __('Share pictures').PHP_EOL ?>
         object_actions:
           _edit: ~
           _delete: ~

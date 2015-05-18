@@ -36,6 +36,29 @@ require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
  */
 class seated_planActions extends autoSeated_planActions
 {
+  public function executeBatchMerge(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    if ( count($ids = $request->getParameter('ids')) < 2 )
+    {
+      $this->getUser()->setFlash('notice', __('Please choose more than one record...'));
+      return;
+    }
+    
+    $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+      ->andWhereIn('sp.id', $ids)
+    ;
+    $picid = NULL;
+    foreach ( $plans = $q->execute() as $plan )
+    if ( is_null($picid) )
+      $picid = $plan->picture_id;
+    else
+      $plan->picture_id = $picid;
+    
+    $this->getUser()->setFlash('notice', __('The selected plans are now sharing their pictures.'));
+    $plans->save();
+  }
   public function executeGetHoldSeats(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/get-hold-seats.php');

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The selected plans are now sharing their pictures.</source>
+        <target>Les plans sélectionnés partagent maintenant leurs images.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Please choose more than one record...</source>
+        <target>Sélectionnez au moins deux lignes...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Share pictures</source>
+        <target>Partager les images</target>
+      </trans-unit>
+      <trans-unit>
         <source>iCal/ICS File</source>
         <target>Fichier iCal/ICS</target>
       </trans-unit>
