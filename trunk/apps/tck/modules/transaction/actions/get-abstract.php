@@ -257,7 +257,7 @@
             //->leftJoin('pgp.Translation pgpt WITH pgpt.lang = ?', $this->getUser()->getCulture())
             ->leftJoin('g.Workspace w')
             ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
-            //->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, pmpt.name, pgpt.name')
+            //->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, pmpt.name, pgpt.name') // BUG 2015-05-13 3è étage: selecting translations from PriceGauges & PriceManifestations is impossible: Couldn't hydrate. Found non-unique key mapping named 'lang'.
             ->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name')
             ->leftJoin('pmp.WorkspacePrices pmpwp WITH pmpwp.workspace_id = w.id')
             ->leftJoin('pmp.UserPrices      pmpup WITH pmpup.sf_guard_user_id = ?',$this->getUser()->getId())
@@ -424,7 +424,7 @@
               continue;
             
             // then add the price...
-            $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['available_prices'][] = array(
+            $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['available_prices'][$pp->Price.' '.$pp->price_id] = array(
               'id'  => $pp->price_id,
               'name'  => (string)$pp->Price,
               'description'  => $pp->Price->description,
@@ -433,6 +433,7 @@
               'currency' => '€',
             );
           }
+          ksort($this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['available_prices']);
         }
       }
       
@@ -551,6 +552,8 @@
     foreach ( $product[$product['declinations_name']] as $did => $declination )
     if ( count($declination['prices']) == 0 && count($declination['available_prices']) == 0 )
       unset($this->json[$pid][$this->json[$product->id]['declinations_name']][$gid]);
+    else
+      ksort($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices']);
     
     $this->json = array(
       'error' => array(false, ''),

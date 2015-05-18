@@ -58,19 +58,24 @@ abstract class PluginTicket extends BaseTicket
       $this->Gauge = $q->fetchOne();
     }
     
+    // get back the manifestation_id if not already set
+    if ( !$this->manifestation_id && $this->gauge_id )
+    {
+      $this->Manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
+        ->leftJoin('m.Gauges g')
+        ->andWhere('g.id = ?',$this->gauge_id)
+        ->fetchOne();
+    }
+    
     // the prices
     if ( (is_null($this->value) || is_null($this->price_id))
       && (!is_null($this->price_name) || !is_null($this->price_id))
       && !is_null($this->gauge_id) )
     {
       $q = Doctrine::getTable('Price')->createQuery('p')
-        ->leftJoin('p.PriceManifestations pm')
-        ->leftJoin('pm.Manifestation mpm')
-        ->leftJoin('mpm.Gauges gpm')
-        ->leftJoin('p.PriceGauges pg')
-        ->leftJoin('pg.Gauge gpg')
-        ->leftJoin('gpg.Manifestation m')
-        ->andWhere('(gpm.id = ? OR gpg.id = ?)', array($this->gauge_id, $this->gauge_id))
+        ->leftJoin('p.PriceManifestations pm WITH pm.manifestation_id = ?', $this->manifestation_id)
+        ->leftJoin('p.PriceGauges pg WITH pg.gauge_id = ?', $this->gauge_id)
+        ->andWhere('(pm.id IS NOT NULL OR pg.id IS NOT NULL)')
         ->orderBy('pm.value DESC, pg.value DESC, pt.name')
       ;
       
@@ -101,7 +106,7 @@ abstract class PluginTicket extends BaseTicket
           $this->value    = $price->PriceGauges->count() > 0
             ? $price->PriceGauges[0]->value
             : $price->PriceManifestations[0]->value;
-      
+        
         $this->Price = $price;
       }
     }
@@ -115,15 +120,6 @@ abstract class PluginTicket extends BaseTicket
     
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
-    
-    // get back the manifestation_id if not already set
-    if ( !$this->manifestation_id && $this->gauge_id )
-    {
-      $this->Manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
-        ->leftJoin('m.Gauges g')
-        ->andWhere('g.id = ?',$this->gauge_id)
-        ->fetchOne();
-    }
     
     // the holds: we can book a seated ticket within a hold only if its transaction is a HoldTransaction
     if ( $this->seat_id && $this->Seat instanceof Seat

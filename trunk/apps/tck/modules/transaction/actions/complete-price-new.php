@@ -88,7 +88,7 @@ $this->json['success']['success_fields'][$field]['data'] = array(
   ),
 );
 
-// Pay what you want feature
+// "Pay what you want" feature
 $pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
   ->leftJoin('pp.Product p')
   ->leftJoin('p.Declinations d')
