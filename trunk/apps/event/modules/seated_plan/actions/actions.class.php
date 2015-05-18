@@ -53,8 +53,11 @@ class seated_planActions extends autoSeated_planActions
     foreach ( $plans = $q->execute() as $plan )
     if ( is_null($picid) )
       $picid = $plan->picture_id;
-    else
+    elseif ( $plan->picture_id != $picid )
+    {
+      $plan->Picture->delete();
       $plan->picture_id = $picid;
+    }
     
     $this->getUser()->setFlash('notice', __('The selected plans are now sharing their pictures.'));
     $plans->save();
