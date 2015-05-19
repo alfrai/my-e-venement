@@ -194,7 +194,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
   public function getFields()
   {
     return array_merge(array(
-      'organism_id' => 'Organism Id',
+      'organism_id' => 'OrganismId',
       'name'        => 'Name',
       'city'        => 'City',
     ), parent::getFields());

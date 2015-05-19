@@ -207,6 +207,11 @@ else
 fi
 
 echo ""
+echo "Updating Tickets' taxes to avoid NULL data"
+echo 'UPDATE ticket SET taxes = 0 WHERE taxes IS NULL;' | psql;
+echo "... done."
+
+echo ""
 echo "Creating SQL needed functions ..."
 cat config/doctrine/functions-pgsql.sql | psql
 echo "... done."

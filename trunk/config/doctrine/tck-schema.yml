@@ -114,6 +114,7 @@ Ticket:
     taxes:
       type: decimal(6)
       scale: 3
+      default: 0
     contact_id: integer
     comment: string
     auto_by_hold:
