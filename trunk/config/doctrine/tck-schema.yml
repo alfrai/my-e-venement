@@ -115,6 +115,7 @@ Ticket:
       type: decimal(6)
       scale: 3
       default: 0
+      notnull: true
     contact_id: integer
     comment: string
     auto_by_hold:
