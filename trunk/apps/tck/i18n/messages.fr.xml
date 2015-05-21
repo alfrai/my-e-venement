@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Print state</source>
-        <target>État d'impression</target>
+        <source>State</source>
+        <target>État</target>
       </trans-unit>
       <trans-unit>
         <source>empty</source>

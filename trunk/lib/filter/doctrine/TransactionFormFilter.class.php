@@ -64,7 +64,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
-    $this->widgetSchema   ['print_state'] = new sfWidgetFormChoice(array(
+    $this->widgetSchema   ['state'] = new sfWidgetFormChoice(array(
       'choices' => $choices = array(
         '' => '',
         'not-empty'   => 'not empty',
@@ -74,7 +74,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
         'ordered'     => 'ordered',
       ),
     ));
-    $this->validatorSchema['print_state'] = new sfValidatorChoice(array(
+    $this->validatorSchema['state'] = new sfValidatorChoice(array(
       'choices' => $choices,
       'required' => false,
     ));
@@ -169,7 +169,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     
     return $query;
   }
-  public function addPrintStateColumnQuery(Doctrine_Query $q, $field, $value)
+  public function addStateColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $t = $q->getRootAlias();
     
@@ -217,7 +217,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'organism_id' => 'OrganismId',
       'name'        => 'Name',
       'city'        => 'City',
-      'print_state' => 'PrintState',
+      'state' => 'State',
     ), parent::getFields());
   }
 }

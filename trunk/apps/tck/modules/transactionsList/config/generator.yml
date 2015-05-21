@@ -24,7 +24,6 @@ generator:
         list_order: { label: Order }
         list_invoice: { label: Invoice }
         list_price: { label: Total }
-        empty: { label: Empty? }
       list:
         actions:
           _new:
@@ -46,7 +45,7 @@ generator:
           Internals:
             [closed, created_at, created_by, updated_at, sf_guard_user_id, transaction_id]
           Externals:
-            [contact_id, organism_id, manifestation_id, hold_id, print_state]
+            [contact_id, organism_id, manifestation_id, hold_id, state]
       form:    ~
       edit:    ~
       new:     ~
