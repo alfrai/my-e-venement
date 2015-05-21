@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Internals</source>
+        <target>Internes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>externals</source>
+        <target>Externes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your Hold is not seatable, maybe because you have chosen an unreachable price for the targetted gauges.</source>
         <target>Votre retenue n'est pas plaçable, peut-être parce que vous avez choisi un tarif indisponible sur les jauges visées.</target>
       </trans-unit>
