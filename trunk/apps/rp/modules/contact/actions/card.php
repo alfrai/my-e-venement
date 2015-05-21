@@ -16,9 +16,9 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
 *    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
-*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -94,6 +94,17 @@
           $this->getContext()->getConfiguration()->loadHelpers('I18N');
           $this->getUser()->setFlash('error', __($e->getMessage()));
           $this->redirect('contact/card?id='.$this->card->contact_id);
+        }
+        
+        // for multiple cards
+        for ( $i = 0 ; $i < $request->getParameter('qty', 1) ; $i++ )
+        {
+          error_log('new card copy');
+          $this->card = $this->card->copy();
+          if ( isset($payment) )
+            $this->card->Payments[] = $payment->copy();
+          $this->transaction->MemberCards[] = $this->card;
+          $this->card->save();
         }
       }
       else

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Quantity</source>
+        <target>Quantité</target>
+      </trans-unit>
+      <trans-unit>
         <source>Image integrated properly into the content of your email.</source>
         <target>Image intégrée correctement au corps de votre courriel.</target>
       </trans-unit>

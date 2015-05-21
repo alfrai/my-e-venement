@@ -19,6 +19,10 @@
       <label for="duplicate"><?php echo __('Duplicata') ?></label>
       <input type="checkbox" name="duplicate" value="yes" title="<?php echo __("Duplicates the last card instead of creating a new one") ?>"/>
     </span>
+    <span id="card_qty">
+      <label for="qty"><?php echo __('Quantity') ?></label>
+      <input type="number" min="1" max="99" name="qty" value="1" />
+    </span>
     <span id="card_type_actions">
       <input type="submit" name="submit" value="Ok" />
       <span title="<?php echo __('Optional, printing date') ?>"><?php $date = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture())); echo $date->render('member_card[created_at]'); ?></span>

@@ -15,3 +15,7 @@
     <?php include_partial('card_list',array('contact' => $contact,)) ?>
   </div>
 </form>
+
+<div id="i18n">
+  <span class="confirm"><?php echo __('Are you sure?', null, 'sf_admin') ?></span>
+</div>
