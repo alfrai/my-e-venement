@@ -219,8 +219,11 @@ class myUser extends pubUser
   
   public function getGuardUser()
   {
+    if ( !sfConfig::get('app_open', false) )
+      return false;
+    
     if (!$this->user )
-      $this->user = Doctrine::getTable('sfGuardUser')->retrieveByUsername(sfConfig::get('app_user_templating'));
+      $this->user = Doctrine::getTable('sfGuardUser')->retrieveByUsername(sfConfig::get('app_user_templating',-1));
     
     if (!$this->user)
     {
@@ -233,7 +236,8 @@ class myUser extends pubUser
     return $this->user;
   }
 
-  public function getWorkspacesCredentials() {
+  public function getWorkspacesCredentials()
+  {
     $this->getGuardUser();
     if ( $this->workspaces )
       return $this->workspaces;

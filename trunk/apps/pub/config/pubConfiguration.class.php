@@ -360,7 +360,7 @@ class pubConfiguration extends sfApplicationConfiguration
         ->leftJoin('t.BoughtProducts bp WITH bp.integrated_at IS NOT NULL')
         ->andWhere('bp.id IS NULL')
         ->leftJoin('t.User u')
-        ->andWhere('u.username = ?', sfConfig::get('app_user_templating'))
+        ->andWhere('u.username = ?', sfConfig::get('app_user_templating', -1))
         ->andWhere('t.created_at < ?', $date = date('Y-m-d H:i:s', strtotime($cart_timeout.' ago')))
       ;
       $transactions = $q->execute();
@@ -373,7 +373,7 @@ class pubConfiguration extends sfApplicationConfiguration
       $this->stdout($section, "[OK] $nb transactions closed", 'INFO');
       
       $nb = Doctrine_Query::create()->from('Ticket')
-        ->andWhere('id IN ('.$q->select('tck.id').')', array(false, sfConfig::get('app_user_templating'), $date))
+        ->andWhere('id IN ('.$q->select('tck.id').')', array(false, sfConfig::get('app_user_templating', -1), $date))
         ->delete()
         ->execute()
       ;
