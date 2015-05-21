@@ -46,14 +46,6 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
-    $this->widgetSchema   ['empty'] = new sfWidgetFormChoice(array(
-      'choices' => $arr = array(0 => 'yes or no', 1 => 'yes', -1 => 'no'),
-    ));
-    $this->validatorSchema['empty'] = new sfValidatorChoice(array(
-      'choices' => array_keys($arr),
-      'required' => false,
-    ));
-    
     $this->widgetSchema   ['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url'   => cross_app_url_for('event','manifestation/ajax'),
@@ -69,6 +61,21 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     ));
     $this->validatorSchema['hold_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Hold',
+      'required' => false,
+    ));
+    
+    $this->widgetSchema   ['print_state'] = new sfWidgetFormChoice(array(
+      'choices' => $choices = array(
+        '' => '',
+        'not-empty'   => 'not empty',
+        'empty'       => 'empty',
+        'not-printed' => 'not printed',
+        'printed'     => 'printed',
+        'ordered'     => 'ordered',
+      ),
+    ));
+    $this->validatorSchema['print_state'] = new sfValidatorChoice(array(
+      'choices' => $choices,
       'required' => false,
     ));
     
@@ -101,35 +108,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     
     return $q;
   }
-  public function addEmptyColumnQuery(Doctrine_Query $q, $field, $values)
-  {
-    if ( !$values )
-      return $q;
     
-    $t = $q->getRootAlias();
-    $q->leftJoin("$t.Order order")
-      ->leftJoin("$t.Invoice i")
-      ->leftJoin("$t.Payments pay")
-    ;
-    
-    if ( $values == -1 ) // no
-      $q->andWhere('(TRUE')
-        ->andWhere('tck.id IS NOT NULL')
-        ->orWhere('order.id IS NOT NULL')
-        ->orWhere('i.id IS NOT NULL')
-        ->orWhere('pay.id IS NOT NULL')
-        ->andWhere('TRUE)')
-      ;
-    elseif ( $values == 1 )
-      $q->andWhere('tck.id IS NULL')
-        ->andWhere('order.id IS NULL')
-        ->andWhere('i.id IS NULL')
-        ->andWhere('pay.id IS NULL')
-      ;
-
-    
-    return $q;
-  }
   public function addCreatedByColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )
@@ -190,6 +169,47 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     
     return $query;
   }
+  public function addPrintStateColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $t = $q->getRootAlias();
+    
+    if ( !$q->contains("LEFT JOIN $t.Order order") )
+      $q->leftJoin("$t.Order order");
+    if ( !$q->contains("LEFT JOIN $t.Invoice i") )
+      $q->leftJoin("$t.Invoice i");
+    if ( !$q->contains("LEFT JOIN $t.Payments pay") )
+      $q->leftJoin("$t.Payments pay");
+    
+    switch ( $value ) {
+    case 'ordered':
+      $q->andWhere('order.id IS NOT NULL AND tck.printed_at IS NULL AND tck.integrated_at IS NULL');
+      break;
+    case 'printed':
+      $q->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL');
+      break;
+    case 'not-printed':
+      $q->andWhere('order.id IS NULL AND tck.printed_at IS NULL AND tck.integrated_at IS NULL');
+      break;
+    case 'not-empty':
+      $q->andWhere('(TRUE')
+        ->andWhere('tck.id IS NOT NULL')
+        ->orWhere('order.id IS NOT NULL')
+        ->orWhere('i.id IS NOT NULL')
+        ->orWhere('pay.id IS NOT NULL')
+        ->andWhere('TRUE)')
+      ;
+      break;
+    case 'empty':
+      $q->andWhere('tck.id IS NULL')
+        ->andWhere('order.id IS NULL')
+        ->andWhere('i.id IS NULL')
+        ->andWhere('pay.id IS NULL')
+      ;
+      break;
+    }
+    
+    return $q;
+  }
 
   public function getFields()
   {
@@ -197,6 +217,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'organism_id' => 'OrganismId',
       'name'        => 'Name',
       'city'        => 'City',
+      'print_state' => 'PrintState',
     ), parent::getFields());
   }
 }

@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Print state</source>
+        <target>État d'impression</target>
+      </trans-unit>
+      <trans-unit>
+        <source>empty</source>
+        <target>vide</target>
+      </trans-unit>
+      <trans-unit>
+        <source>not empty</source>
+        <target>non vide</target>
+      </trans-unit>
+      <trans-unit>
+        <source>printed</source>
+        <target>imprimé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>ordered</source>
+        <target>réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>not printed</source>
+        <target>non imprimé</target>
+      </trans-unit>
+      <trans-unit>
         <source>Internals</source>
         <target>Internes</target>
       </trans-unit>
