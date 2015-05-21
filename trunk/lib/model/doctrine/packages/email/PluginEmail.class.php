@@ -18,6 +18,11 @@ abstract class PluginEmail extends BaseEmail
   public $mailer          = NULL;
   public $from_txt        = NULL;
   
+  protected function isNewsletter()
+  {
+    return $this->Contacts->count() + $this->Professionals->count() + $this->Organisms->count() > 1;
+  }
+  
   protected function send()
   {
     if ( !$this->to )
@@ -25,22 +30,24 @@ abstract class PluginEmail extends BaseEmail
     if ( !is_array($this->to) )
       $this->to = array($this->to);
     
+    // is this a newsletter or not ?
+    
     // sending one by one to linked ...
     // contacts
     foreach ( $this->Contacts as $contact )
-    if ( $contact->email && !$contact->email_no_newsletter )
+    if ( $contact->email && !($this->isNewsletter() && $contact->email_no_newsletter) )
       $this->to[] = trim($contact->email);
     // professionals
     foreach ( $this->Professionals as $pro )
-    if ( $pro->contact_email && !$pro->contact_email_no_newsletter )
+    if ( $pro->contact_email && !($this->isNewsletter() && $pro->contact_email_no_newsletter) )
       $this->to[] = trim($pro->contact_email);
-    else if ( $pro->Organism->email && !$pro->Organism->email_no_newsletter )
+    else if ( $pro->Organism->email && !($this->isNewsletter() && $pro->Organism->email_no_newsletter) )
       $this->to[] = trim($pro->Organism->email);
-    else if ( $pro->Contact->email && !$pro->Contact->email_no_newsletter )
+    else if ( $pro->Contact->email && !($this->isNewsletter() && $pro->Contact->email_no_newsletter) )
       $this->to[] = trim($pro->Contact->email);
     // organisms
     foreach ( $this->Organisms as $organism )
-    if ( $organism->email && !$organism->email_no_newsletter )
+    if ( $organism->email && !($this->isNewsletter() && $organism->email_no_newsletter) )
       $this->to[] = trim($organism->email);
     
     // concatenate addresses
