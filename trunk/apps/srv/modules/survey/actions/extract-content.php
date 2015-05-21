@@ -57,6 +57,7 @@ foreach ( $this->survey->Queries as $query )
 // lines
 $i = 0;
 foreach ( $this->survey->AnswersGroups as $group )
+if ( $group->Answers->count() > 0 )
 {
   $this->lines[$i] = array();
   $this->lines[$i]['name'] = (string)$group->Contact;
