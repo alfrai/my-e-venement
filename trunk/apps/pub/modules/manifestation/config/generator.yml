@@ -20,6 +20,7 @@ generator:
         formatted_date: { label: Date }
         happens_at_time_h_r: { label: Time }
         list_tickets: { label: Tickets }
+        list_picture: { label: '' }
       list:
         object_actions: []
         actions: []
