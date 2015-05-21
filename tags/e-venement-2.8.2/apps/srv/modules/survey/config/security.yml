@@ -1,0 +1,21 @@
+all:
+  credentials: [srv-access]
+
+update:
+  credentials: [srv-survey-edit]
+
+new:
+  credentials: [srv-survey-new]
+create:
+  credentials: [srv-survey-new]
+
+delete:
+  credentials: [srv-survey-del]
+batchDelete:
+  credentials: [srv-survey-del]
+
+extract:
+  credentials: [srv-extract]
+extractContent:
+  credentials: [srv-extract]
+

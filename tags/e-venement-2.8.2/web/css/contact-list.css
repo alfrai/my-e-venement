@@ -1,0 +1,28 @@
+.sf_admin_list_td_list_emails .org,
+.sf_admin_list_td_list_professional_emails .org { font-style: italic; }
+.sf_admin_list .sf_admin_list_td_list_professional,
+.sf_admin_list .sf_admin_list_td_list_professional_description,
+.sf_admin_list .sf_admin_list_td_list_organism_postalcode,
+.sf_admin_list .sf_admin_list_td_list_professional_emails li,
+.sf_admin_list .sf_admin_list_td_list_organism_city,
+.sf_admin_list .sf_admin_list_td_city,
+.sf_admin_list .sf_admin_list_td_list_phones,
+.sf_admin_list .sf_admin_list_td_list_organism_phones_list,
+.sf_admin_list .sf_admin_list_td_list_emails { max-width: 60px; font-size: 80%; }
+
+.sf_admin_list .sf_admin_list_td_list_professional,
+.sf_admin_list .sf_admin_list_td_list_professional_emails li,
+.sf_admin_list .sf_admin_list_td_list_organism,
+.sf_admin_list .sf_admin_list_td_city,
+.sf_admin_list .sf_admin_list_td_list_organism_city,
+.sf_admin_list .sf_admin_list_td_organisms_list,
+.sf_admin_list .sf_admin_list_td_list_emails li { white-space: nowrap; }
+
+.sf_admin_list .sf_admin_list_td_list_organism_city { max-width: 100px; }
+.sf_admin_list .sf_admin_list_td_list_contact { max-width: 90px; }
+.sf_admin_list .sf_admin_list_td_list_professional { max-width: 100px; }
+.sf_admin_list .sf_admin_list_td_list_organism,
+.sf_admin_list .sf_admin_list_td_organisms_list { max-width: 145px; }
+.sf_admin_list td:last-child { max-width: 50px; }
+
+.sf_admin_list .sf_admin_row .sf_admin_list_td_list_nb { text-align: right; }

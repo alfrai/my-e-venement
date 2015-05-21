@@ -1,0 +1,63 @@
+default:
+  javascripts: [jquery,menu]
+
+printSuccess:
+  javascripts: [-*, jquery, print-tickets, /private/print-tickets.js?<?php echo date('Ymd') ?>]
+  stylesheets: [-*, print-tickets.default.css: {media: all}, print-tickets.<?php echo sfConfig::get('app_tickets_type', 'boca') ?>.css: { media: all }, /private/print-tickets.css?<?php echo date('Ymd') ?>: {media: all}]
+orderSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css?<?php echo date('Ymd') ?>: {media: all}]
+invoiceSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css?<?php echo date('Ymd') ?>: {media: all}]
+
+gaugeSuccess:
+  stylesheets: [gauge]
+sellSuccess:
+  javascripts: [/private/ticket.js, event-seated-plan]
+  stylesheets: [print-sell: { media: print }, /private/ticket.css, event-seated-plan]
+touchscreenSuccess:
+  stylesheets: [ticket-touchscreen]
+
+controlResult:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+controlSuccess:
+  stylesheets: [ticket, tck-control]
+  javascripts: [tck-control?<?php echo date('Ymd') ?>, /private/tck-control?<?php echo date('Ymd') ?>, helper?<?php echo date('Ymd') ?>]
+checkpointAjaxJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+  
+duplicateSuccess:
+  stylesheets: [ticket-cancel]
+cancelSuccess:
+  stylesheets: [ticket-cancel]
+cancelBootSuccess:
+  stylesheets: [ticket-cancel]
+canceledTicketSuccess:
+  stylesheets: [ticket]
+integrateSuccess:
+  stylesheets: [ticket-integrate]
+batchIntegrateSuccess:
+  javascripts: [ticket-batch-integrate]
+
+showSelect:
+  stylesheets: [ticket-show]
+showSuccess:
+  stylesheets: [ticket-show]
+
+cancelBootSuccess:
+  javascripts: [jquery,menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
+  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
+
+seatsAllocationSuccess:
+  javascripts: [event-seated-plan]
+  stylesheets: [event-seated-plan, event-hold]
+resetASeatSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        

@@ -1,0 +1,45 @@
+Pour gérer les fermetures de structure, voici une astuce efficace :
+
+== la base ==
+
+- créer un méta-événement "ouverture / fermeture structure"
+- créer 1 événement par trimestre
+- créer un événement par type de fermeture longue (ex: vacances d'été, inventaire, ...)
+
+- toutes les manifestations citées ici sont bloquantes et confirmées
+- toutes les fermetures concernent un ou plusieurs lieux (via la réservation des ressources)
+
+
+== les ouvertures de la semaine ==
+
+- créer 1 manifestation le 1 lundi du trimestre par fermeture du lieu (la nuit, le midi, etc.), sur le ou les lieux visés
+- gérer sa périodicité sur la semaine (4 répétitions)
+- gérer la périodicité de ces 5 manifestations pour les amener jusqu'à la fin du trimestre en les répétant "toutes les semaines"
+- attention à éviter l'hémorragie de conflits si une fermeture longue intervient au milieu du trimestre
+
+
+== les fermetures longues, les vacances ==
+
+- créer une manifestation commençant le jour et l'heure de fermeture des locaux et terminant au moment de leur réouverture
+- reproduire unitairement la manipulation par période
+
+
+== ANNEXES ==
+
+=== alléger l'affichage des événements ===
+
+- il est possible de ne pas donner à certains utilisateurs l'accès aux infos de fermeture pour alléger leur affichage (bof)
+- faire un filtre pour exclure le méta-événément "ouverture / fermeture structure" de la liste des événements
+- cocher l'option "ne pas afficher dans les calendriers" dans ce méta-événement
+
+
+=== option des méta-événements "ne pas afficher dans les calendriers" ===
+
+Cette option permet de cacher les événements de ce méta-événement lorsque toutes ces conditions sont vérifiées :
+- calendrier affiché mensuellement 
+- la manifestation dure plus de 18h et s'étend sur deux jours différents
+
+Différents exemples où les manifestations sont qd mm affichées, malgré leur appartenance à un méta-événement "non affiché dans les calendriers" :
+- une manifestation de 26h, du mardi 20h au mercredi 22h sera affichée
+- une manifestation de 20h, du mardi 20h au mercredi 16h sera affichée
+- toutes les manifestations du méta-événement caché, lorsque la vue du calendrier est hebdomadaire ou quotidienne

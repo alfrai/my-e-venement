@@ -1,0 +1,48 @@
+== de la v2.5 à la v2.6 ==
+
+1. préparer un email de compte rendu en récupérant les emails de ces utilisateurs
+2. créer des comptes jabber pour les principaux utilisateurs (cf. doc dans "sysadmin" sur Zimbreizh), et prévoir un salon pour la structure
+3. svn switch svn+ssh://svn.gna.org/svn/e-venement/branches/v2.6   (supprimer les fichiers locaux sources de conflits et reprendre l'update)
+4. bin/migration-to-v26.sh [DB] [USER]
+5. paramétrer Jappix : http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml
+6. paramétrer les utilisateurs un par un pour leur ajouter un compte jabber
+7. vérifier le groupe de permissions event-reservation-admin
+8. paramétrer le flux RSS a utiliser sur l'écran principal, dans apps/default/config/app.yml (cf. fin de doc pour le modèle)
+9. envoyer le courriel de compte-rendu
+
+
+== ANNEXES ==
+
+=== apps/default/config/app.yml ===
+
+all:
+  sf_guard:
+    display_group_description: true # visibilité, en français, de ce que veulent dire les permissions
+  feed:
+    url: http://www.e-venement.net/feed/ # le feed "commercial" d'e-venement via le .net
+    name: e-venement.net
+
+
+=== Jabber ===
+
+extrait du fichier 
+Libre%20Informatique/02_Logiciels/01_E-venement/05_Gestion_de_projet/03-Versions
+
+JABBER
+Hôte:
+cornu.libre-informatique.fr / jabber.libre-informatique.fr
+
+Ajouter un compte:
+sudo ejabberdctl register [compte] [domaine] [passwd]
+
+Modifier un mot de passe:
+sudo ejabberdctl change_password [compte] [domaine] [password]
+
+E-VENEMENT
+config/project.yml: L'option "enable: true" est nécessaire pour que la fonctionnalité soit activée dans e-venement.
+Configurer ensuite les comptes via Paramétrage > Général > Messagerie
+
+JAPPIX
+https://e-venement.mydomain.tld/liJappixPlugin/
+
+

@@ -1,0 +1,61 @@
+html body #content { width: auto; margin-right: 100px; overflow: hidden; }
+html body #more:hover { width: 255px; }
+html body #more { width: 70px; right: 10px; overflow: hidden; left: auto; }
+
+html body #more { display: none; }
+html body #content { margin-right: 0; }
+
+#sf_fieldset_spectators .ticket-ids { display: none; }
+#sf_fieldset_spectators tbody .transaction { text-align: right; }
+
+#sf_fieldset_unbalanced .contact { max-width: 130px; overflow: hidden; white-space: nowrap; }
+
+#sf_admin_pager td { width: 10%; }
+#sf_admin_pager td.left { display: none; }
+#sf_admin_pager td.left { display: none; }
+
+#form_workspaces .gauge-transferts { vertical-align: middle; }
+#form_workspaces .gauge-transferts p { text-align: center; }
+#form_workspaces .gauge-transferts .ui-icon { cursor: pointer; background-image: url(../sfAdminThemejRollerPlugin/css/jquery/base/images/ui-icons_454545_256x240.png); transform: rotate(180deg); font-size: 0; }
+#form_workspaces .gauge-transferts.active .ui-icon { background-position: -80px -80px; }
+#form_workspaces #sf_admin_list_th_chained { font-size: 0; }
+
+.sf_admin_field_prices_list table { padding: 3px 10px; }
+.sf_admin_field_prices_list .name { padding-right: 10px; text-align: center; }
+.sf_admin_field_prices_list .value { padding-left: 10px; text-align: right; }
+
+.periodicities > .ui-widget-content { padding: 5px; margin: 5px 3px 0 3px; }
+
+.error.conflict a { text-decoration: none; font-size: 80%; }
+.error.conflict a:hover { text-decoration: underline; }
+
+.sf_admin_field_workspaces_list .seated-plan-parent { position: absolute !important; left: 35px; border: 1px solid silver; border-radius: 5px; display: none; margin: 75px 0 0 5px; cursor: default; background-color: white; z-index: 1; overflow-x: auto; width: 95%; height: auto; min-height: 30em; }
+.sf_admin_field_workspaces_list .seated-plan-parent.high { height: 100%; }
+.sf_admin_field_workspaces_list .gauge-gfx { display: none; }
+.sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
+.sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
+.sf_admin_field_workspaces_list .magnify { top: 500px; right: 50px; }
+.sf_admin_field_workspaces_list .seated-plan-actions .float { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
+.sf_admin_field_workspaces_list .seated-plan-actions .full { margin-left: calc(100% + 37px); }
+.sf_admin_field_workspaces_list .seated-plan-actions .close { margin-left: calc(100% + 37px + 32px); }
+.sf_admin_field_workspaces_list .seated-plan-actions .close:before { content: 'x'; }
+
+#sf_fieldset_statistics label { font-weight: normal; }
+#sf_fieldset_statistics table { margin-left: 20px; width: 98%; table-layout: fixed; }
+#sf_fieldset_statistics .seats table { width: 30em; }
+#sf_fieldset_statistics th { text-align: right; width: 11em; padding: 0 1em 0 0.5em; }
+#sf_fieldset_statistics td { margin-left: 1em; width: auto; }
+#sf_fieldset_statistics tbody td { text-align: right; }
+#sf_fieldset_statistics thead td { text-align: center; padding: 0 5px; }
+#sf_fieldset_statistics .subline td, #sf_fieldset_statistics .subline th { font-weight: normal; }
+#sf_fieldset_statistics .subline td { color: gray; }
+#sf_fieldset_statistics .percent:after { content: '%)'; }
+#sf_fieldset_statistics .percent:before { content: '('; }
+#sf_fieldset_statistics .percent { width: 4.5em; display: inline-block; }
+#sf_fieldset_statistics .percent, #sf_fieldset_statistics .money, #sf_fieldset_statistics .nb { padding-right: 0.2em; white-space: nowrap; }
+#sf_fieldset_statistics .min { border-bottom: 0; }
+#sf_fieldset_statistics .max { border-top: 0; }
+#sf_fieldset_statistics .filling-complete tbody td { font-size: 80%; }
+#sf_fieldset_statistics .filling-complete thead th a { padding-left: 24px; padding-right: 16px; float: right; }
+#sf_fieldset_statistics .filling-complete tbody .f-st-ag, #sf_fieldset_statistics .filling-complete tbody .sos-st-ag, #sf_fieldset_statistics .filling-complete tbody .f-at-ag, #sf_fieldset_statistics .filling-complete tbody .sos-at-ag { font-weight: bold; }
+#sf_fieldset_statistics h4 { margin-bottom: 1em; }

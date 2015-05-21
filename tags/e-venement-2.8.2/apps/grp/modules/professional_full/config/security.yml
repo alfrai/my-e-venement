@@ -1,0 +1,2 @@
+default:
+  credentials: [grp-events, grp-professionals]

@@ -1,0 +1,63 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Survey
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          survey
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_nb_answers_group: { credentials: [srv-answer] }
+      list:
+        display: [name, _list_nb_queries, _list_nb_answers_group]
+        object_actions:
+          _show: ~
+          _edit: ~
+          _duplicate:
+            action: duplicate
+            ui-icon: plus
+          _delete:
+            credentials: [srv-survey-del]
+        actions:
+          _new:
+            credentials: [srv-survey-new]
+        batch_actions:
+          _delete:
+            credentials: [srv-survey-del]
+      filter:
+        display: [name, weight, description]
+      form:     ~
+      edit:
+        title: Edit Survey %%name%%
+        display:
+          General: [name, description, _show_queries, _show_extract_structure]
+          Answers: [_show_answers, _show_extract_content]
+          Used by: [ApplyTo]
+          Statistics: [_show_stats]
+        actions:
+          _list: ~
+          _delete:
+            credentials: [srv-survey-del]
+          _show: ~
+          _add_query:
+            credentials: [srv-query-new]
+            action: addQuery
+            ui-icon: plus
+          _save:
+            credentials: [srv-survey-edit]
+      new:
+        display:
+          General: [name, description]
+          NULL: [_show_stats]
+      show:
+        display:
+          General: [name, description, _show_queries, _show_extract_structure]
+          Answers:     [_show_answers, _show_extract_content]
+          Statistics: [_show_stats]

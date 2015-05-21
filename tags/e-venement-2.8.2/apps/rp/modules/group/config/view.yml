@@ -1,0 +1,31 @@
+default:
+  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js, default-check-all]
+
+newSuccess:
+  stylesheets: [view, picture]
+  javascripts: [more-simple, default-check-all]
+createSuccess:
+  stylesheets: [view, picture]
+  javascripts: [more-simple, default-check-all]
+updateSuccess:
+  stylesheets: [view, picture]
+  javascripts: [more-simple, default-check-all]
+editSuccess:
+  stylesheets: [view, picture]
+  javascripts: [more-simple, default-check-all]
+showSuccess:
+  stylesheets: [view, picture]
+  javascripts: [more-simple]
+
+indexSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [print-list: {media: print}]
+
+memberJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+ajaxJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json

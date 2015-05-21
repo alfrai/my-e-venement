@@ -1,0 +1,94 @@
+.ledger-both table {
+  margin: 5px;
+}
+.ledger-both > div {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  float: left;
+  width: 424px;
+}
+
+.ledger-both #byUser, .ledger-both #gauges {
+  float: none;
+  clear: both;
+  width: calc(424px * 2 + 7px);
+}
+
+.ledger-both .nb, .ledger-both .average,
+.ledger-both .total, .ledger-both .rating,
+.ledger-both .amount {
+  text-align: right;
+}
+.ledger-both thead td {
+  text-align: left;
+}
+.ledger-both .value {
+  text-align: center;
+}
+
+.ledger-both td { padding: 0 5px; }
+.ledger-both tfoot td {
+  text-decoration: underline;
+}
+.ledger-both thead td {
+  font-weight: bold;
+}
+
+.ledger-both .overlined td {
+  background-color: #ddd;
+}
+.ledger-both tr:hover td {
+  background-color: #fff0d0;
+}
+.ledger-both tr.overlined:hover td {
+  background-color: #e4d4b1;
+}
+
+.ledger-both table {
+  margin-right: 0;
+  float: none;
+}
+        
+.ledger-both #criterias {
+  position: static;
+  float: right;
+}
+
+.ledger-both .clear {
+  float: none;
+}
+
+@media print {
+
+.ledger-both #criterias, .ledger-both .clear {
+  display: none;
+}
+
+}
+
+#content #manifestations {
+  min-height: 0;
+  margin: 10px 245px 10px 0;
+}
+#manifestations ul {
+  margin: 10px 30px;
+}
+
+#content #users {
+  min-height: 0;
+  margin: 10px 245px 10px 0;
+}
+#users ul {
+  margin: 10px 30px;
+}
+
+#byPaymentMethod p {
+  margin: 5px 5px 0 5px;
+}
+
+#gauges .nb.value { text-align: right; }
+
+.ui-widget-content .record:hover { background-color: rgba(242,241,237,0.7); }
+.ui-widget-content .record { background-image: url("../images/export.png"); text-decoration: none; background-repeat: no-repeat; background-position: center center; padding: 2px; display: inline-block; width: 16px; height: 16px; background-color: rgba(242,241,237,0.5); margin-top: -4px; }
+.ui-widget-content h1 + .record { margin-top: -24px; }
+.ui-widget-content .record span { display: none; }

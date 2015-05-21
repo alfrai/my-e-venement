@@ -1,0 +1,10 @@
+displaySuccess:
+  has_layout: false
+  http_metas:
+    content-type: image/jpeg
+  
+rawSuccess:
+  has_layout: false
+  http_metas:
+    content-type: image/jpeg
+  

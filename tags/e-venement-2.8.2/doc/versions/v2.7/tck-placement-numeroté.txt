@@ -1,0 +1,54 @@
+== objectif ==
+
+ajouter une gestion des places numérotées en billetterie
+permettre les jauges mixtes si l'ajout du placement intervient alors que des ventes ont déjà eu lieu
+
+
+== réalisation ==
+
+=== pré-requis ===
+
+cf. l'intégration de plans dans la partie événementielle
+
+
+=== comment affecter un billet à une place numérotée ? ===
+
+1. choisissez une manifestation et sa jauge numérotée
+2. ajoutez une tarif
+3. essayez de créer une réservation ou d'imprimer des billets
+3. le plan s'affichera automatiquement
+4. cliquez là où vous souhaitez ajouter vos tarifs
+5. une fois que vous aurez ajouté tous les tarifs vous passerez à ce que vous avez demandé initialement
+
+
+=== comment puis-je me rendre compte du détail de l'occupation d'une salle ? ===
+
+1. aller dans la fiche manifestation, onglet "jauges"
+2. depuis une opération de billetterie, sur la jauge habituelle, un bouton existe pour forcer l'affichage du plan, le cas échéant
+
+
+=== comment le système garantit-il qu'une place n'a bien qu'un seul billet ? ===
+
+1. en base de données, il y a une contrainte qui empêche d'avoir deux billets sur une même place pour une même manifestation
+2. sur le plan, il est impossible de choisir une place qui a déjà été réservée par ailleurs
+3. au moment de la création du plan, une double vérification (graphique et dans les données) est faîte pour assurer que les places ont un nom unique pour une jauge et un lieu.
+
+attention: aucune vérification n'est faite entre zones différentes (mais le nom de la zone est affichée sur vos billets)
+
+
+=== quand je supprime un billet de mon opération, comment cela se passe-t-il avec les places numérotées ===
+
+L'ordre de sélection des billets à supprimer suit la logique suivante :
+1. priorité aux billets non intégrés.
+2. ensuite priorité aux billets sans place, puis aux billets ordonnancés par ordre alphabétique de leur place.
+3. les derniers billets arrivés sont les premiers à se faire supprimer.
+
+
+== astuces ==
+
+- CTRL+Click sur le <select> des gauges affiche le plan numéroté, son occupation ainsi que les places de l'opération en cours entourée de rouge.
+
+- un Double-Click sur une place déjà paramétrée et non imprimée, désaffecte le siège pour ce billet, et ce n'importe quand durant le processus de vente.
+
+- les places sur fond bleu sont des places bloquantes dans le cadre d'une jauge en placement numéroté, mais n'étant ni réservées ni imprimées (en "demande").
+

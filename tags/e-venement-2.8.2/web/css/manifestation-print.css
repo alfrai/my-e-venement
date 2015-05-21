@@ -1,0 +1,18 @@
+body.sf_fieldset_spectators #sf_fieldset_general .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row, body.sf_fieldset_tickets #sf_fieldset_general .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row + .sf_admin_form_row,
+body.sf_fieldset_spectators #sf_fieldset_technical, body.sf_fieldset_tickets #sf_fieldset_technical,
+body.sf_fieldset_spectators #sf_fieldset_workspaces, body.sf_fieldset_tickets #sf_fieldset_workspaces,
+body.sf_fieldset_spectators #sf_fieldset_tickets, body.sf_fieldset_tickets #sf_fieldset_spectators,
+body.sf_fieldset_spectators #more, body.sf_fieldset_tickets #more
+{ display: none; }
+
+@media print {
+
+form.control, .ticket-ids, .tab-print a, .ui-tabs-vertical .ui-tabs-nav { display: none; }
+#sfWebDebug, body #jappix_mini { display: none !important; }
+
+.sf_admin_field_workspaces_list .seated-plan-parent { top: 0; left: 0; bottom: 0; right: 0; }
+.sf_admin_field_workspaces_list .seated-plan-parent .magnify, .sf_admin_field_workspaces_list .seated-plan-parent .seated-plan-actions { display: none; }
+
+#content, html { background-color: transparent; overflow: visible !important; }
+
+}

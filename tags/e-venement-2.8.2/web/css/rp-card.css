@@ -1,0 +1,4 @@
+#member-cards #card_qty { float: right; margin-right: 1em; }
+#member-cards #card_qty input { width: 3em; }
+
+#member-cards #card_duplicate { padding-top: 4px; }

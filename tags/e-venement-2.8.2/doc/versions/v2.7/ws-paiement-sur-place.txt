@@ -1,0 +1,17 @@
+== Objectif ==
+
+Permettre aux structures qui le souhaitent d'ouvrir les réservations en ligne sans exiger de paiement direct. Ainsi les spectateurs voient leurs billets réserver sans être passé par un paiement par carte, mais ne pourront les relever que contre paiement.
+
+
+== Limites ==
+
+Pour le moment ne fonctionne que adossé à un paiement en ligne sécurisé (ex: Paybox ou Citelis)
+
+
+== Déploiement ==
+
+Ajouter juste le module (vide) "onthespot" dans e-voucher :
+
+config/config-my.domain.tld.php:
+$config['app']['modules'][]       = 'onthespot';
+

@@ -1,0 +1,18 @@
+create:  
+  credentials: pr-card-mod
+  is_secure: true
+new:
+  credentials: super-admin
+  is_secure: true
+edit:
+  credentials: super-admin
+  is_secure: true
+update:
+  credentials: super-admin
+  is_secure: true
+delete:
+  credentials: pr-card-mod
+  is_secure: true
+index:
+  credentials: pr-card-view
+  is_secure: true
