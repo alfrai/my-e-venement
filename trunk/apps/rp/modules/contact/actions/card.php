@@ -97,7 +97,7 @@
         }
         
         // for multiple cards
-        for ( $i = 0 ; $i < $request->getParameter('qty', 1) ; $i++ )
+        for ( $i = 1 ; $i < $request->getParameter('qty', 1) ; $i++ )
         {
           error_log('new card copy');
           $this->card = $this->card->copy();
