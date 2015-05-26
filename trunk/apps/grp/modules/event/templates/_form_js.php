@@ -164,16 +164,20 @@
       if ( $('#no-calculate-gauge').length > 0 )
         return;
       
-      $('tfoot .count > *').remove();
+      $('tbody .manifestation:first-child .count > *, tfoot .count > *').remove();
       $('.ticketting .count > *:not(.total)').remove();
       $('.ticketting .count .total').html(0);
-      $('tfoot .count').each(function(){
-        var curclass = /manifestation-\d+$/.exec($(this).attr('class'));
-        
-        $.get('<?php echo url_for('event/gauge') ?>?manifestation_id='+/\d+$/.exec(curclass),function(data){
-          gauge = $($.parseHTML(data)).find('.gauge');
-          $('.count.'+gauge.attr('id')).append(gauge);
-        });
+      $('tbody .manifestation:first-child .count, tfoot .count').each(function(){
+        var elt = $(this);
+        var curclass = $(this).closest('tfoot').length == 0 ? 'manifestation-'+$(this).attr('data-manifestation-id') : /manifestation-\d+$/.exec($(this).attr('class'));
+        if ( parseInt(/\d+$/.exec(curclass),10) )
+        {
+          $.get('<?php echo url_for('event/gauge') ?>?manifestation_id='+parseInt(/\d+$/.exec(curclass),10),function(data){
+            var gauge = $($.parseHTML(data)).find('.gauge');
+            elt.find('#'+gauge.attr('id')).remove();
+            elt.append(gauge);
+          });
+        }
       });
       
       // line by line

@@ -2,3 +2,6 @@
 .mod-professional_full #sf_admin_content .sf_admin_actions_block { margin-top: -4em; margin-bottom: 2em; }
 #sf_admin_header { margin-top: 4em; }
 #sf_admin_header .contact { margin: 0 10px; font-weight: bold; }
+
+.manifestation .count { height: 3em; }
+.manifestation .count .gauge .txt { float: right; }

@@ -1,1 +1,1 @@
-<div id="no-calculate-gauge"></div>
+<!--<div id="no-calculate-gauge"></div>-->
