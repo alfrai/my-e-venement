@@ -172,7 +172,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		});
-
+		
+		if ( typeof settings.complete == 'function' )
+		  settings.complete();
+		
 		return this;
 	};
 
@@ -182,7 +185,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 		flush: true, // makes the last thead and tbody column flush with the scrollbar
 		width: null, // width of the table (head, body and foot), null defaults to the tables natural width
 		height: 100, // height of the scrollable area
-		containerClass: 'tablescroll' // the plugin wraps the table in a div with this css class
+		containerClass: 'tablescroll', // the plugin wraps the table in a div with this css class
+		complete: null,
 	};
 
 })(jQuery);

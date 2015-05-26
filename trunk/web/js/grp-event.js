@@ -13,15 +13,71 @@ $(document).ready(function(){
     $('.grp-entry tbody').unbind('mousemove');
   });
   
+  // the titles for manifestations' actions
+  $('.manifestation .fg-button-mini').each(function(){
+    $(this).prop('title',$.trim($(this).html()));
+  });
+  
+  // hidding the gauges selection if there is only one choice
+  $('.EntryTickets select[name="entry_tickets[gauge_id]"] option:only-child').each(function(){
+    $(this).parent().replaceWith('<input type="hidden" value="'+$(this).val()+'" name="'+$(this).parent().prop('name')+'" />');
+  });
+  
+  // hooking thead & tfoot
+  if ( $.fn.tableScroll !== undefined )
+  {
+    var h = $(window).height()-250;
+    $('table.grp-entry').hide();
+    if ( $('#content').height() > h )
+      h = $('#content').height();
+    $('table.grp-entry').show();
+    
+    // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
+    $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
+    trs = $('table.grp-entry tbody tr:not(:first)').clone();
+    $('table.grp-entry tbody tr:not(:first)').remove();
+    
+    $('table.grp-entry').tableScroll({
+      height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
+      complete: LI.grpCopyPaste
+    });
+    
+    // HACK: re-establishing content
+    $('table.grp-entry tbody tr:first td').css('height','auto');
+    $('table.grp-entry tbody').append(trs);
+  }
+  
+  // using the print button ... to print
+  $('.sf_admin_action_print a')
+    .prepend('<span class="ui-icon ui-icon-print"></span>')
+    .click(function(){
+      var height = $('.tablescroll_wrapper').css('height');
+      $('.tablescroll_wrapper').css('height','auto');
+      $('#transition .close').click();
+      print();
+      $('.tablescroll_wrapper').css('height',height);
+      return false;
+    });
+});
+
+function grp_mouse_move(event)
+{
+}
+
+if ( LI == undefined )
+  var LI = {};
+
+LI.grpCopyPaste = function()
+{ setTimeout(function(){
   $('.grp-entry tbody td:not(.contact):not(.ticketting)').unbind().mouseup(function(e){
     // preventing gauges' multi-calculation
     $('body').append('<div id="no-calculate-gauge"></div>');
     
-    src = $('.grp-entry .copy');
+    var src = $('.grp-entry .copy');
     if ( !$(this).hasClass('copy')
       && src.length == 1 )
     {
-      target = $(this);
+      var target = $(this);
       
       // deleting everything
       target.find('a.delete').click(); 
@@ -65,62 +121,12 @@ $(document).ready(function(){
       $('#no-calculate-gauge').remove();
       calculate_gauges();
     },2000);
-  });
-  
-  $('.grp-entry tbody td:not(.ticketting):not(.contact)').mousedown(function(){
+    
+  }).mousedown(function(){
     $(this).addClass('copy');
     $('.grp-entry tbody').addClass('move');
     
     $(this).prop('title',$('#copy-paste').html());
     $('.grp-entry tbody').mousemove(grp_mouse_move);
   });
-  
-  // the titles for manifestations' actions
-  $('.manifestation .fg-button-mini').each(function(){
-    $(this).prop('title',$.trim($(this).html()));
-  });
-  
-  // hidding the gauges selection if there is only one choice
-  $('.EntryTickets select[name="entry_tickets[gauge_id]"] option:only-child').each(function(){
-    $(this).parent().replaceWith('<input type="hidden" value="'+$(this).val()+'" name="'+$(this).parent().prop('name')+'" />');
-  });
-  
-  // hooking thead & tfoot
-  if ( $.fn.tableScroll !== undefined )
-  {
-    var h = $(window).height()-250;
-    $('table.grp-entry').hide();
-    if ( $('#content').height() > h )
-      h = $('#content').height();
-    $('table.grp-entry').show();
-    
-    // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
-    $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
-    trs = $('table.grp-entry tbody tr:not(:first)').clone();
-    $('table.grp-entry tbody tr:not(:first)').remove();
-    
-    $('table.grp-entry').tableScroll({
-      height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
-    });
-    
-    // HACK: re-establishing content
-    $('table.grp-entry tbody tr:first td').css('height','auto');
-    $('table.grp-entry tbody').append(trs);
-  }
-  
-  // using the print button ... to print
-  $('.sf_admin_action_print a')
-    .prepend('<span class="ui-icon ui-icon-print"></span>')
-    .click(function(){
-      var height = $('.tablescroll_wrapper').css('height');
-      $('.tablescroll_wrapper').css('height','auto');
-      $('#transition .close').click();
-      print();
-      $('.tablescroll_wrapper').css('height',height);
-      return false;
-    });
-});
-
-function grp_mouse_move(event)
-{
-}
+}, 1000); }
