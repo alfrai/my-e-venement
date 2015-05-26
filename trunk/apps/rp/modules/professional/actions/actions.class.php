@@ -67,4 +67,10 @@ class professionalActions extends autoProfessionalActions
     
     return $this->renderText(json_encode($professionals));
   }
+  
+  public function executeShow(sfWebRequest $request)
+  {
+    parent::executeShow($request);
+    $this->redirect('contact/edit?id='.$this->professional->contact_id);
+  }
 }

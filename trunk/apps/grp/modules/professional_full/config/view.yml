@@ -6,3 +6,5 @@ editSuccess:
   javascripts: [jquery.tablescroll.js]
 gaugeSuccess:
   stylesheets: [gauge, grp-event]
+newSuccess:
+  stylesheets: [grp-professional]

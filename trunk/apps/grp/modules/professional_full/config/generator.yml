@@ -29,7 +29,7 @@ generator:
       edit:    ~
       new:
         title: New Entry
-        display: [professional_id, event_id]
+        display: [professional_id, _link_to_contact, event_id]
         actions:
           _list: ~
           _save: ~
