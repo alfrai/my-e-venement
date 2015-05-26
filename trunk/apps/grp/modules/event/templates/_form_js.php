@@ -30,7 +30,12 @@
     $(document).ready(function(){
       // if we submit any form
       $('form').submit(function(){
+        if ( location.hash == '#debug' )
+          return true;
+        
+        <?php if ( isset($entry) ): ?>
         $(this).find('input[name="contact_entry_new[entry_id]"],input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
+        <?php endif ?>
         form = this;
         $.post($(this).prop('action'),$(this).serialize(),function(data){
           if ( $(form).closest('#manifestation_entry_new, #contact_entry_new').length > 0 )

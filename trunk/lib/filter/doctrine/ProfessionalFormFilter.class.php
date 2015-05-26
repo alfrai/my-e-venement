@@ -25,6 +25,25 @@ class ProfessionalFormFilter extends BaseProfessionalFormFilter
     $this->validatorSchema['organism_name'] = new sfValidatorString(array(
       'required' => false,
     ));
+    
+    $this->widgetSchema   ['grp_meta_events_list'] = new liWidgetFormDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'order_by' => array('name',''),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['grp_meta_events_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'multiple' => true,
+    ));
+    $this->widgetSchema   ['grp_events_list'] = new liWidgetFormDoctrineChoice(array(
+      'model' => 'Event',
+      'order_by' => array('translation.name', ''),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['grp_events_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Event',
+      'multiple' => true,
+    ));
   }
   
   public function getFields()
@@ -38,6 +57,27 @@ class ProfessionalFormFilter extends BaseProfessionalFormFilter
     );
   }
   
+  public function addGrpMetaEventsListColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $values = array($values);
+    
+    $q->leftJoin('e.MetaEvent me');
+    $q->andWhereIn('me.id', $values);
+    return $q;
+  }
+  public function addGrpEventsListColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $values = array($values);
+    
+    $q->andWhereIn('e.id', $values);
+    return $q;
+  }
   public function addContactNameColumnQuery(Doctrine_Query $query, $field, $value)
   {
     $fieldName = $this->getFieldName($field);

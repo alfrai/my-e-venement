@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -123,6 +123,14 @@
           <a style="float: right" class="fg-button-mini fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for('event/edit?id='.$ce->Entry->event_id) ?>">
             <span class="ui-icon ui-icon-document"></span><?php echo __('Show','','sf_admin') ?>
           </a>
+          <br/>
+          <?php $f = new ContactEntryForm($ce->getRawValue()) ?>
+          <?php $f->setAllHiddenExcept('comment1') ?>
+          <?php $schema = $f->getWidgetSchema(); $schema['professional_id'] = new sfWidgetFormInputHidden(); ?>
+          <?php echo form_tag_for($f, '@contact_entry') ?>
+            <?php echo $f->renderHiddenFields() ?>
+            <p title="<?php echo __('Note') ?>"><?php echo $f['comment1'] ?></p>
+          </form>
         </td>
         <?php endforeach ?>
       </tr>
@@ -145,7 +153,7 @@
   </table>
   
   <script type="text/javascript">
-    <?php include_partial('event/form_js', array('entry' => $entry)) ?>
+    <?php include_partial('event/form_js') ?>
   </script>
 
 </div>

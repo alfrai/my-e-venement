@@ -37,4 +37,19 @@ class ContactEntryForm extends BaseContactEntryForm
     foreach ( array('comment1','professional_id',) as $field )
       $this->widgetSchema[$field] = new sfWidgetFormInputHidden;
   }
+  
+  public function setAllHiddenExcept($fields)
+  {
+    if ( !is_array($fields) )
+      $fields = array($fields);
+    
+    foreach ( $this->widgetSchema as $field => $obj )
+    if ( !in_array($field, $fields) )
+    {
+      error_log('glop');
+      $this->widgetSchema[$field] = new sfWidgetFormHidden;
+    }
+    
+    return $this;
+  }
 }
