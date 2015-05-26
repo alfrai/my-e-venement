@@ -16,7 +16,7 @@ generator:
       fields:  ~
       list:
         display: [Workspace]
-        object_actions: { _edit: ~, _delete: ~ }
+        object_actions: { _delete: ~ }
         title: Workspaces available for groups modules
       filter:  ~
       form:    ~

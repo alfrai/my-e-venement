@@ -201,6 +201,10 @@
         <target>Événements</target>
       </trans-unit>
       <trans-unit>
+        <source>Meta events</source>
+        <target>Méta-événements</target>
+      </trans-unit>
+      <trans-unit>
         <source>Drag and drop elsewhere to paste selected content</source>
         <target>Glisser-déposer ailleurs pour coller le contenu sélectionné</target>
       </trans-unit>

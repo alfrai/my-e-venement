@@ -14,13 +14,7 @@
 
   <div class="ui-helper-clearfix"></div>
 
-  <p class="contact">
-    <?php echo cross_app_link_to($professional->Contact,'rp','contact/show?id='.$professional->Contact->id) ?>
-    (<?php echo cross_app_link_to($professional->Organism,'rp','organism/show?id='.$professional->Organism->id) ?>
-    -
-    <?php echo $professional->name ?>)
-    <span class="picto"><?php echo $professional->getRaw('groups_picto') ?></span>
-  </p>
+  <?php include_partial('show_contact', array('professional' => $professional)) ?>
   
   <div class="ui-widget ui-widget-content ui-corner-all">
     <div class="fg-toolbar ui-widget-header ui-corner-all">

@@ -2,7 +2,7 @@ indexSuccess:
   stylesheets: [grp-event-list]
   javascripts: [lists]
 editSuccess:
-  stylesheets: [gauge, grp-event: { media: all }]
+  stylesheets: [gauge, grp-event: { media: all }, grp-professional]
   javascripts: [jquery.tablescroll.js]
 gaugeSuccess:
   stylesheets: [gauge, grp-event]

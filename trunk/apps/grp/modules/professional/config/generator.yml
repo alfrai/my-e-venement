@@ -23,8 +23,12 @@ generator:
         list_organism_administrative_number: { label: Admin.ID }
         organism_city: { label: City }
         list_events: { label: Events }
+        list_organism: { label: Organism }
+        list_contact: { label: Contact }
+        grp_events_list: { label: Events }
+        grp_meta_events_list: { label: Meta events }
       list:
-        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, _list_organism_administrative_number, _list_events, nb_events, nb_manifestations, _nb_tickets, _nb_tickets_notfree]
+        display: [_list_organism, organism_city, _list_contact, name, _groups_picto, contact_email, _list_organism_administrative_number, _list_events, nb_events, nb_manifestations, _nb_tickets, _nb_tickets_notfree]
         batch_actions: {}
         actions:
           _new: ~
@@ -38,7 +42,9 @@ generator:
         max_per_page: 50
         sort: ['o.name, o.city','']
       filter:
-        display: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
+        display:
+          Contact: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
+          Events: [grp_meta_events_list, grp_events_list]
       form:    ~
       edit:
         actions: { _list: ~ }
