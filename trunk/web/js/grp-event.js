@@ -24,7 +24,9 @@ $(document).ready(function(){
   });
   
   // hooking thead & tfoot
-  if ( $.fn.tableScroll !== undefined )
+  if ( $.fn.tableScroll == undefined )
+    LI.grpCopyPaste();
+  else
   {
     var h = $(window).height()-250;
     $('table.grp-entry').hide();
