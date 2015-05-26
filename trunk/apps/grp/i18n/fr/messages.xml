@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Confirmation comment</source>
+        <target>Commentaire de confirmation</target>
+      </trans-unit>
+      <trans-unit>
         <source>From %from_date%</source>
         <target>Entre le %from_date%</target>
       </trans-unit>
