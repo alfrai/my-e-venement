@@ -10,7 +10,7 @@
             <?php $schema = $f->getWidgetSchema(); $schema['professional_id'] = new sfWidgetFormInputHidden(); echo $f['professional_id'] ?>
           </p>
           <p title="<?php echo __('Note') ?>"><?php echo $f['comment1'] ?></p>
-          <p title="<?php echo __('Confirmation') ?>"><?php echo $f['comment2'] ?></p>
+          <p title="<?php echo __('Confirmation comment') ?>"><?php echo $f['comment2'] ?></p>
           <p title="<?php echo __('Confirmed') ?>"><?php echo $f['confirmed'] ?></p>
           <p class="sf_admin_actions">
             <?php echo link_to(__('Delete',array(),'sf_admin'), 'contact_entry/del?id='.$ce->id, array('class' => 'delete')); ?>
