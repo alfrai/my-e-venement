@@ -240,6 +240,7 @@ then
   echo ""
   echo "Permissions & groups for the grp module, if they are not yet present (an error here is a good thing...)"
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-grp.yml
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v29-grp.yml
   echo "Permissions & groups for surveys..."
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-srv.yml
   echo "Permissions & groups for accessing backups..."
