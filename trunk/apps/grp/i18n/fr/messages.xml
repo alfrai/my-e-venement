@@ -121,6 +121,10 @@
         <target>Fonction</target>
       </trans-unit>
       <trans-unit>
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extract</source>
         <target>Extraire</target>
       </trans-unit>
