@@ -161,6 +161,33 @@ abstract class PluginTicket extends BaseTicket
     parent::preSave($event);
   }
   
+  public function postSave($event)
+  {
+    if ( !sfContext::hasInstance() )
+      return parent::postSave($event);
+    
+    try { sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'tck.ticket_post_save')); }
+    catch ( Exception $e ) { error_log('Error processing the event dispatcher in Ticket::postSave() with ticket #'.$this->id.': '.$e->getMessage()); }
+    
+    return parent::postSave($event);
+  }
+  public function postInsert($event)
+  {
+    if ( !sfContext::hasInstance() )
+      return parent::postSave($event);
+    
+    try
+    {
+      if ( $this->duplicating )
+        sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'tck.ticket_post_duplicating'));
+      if ( $this->cancelling )
+        sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'tck.ticket_post_cancelling'));
+    }
+    catch ( Exception $e ) { error_log('Error processing the event dispatcher in Ticket::postInsert() with ticket #'.$this->id.': '.$e->getMessage()); }
+    
+    return parent::postInsert($event);
+  }
+  
   protected function addTaxes(Doctrine_Collection $taxes)
   {
     // taxes calculation (always after VAT calculation)

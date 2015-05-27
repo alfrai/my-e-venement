@@ -15,7 +15,7 @@ $(document).ready(function(){
   
   // the titles for manifestations' actions
   $('.manifestation .fg-button-mini').each(function(){
-    $(this).prop('title',$.trim($(this).html()));
+    $(this).prop('title',$.trim($(this).text()));
   });
   
   // hidding the gauges selection if there is only one choice
