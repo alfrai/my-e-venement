@@ -1,0 +1,18 @@
+sfGuardGroup:
+  sfGuardGroup_57:
+    name: grp-multimanifs
+    description: "Ability to add different manifestations into a single entry"
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00' 
+sfGuardGroupPermission:
+  sfGuardGroupPermission_57_144:
+    Group: sfGuardGroup_57
+    Permission: sfGuardPermission_144
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00' 
+sfGuardPermission:
+  sfGuardPermission_144:
+    name: grp-events-multimanifs
+    description: 'Possibility to add different manifestations into a single entry'
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00' 

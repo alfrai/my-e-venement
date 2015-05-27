@@ -41,4 +41,23 @@ class ManifestationEntryForm extends BaseManifestationEntryForm
     
     $this->enableCSRFProtection();
   }
+  
+  public function searchAllManifestations($all)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
+    
+    if ( $all )
+      $this->widgetSchema['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+        'model' => 'Manifestation',
+        'url'   => cross_app_url_for('event', 'manifestation/ajax'),
+      ));
+    else
+      $this->widgetSchema['manifestation_id']
+        ->setOption('query', $this->widgetSchema['manifestation_id']->getOption('query')
+          ->andWhere('m.event_id = ?',$event->id)
+          ->andWhereNotIn('m.id',$manifs)
+      );
+    
+    return $this;
+  }
 }

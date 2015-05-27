@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to add different manifestations into a single entry</source>
+        <target>Possibilité d'administrer les listes d'attente des retenues</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Access to administrate the "group" app</source>
+        <target>Possibilité d'administrer l'application "scolaires et groupes"</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to administrate holds' waiting lists (create, order, modify, delete, seat, dump...)</source>
         <target>Possibilité d'administrer les listes d'attente des retenues</target>
       </trans-unit>

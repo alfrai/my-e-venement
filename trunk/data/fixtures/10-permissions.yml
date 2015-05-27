@@ -1,4 +1,9 @@
 sfGuardPermission:
+  sfGuardPermission_144:
+    name: grp-events-multimanifs
+    description: 'Possibility to add different manifestations into a single entry'
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00'
   sfGuardPermission_132:
     name: event-hold
     description: 'Permission to access holds'
@@ -671,6 +676,11 @@ sfGuardPermission:
     updated_at: '2014-05-28 09:20:41'
 
 sfGuardGroupPermission:
+  sfGuardGroupPermission_57_144:
+    Group: sfGuardGroup_57
+    Permission: sfGuardPermission_144
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00'
   sfGuardGroupPermission_53_132:
     Group: sfGuardGroup_53
     Permission: sfGuardPermission_132
@@ -1723,6 +1733,11 @@ sfGuardGroupPermission:
     updated_at: '2014-05-28 09:20:00'
 
 sfGuardGroup:
+  sfGuardGroup_57:
+    name: grp-multimanifs
+    description: "Possibility to add different manifestations into a single entry"
+    created_at: '2015-05-27 11:50:00'
+    updated_at: '2015-05-27 11:50:00'
   sfGuardGroup_53:
     name: event-hold
     description: 'Ability to access holds'

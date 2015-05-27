@@ -120,9 +120,10 @@
         <?php endforeach ?>
         <td id="manifestation_entry_new" class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
           <?php $f = new ManifestationEntryForm ?>
+          <?php $f->searchAllManifestations($sf_user->hasCredential('grp-events-multimanifs')) ?>
           <?php echo form_tag_for($f,'@manifestation_entry') ?>
             <?php echo $f->renderHiddenFields(); ?>
-            <p><?php $f['manifestation_id']->getWidget()->setOption('query',$f['manifestation_id']->getWidget()->getOption('query')->andWhere('m.event_id = ?',$event->id)->andWhereNotIn('m.id',$manifs)); echo $f['manifestation_id']; ?></p>
+            <p><?php echo $f['manifestation_id']; ?></p>
             <p>
               <input type="submit" name="submit" value="<?php echo __('Save',array(),'sf_admin') ?>" />
             </p>
