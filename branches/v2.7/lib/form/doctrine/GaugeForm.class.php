@@ -60,7 +60,7 @@ class GaugeForm extends BaseGaugeForm
   protected function doBind(array $values)
   {
     if ( !$values['only'] )
-      parent::doBind($values);
+      return parent::doBind($values);
     
     // if "only" is set, only update the given fields (comma separated)
     $only = $values['only'];
