@@ -43,6 +43,7 @@ class groupActions extends autoGroupActions
     
     $q = Doctrine::getTable('Group')
       ->createQuery('g')
+      ->orderby('name', '')
       ->limit($request->getParameter('limit'));
     if ( trim($search) )
       $q->andWhere('g.name ILIKE ?', '%'.$search.'%');
