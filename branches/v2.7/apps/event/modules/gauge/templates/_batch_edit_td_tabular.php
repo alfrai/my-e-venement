@@ -12,6 +12,7 @@
     $form = new GaugeForm($g);
     $form->setHidden();
     $form->setHidden(array('online'));
+    $form->setUpdateOnly('value');
     $form['value']->getWidget()->setLabel('');
   ?>
   <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
@@ -23,6 +24,7 @@
   <?php
     $form = new GaugeForm($g);
     $form->setHidden();
+    $form->setUpdateOnly('online');
     $form->setHidden(array('value'));
   ?>
 <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">

@@ -6,12 +6,14 @@
   </div>
   <div id="form_workspaces" class="sf_admin_form_list ajax">
     <script type="text/javascript">
+      // GAUGES TRANSFERTS
       document.getElementById('form_workspaces').url   = '<?php echo url_for('gauge/batchEdit?id='.$form->getObject()->id) ?>';
       document.getElementById('form_workspaces').field = '.sf_admin_form_field_value';
       
       document.getElementById('form_workspaces').functions = [];
       document.getElementById('form_workspaces').functions.push(function(){
         $('#form_workspaces .gauge-transferts .ui-icon').unbind().click(function(){
+          // GAUGE TRANSFERTS
           if ( $('#form_workspaces .gauge-transferts.active').length > 1 )
             $('#form_workspaces .gauge-transferts.active').toggleClass('active');
           $(this).closest('.gauge-transferts').toggleClass('active');
