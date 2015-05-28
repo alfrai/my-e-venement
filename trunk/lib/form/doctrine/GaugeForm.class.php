@@ -41,4 +41,39 @@ class GaugeForm extends BaseGaugeForm
       $this->widgetSchema[$hide] = new sfWidgetFormInputHidden();
     return $this;
   }
+  
+  public function setUpdateOnly($only = array())
+  {
+    if ( !$only )
+    {
+      if ( isset($this->widgetSchema['only']) )
+        unset($this->widgetSchema['only']);
+      return $this;
+    }
+    
+    if ( !is_array($only) )
+      $only = array($only);
+    
+    // if "only" is set, only update the given fields (comma separated)
+    $this->widgetSchema['only'] = new sfWidgetFormInputHidden;
+    $this->validatorSchema['only'] = new sfValidatorPass;
+    $this->setDefault('only', implode(',', $only));
+  }
+  
+  protected function doBind(array $values)
+  {
+    if (!( isset($values['only']) && $values['only'] ))
+      return parent::doBind($values);
+    
+    // if "only" is set, only update the given fields (comma separated)
+    $only = $values['only'];
+    unset($values['only']);
+    
+    foreach ( $values as $field => $value )
+    if ( !in_array($field, $tmp = explode(',', $only))
+      && in_array($field, array_keys($this->object->getTable()->getColumns())) )
+      $values[$field] = $this->object->$field;
+    
+    parent::doBind($values);
+  }
 }

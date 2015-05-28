@@ -12,7 +12,8 @@
   <?php
     $form = new GaugeForm($g);
     $form->setHidden()
-      ->setHidden(array('online', 'onsite', 'value'));
+      ->setHidden(array('online', 'onsite', 'value'))
+      ->setUpdateOnly('group_name');
   ?>
   <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
   <input name="sf_method" value="put" type="hidden">
@@ -31,7 +32,8 @@
   <?php
     $form = new GaugeForm($g);
     $form->setHidden()
-      ->setHidden(array('online', 'onsite', 'group_name'));
+      ->setHidden(array('online', 'onsite', 'group_name'))
+      ->setUpdateOnly('value');
     $form['value']->getWidget()->setLabel('');
   ?>
   <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
@@ -43,7 +45,8 @@
   <?php
     $form = new GaugeForm($g);
     $form->setHidden()
-      ->setHidden(array('value', 'online', 'group_name'));
+      ->setHidden(array('value', 'online', 'group_name'))
+      ->setUpdateOnly('onsite');
   ?>
 <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __('This field is updated automagically') ?>">
   <input name="sf_method" value="put" type="hidden">
@@ -54,7 +57,8 @@
   <?php
     $form = new GaugeForm($g);
     $form->setHidden()
-      ->setHidden(array('value', 'onsite', 'group_name'));
+      ->setHidden(array('value', 'onsite', 'group_name'))
+      ->setUpdateOnly('online');
   ?>
 <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
   <input name="sf_method" value="put" type="hidden">
