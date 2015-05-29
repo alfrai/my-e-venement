@@ -2,7 +2,7 @@
 <?php include_partial('manifestation/assets') ?>
 
 <div id="sf_admin_container">
-  <h1><?php echo __('Dates list', array(), 'messages') ?></h1>
+  <h1><?php echo __('Dates', array(), 'messages') ?></h1>
 
   <?php include_partial('global/flashes') ?>
 

@@ -41,7 +41,7 @@
         <target>Vous devez réserver des billets pour %%nb%% événements différents au moins pour pouvoir commander un Pass "%%mc%%".</target>
       </trans-unit>
       <trans-unit>
-        <source>Meta event List</source>
+        <source>Meta events</source>
         <target>Méta-événements</target>
       </trans-unit>
       <trans-unit>
@@ -633,8 +633,8 @@
         <target>Liste des événements</target>
       </trans-unit>
       <trans-unit>
-        <source>Dates list</source>
-        <target>Liste des dates</target>
+        <source>Dates</source>
+        <target>Dates</target>
       </trans-unit>
       <trans-unit>
         <source>Date unavailable, try an other one.</source>
