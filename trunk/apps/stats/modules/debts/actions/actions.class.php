@@ -97,10 +97,17 @@ class debtsActions extends sfActions
     
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = "SELECT d.date,
-            (SELECT CASE WHEN count(value) = 0 THEN 0 ELSE sum(value) END FROM ticket tck WHERE duplicating IS NULL AND (printed_at IS NOT NULL AND printed_at <= d.date::date OR integrated_at IS NOT NULL AND integrated_at <= d.date::date OR cancelling IS NOT NULL AND tck.created_at <= d.date::date) AND tck.id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL))
-            +
-            (SELECT CASE WHEN count(value) = 0 THEN 0 ELSE sum(value) END FROM bought_product bp WHERE integrated_at IS NOT NULL AND integrated_at <= d.date::date)
-            AS outcome,
+            (SELECT CASE WHEN COUNT(tck.id) = 0 THEN 0 ELSE SUM(tck.value + CASE WHEN tck.taxes IS NULL THEN 0 ELSE tck.taxes END) END
+              FROM Ticket tck
+              WHERE tck.duplicating IS NULL
+                AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)
+                AND (tck.cancelling IS NULL AND (tck.printed_at IS NOT NULL AND tck.printed_at < d.date::date OR tck.integrated_at IS NOT NULL AND tck.integrated_at < d.date::date) OR tck.cancelling IS NOT NULL AND tck.created_at < d.date::date)
+            ) +
+            (SELECT (CASE WHEN COUNT(pdt.id) = 0 THEN 0 ELSE SUM(pdt.value) END)
+              FROM bought_product pdt
+              WHERE pdt.integrated_at IS NOT NULL
+                AND pdt.integrated_at < d.date::date
+            ) AS outcome,
             (SELECT sum(value) FROM payment p  WHERE p.created_at <= d.date::date) AS income
           FROM (SELECT '".implode("'::date AS date UNION SELECT '",$days)."'::date AS date) AS d
           ORDER BY date";
