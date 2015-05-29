@@ -114,7 +114,7 @@
 
 #li_transaction_field_content .item .ticket-data { padding: 0; width: 0; }
 #li_transaction_field_content .item .ids { display: none; position: absolute; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
-#li_transaction_field_content .item .ids.show { display: block; z-index: 2; }
+#li_transaction_field_content .item .ids.show { display: block; z-index: 2; max-height: 105px; overflow-y: auto; }
 #li_transaction_field_content .item .ids span { white-space: nowrap; }
 #li_transaction_field_content .item .ids input { padding: 0; margin: 0 5px 0 0; }
 #li_transaction_field_content .item .data { display: none; }
