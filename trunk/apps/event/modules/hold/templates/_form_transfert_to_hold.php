@@ -15,7 +15,7 @@
   <div class="label ui-helper-clearfix">
     <div class="help">
       <span class="ui-icon ui-icon-help floatleft"></span>
-      <?php echo __('Transfert free seats into an other hold.') ?>
+      <?php echo __('Transfert released seats into an other hold.') ?>
     </div>
   </div>
 </div>

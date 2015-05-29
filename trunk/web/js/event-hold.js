@@ -113,6 +113,15 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
       return;
     }
     
+    if ( $('.sf_admin_form [name="transaction_id"]').val()
+      && $(this).hasClass('held')
+      && ($(this).hasClass('ordered') || $(this).hasClass('printed') || $(this).hasClass('asked'))
+    )
+    {
+      console.error('You cannot transfert a seat into a transaction if it is already booked...');
+      return;
+    }
+    
     // if the seat is still free
     $(this).addClass('hold-in-progress');
     var url = $('#link-seat').prop('href').replace($('#link-seat').attr('data-replace'), $(this).attr('data-id'));

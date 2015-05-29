@@ -11,7 +11,7 @@
   <div class="label ui-helper-clearfix">
     <div class="help">
       <span class="ui-icon ui-icon-help floatleft"></span>
-      <?php echo __('Book released seats immediatly') ?>
+      <?php echo __('Book released seats immediatly in the given transaction (if not already booked elsewhere).') ?>
     </div>
   </div>
 </div>
