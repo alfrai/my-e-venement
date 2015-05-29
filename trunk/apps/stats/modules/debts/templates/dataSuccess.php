@@ -46,7 +46,12 @@
     $line->set_values($values);
     
     $y = new liYAxis;
-    $y->set_range(0, max($values), round(max($values)/100)*10);
+    $scale = abs(round((max($values)/100)*10));
+    $y->set_range(
+      min($values)-$scale,
+      max($values)+$scale,
+      $scale
+    );
     
     $x = new liXAxis;
     $x->set_labels_from_array($names);
