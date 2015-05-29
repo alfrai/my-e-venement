@@ -140,6 +140,7 @@ all:
       Pour plus de renseignements, vous pouvez nous contacter par courriel (possibilité de mettre un lien qui permette d'envoyer un message sans communiquer les adresses mail à laquelles il est envoyé?) ou par téléphone au 04 70 03 86 18 du lundi au jeudi de 13h30 à 18h00 et le vendredi de 9h00 à 12h00. 
     #meta_events_header: ''
     #meta_events_title: ''
+    #meta_events_bottom: |
     card_bottom: |
       Les cartes d'abonnement ouvrent l'accès à des tarifs préférentiels relatifs au type de carte choisie
     cart_end: |
