@@ -121,7 +121,7 @@
         <target>Reprendre les places depuis cette opération</target>
       </trans-unit>
       <trans-unit>
-        <source>Book released seats immediatly in the given transaction (if not already booked elswhere).</source>
+        <source>Book released seats immediatly in the given transaction (if not already booked elsewhere).</source>
         <target>Réserve immédiatement les places relâchées dans l'opération affichée (si elles ne sont pas déjà réservées par ailleurs).</target>
       </trans-unit>
       <trans-unit>
