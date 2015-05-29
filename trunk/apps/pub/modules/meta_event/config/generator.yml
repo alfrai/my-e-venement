@@ -16,7 +16,6 @@ generator:
       fields:
         list_name: { label: Name }
       list:
-        title: <?php echo pubConfiguration::getText('app_texts_meta_events_title','Meta events').PHP_EOL ?>
         display: [_list_name]
         object_actions: []
         batch_actions: []
