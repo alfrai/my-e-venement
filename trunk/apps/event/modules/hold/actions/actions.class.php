@@ -99,7 +99,6 @@ class holdActions extends autoHoldActions
         // move the held seat into another Hold
         if ( !$request->getParameter('transaction_id', false) && $request->getParameter('hold_id', false) )
         {
-          error_log('here');
           $this->res['type'] = 'move';
           try {
             $hc = Doctrine::getTable('HoldContent')->find($bind);

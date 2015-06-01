@@ -1,4 +1,3 @@
-<?php if ( $sf_user->hasCredential('super-admin') ): ?>
 <div class="sf_admin_form_row sf_admin_form_field_transfert_to_hold">
   <span class="hold_id">&nbsp;&nbsp;<?php
     $select = new sfWidgetFormDoctrineChoice(array(
@@ -19,4 +18,3 @@
     </div>
   </div>
 </div>
-<?php endif ?>
