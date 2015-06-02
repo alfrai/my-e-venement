@@ -57,6 +57,7 @@
     ->groupBy($select)
   ;
   $gauges = $q->execute();
+  $gauges_ok = new Doctrine_Collection('Gauge');
   if ( $gauges->count() == 0 )
   {
     error_log('No gauge found for this ticket ('.print_r($params,true).')');
@@ -68,16 +69,22 @@
   {
     $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $gauge->Manifestation)));
     if ( $event->getReturnValue() )
-    {
-      $success = true;
-      break;
-    }
+      $gauges_ok[] = $gauge;
   }
   
-  if ( !$success )
+  if ( $gauges_ok->count() == 0 )
   {
     error_log('The maximum number of tickets is reached for online sales on manifestation #'.$gauge->manifestation_id.' and gauges '.$params['group_name']);
     return 'Error';
+  }
+  
+  // to give seats to tickets that need it
+  foreach ( $gauges_ok as $gauge )
+  {
+    $seater = new Seater($gauge->id);
+    $free_seats = $seater->findSeatsExcludingOrphans($params['qty']);
+    if ( $free_seats )
+      break;
   }
   
   // tickets creation
@@ -85,28 +92,20 @@
   for ( $i = 0 ; $i < $params['qty'] ; $i++ )
   {
     $ticket = new Ticket;
-    $ticket->Transaction = $this->getUser()->getTransaction();
+    $this->getUser()->getTransaction()->Tickets[] = $ticket;
+    $this->Transaction = $this->getUser()->getTransaction();
     $ticket->price_id = $params['price_id'];
     $ticket->Gauge = $gauge;
+    $ticket->Seat = $free_seats->getFirst(); // use the first seat still available
+    unset($free_seats[$free_seats->key()]);  // remove the used seat from the free seats pool
     $tickets[] = $ticket;
   }
 
-  // to give seats to tickets that need it
-  $seater = new Seater($gauge->id);
-  $i = 0;
   
-  $seats = $seater->findSeatsExcludingOrphans($params['qty']);
-  if ( !$seats )
-    $tickets = new Doctrine_Collection('Tickets');
-  else
-  {
-    if ( $tickets->count() > $seats->count() )
-    for ( $i = 0 ; $i < $tickets->count() - $seats->count() ; $i++ )
-      unset($tickets[$i]);
-    foreach ( $seats as $seat )
-      $tickets[$i++]->Seat = $seat;
-    $tickets->save();
-  }
+  // remove tickets that have no seat_id given
+  foreach ( $tickets as $key => $ticket )
+  if ( !$ticket->seat_id )
+    unset($tickets[$key]);
   
   // linked products
   foreach ( $tickets as $ticket )
@@ -118,6 +117,7 @@
   // return back the list of real tickets
   $this->data = array('tickets' => array());
   foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+  if ( $ticket->id )
   {
     // the json data
     $this->data['tickets'][] = array(

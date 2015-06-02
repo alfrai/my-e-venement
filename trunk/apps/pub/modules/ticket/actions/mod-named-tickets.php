@@ -165,7 +165,7 @@
       }
       // set another price_id (if not getting back a transaction already paid)
       if ( !$request->getParameter('transaction_id')
-        && $data[$ticket->id]['price_id'] !== $ticket->price_id )
+        && $data[$ticket->id]['price_id'] != $ticket->price_id )
       {
         $ticket->value    = NULL;
         $ticket->price_id = $data[$ticket->id]['price_id'];
