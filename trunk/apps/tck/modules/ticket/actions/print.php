@@ -86,7 +86,7 @@
       foreach ( $transaction->Tickets as $ticket )
       {
         try {
-          // member cards
+          // member cards (cf. PluginTicket::preUpdate())
           if ( $ticket->Price->member_card_linked )
             throw new liEvenementException('It is forbidden to group tickets linked with a member card');
           
@@ -153,7 +153,7 @@
           }
         }
         catch ( liEvenementException $e )
-        { error_log($e->getMessage()); }
+        { error_log('An error occurred during grouped tickets #'.$ticket->id.' printing: '.$e->getMessage()); }
       }
       
       if ( $request->getParameter('duplicate') != 'true' )
@@ -212,24 +212,28 @@
               $cpt++;
               if ( $ticket->Manifestation->no_print )
               {
-                // member cards
+                // member cards (cf. PluginTicket::preUpdate())
                 if ( $ticket->Price->member_card_linked )
                 {
+                  $cpt += 2; // because member cards treatments take a loong time
                   $ticket->integrated_at = date('Y-m-d H:i:s');
                   $ticket->vat = $ticket->Manifestation->Vat->value;
                   $ticket->save();
+                  $cpt += 2; // because member cards treatments take a loong time
                 }
                 else
                   $update['integrated_at'][$ticket->id] = $ticket->id;
               }
               else
               {
-                // member cards
+                // member cards (cf. PluginTicket::preUpdate())
                 if ( $ticket->Price->member_card_linked )
                 {
+                  $cpt += 2; // because member cards treatments take a loong time
                   $ticket->printed_at = date('Y-m-d H:i:s');
                   $ticket->vat = $ticket->Manifestation->Vat->value;
                   $ticket->save();
+                  $cpt += 2; // because member cards treatments take a loong time
                 }
                 else
                   $update['printed_at'][$ticket->id] = $ticket->id;
@@ -240,7 +244,7 @@
           }
         }
         catch ( liEvenementException $e )
-        { }
+        { error_log('An error occurred during ticket #'.$ticket->id.' printing: '.$e->getMessage()); }
       }
     }
     

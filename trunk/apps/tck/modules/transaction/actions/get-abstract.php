@@ -551,9 +551,9 @@
     if ( $pid )
     foreach ( $product[$product['declinations_name']] as $did => $declination )
     if ( count($declination['prices']) == 0 && count($declination['available_prices']) == 0 )
-      unset($this->json[$pid][$this->json[$product->id]['declinations_name']][$gid]);
-    else
-      ksort($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices']);
+      unset($this->json[$pid][$this->json[$pid]['declinations_name']][$gid]);
+    elseif ( is_array($this->json[$pid][$this->json[$pid]['declinations_name']][$did]['prices']) )
+      ksort($this->json[$pid][$this->json[$pid]['declinations_name']][$did]['prices']);
     
     $this->json = array(
       'error' => array(false, ''),

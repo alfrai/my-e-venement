@@ -275,6 +275,7 @@ abstract class PluginTicket extends BaseTicket
     if ( $this->price_id && is_object($this->Price) && $this->Price->member_card_linked
     && ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
     && ( $this->printed_at || $this->integrated_at )
+    && !$this->member_card_id
     && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0 )
     {
       $q = Doctrine::getTable('MemberCard')->createQuery('mc')

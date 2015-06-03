@@ -1,4 +1,4 @@
-<div class="sf_admin_form_row sf_admin_form_field_no_print">
+<div class="sf_admin_form_row sf_admin_form_field_voucherized">
   <label><?php echo __('Using vouchers') ?>:</label>
   <?php if ( $v = $manifestation->current_version ): ?>
   <span class="diff">
