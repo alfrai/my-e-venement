@@ -5,8 +5,11 @@
     'fields' => $fields,
   ));
   
-  if ( sfConfig::get('sf_debug') )
+  if ( sfConfig::get('sf_web_debug') )
+  {
+    $sf_response->setContentType('text/html');
     echo $html;
+  }
   else
   {
     $pdf = new sfDomPDFPlugin($html);

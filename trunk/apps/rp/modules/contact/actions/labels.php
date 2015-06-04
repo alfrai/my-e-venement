@@ -22,7 +22,7 @@
 *
 ***********************************************************************************/
 ?>
-<?php 
+<?php
     // lots of the lines above came directly from e-venement v1.10 with only few modifications
     
     // options
@@ -92,6 +92,6 @@
     }
     
     if ( !$request->hasParameter('debug') )
-      sfConfig::set('sf_debug', false);
+      sfConfig::set('sf_web_debug', false);
     
     $this->setLayout(false);

@@ -4,7 +4,7 @@
         'nb-x'          => 3,
         'nb-y'          => 8,
         'left-right'    => 0,
-        'top-bottom'    => ,
+        'top-bottom'    => 0,
         'margin-x'      => 0,
         'margin-y'      => 0,
         'padding-x'     => 2.5,
