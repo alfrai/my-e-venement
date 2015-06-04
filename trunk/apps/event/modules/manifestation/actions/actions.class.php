@@ -675,11 +675,13 @@ class manifestationActions extends autoManifestationActions
     $st = $con->execute(
       //"SELECT DISTINCT t.*, tl.id AS translinked,
       "SELECT DISTINCT t.*,
-              (SELECT CASE WHEN sum(ttt.value + ttt.taxes) IS NULL THEN 0 ELSE sum(ttt.value + ttt.taxes) END
+              (SELECT sum(ttt.value) + sum(CASE WHEN ttt.taxes IS NULL THEN 0 ELSE ttt.taxes END)
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
                  AND (ttt.printed_at IS NOT NULL OR ttt.integrated_at IS NOT NULL OR cancelling IS NOT NULL)
-                 AND ttt.duplicating IS NULL) AS topay,
+                 AND ttt.duplicating IS NULL)
+            + (SELECT sum(bp.value) + sum(CASE WHEN bp.shipping_fees IS NULL THEN 0 ELSE bp.shipping_fees END) FROM bought_product bp WHERE bp.transaction_id = t.id AND bp.integrated_at IS NOT NULL)
+               AS topay,
               (SELECT CASE WHEN sum(ppp.value) IS NULL THEN 0 ELSE sum(ppp.value) END FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
               c.id AS c_id, c.name, c.firstname,
               p.name AS p_name, o.id AS o_id, o.name AS o_name, o.city AS o_city
@@ -689,7 +691,8 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN organism o ON p.organism_id = o.id
        LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
-         AND (SELECT CASE WHEN sum(tt.value + tt.taxes) IS NULL THEN 0 ELSE sum(tt.value + tt.taxes) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed_at IS NOT NULL OR tt.integrated_at IS NOT NULL OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
+         AND (SELECT sum(tt2.value) + sum(CASE WHEN tt2.taxes IS NULL THEN 0 ELSE tt2.taxes END) FROM Ticket tt2 WHERE tt2.transaction_id = t.id AND (tt2.printed_at IS NOT NULL OR tt2.integrated_at IS NOT NULL OR tt2.cancelling IS NOT NULL) AND tt2.duplicating IS NULL)
+          +  (SELECT sum(bp2.value) + sum(CASE WHEN bp2.shipping_fees IS NULL THEN 0 ELSE bp2.shipping_fees END) FROM bought_product bp2 WHERE bp2.transaction_id = t.id AND bp2.integrated_at IS NOT NULL)
           != (SELECT CASE WHEN sum(pp.value) IS NULL THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();
