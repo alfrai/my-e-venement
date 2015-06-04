@@ -37,6 +37,8 @@ class Seater
     $this->gauge_id = $gauge_id;
     $this->hold = $hold;
     $this->seats = $this->createQuery()->execute();
+    echo $this->seats;
+    //echo $this->createQuery()->getRawSql();
   }
   
   public function createQuery($alias = 's')
@@ -57,11 +59,14 @@ class Seater
     ;
     
     // Holds
-    $q->leftJoin("$alias.HoldContents hc WITH hc.hold_id NOT IN (SELECT hh.id FROM Hold hh WHERE hh.manifestation_id = g.manifestation_id)");
     if ( $this->hold instanceof Hold )
-      $q->andWhere('hc.hold_id = ?', $this->hold->id);
+      $q->leftJoin("$alias.HoldContents hc")
+        ->leftJoin('hc.Hold h')
+        ->andWhere('hc.hold_id = ?', $this->hold->id);
     else
-      $q->andWhere('hc.hold_id IS NULL');
+      $q->leftJoin("$alias.HoldContents hc WITH hc.hold_id NOT IN (SELECT hh.id FROM Hold hh WHERE hh.manifestation_id = g.manifestation_id)")
+        ->leftJoin('hc.Hold h')
+        ->andWhere('hc.hold_id IS NULL');
     
     // Gauge
     if ( $this->gauge_id )
