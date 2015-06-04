@@ -293,6 +293,7 @@ a.actions a:hover { color: #000; background: #F4F4F4; }
   background-position: right top;
   background-repeat: no-repeat;
   background-size: auto auto;
+  display: table-cell;
 }
 #ariane .access:last-child { background-image: none; padding-right: 5px; }
 #ariane form, #ariane p { margin: 0; padding: 0; display: table-row; }
@@ -300,6 +301,8 @@ a.actions a:hover { color: #000; background: #F4F4F4; }
 #ariane a:hover { text-decoration: underline; }
 #ariane .access a { display: table-row; }
 #ariane .active a, #sf_admin_container .active a, #ariane .active {	color: #AD0000; }
+#ariane li { list-style-type: none; }
+#ariane ul { margin: 0px; }
 .past a, #sf_admin_container .past a, #ariane .past  {	color: #888; }
 .future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors { color: red; }
