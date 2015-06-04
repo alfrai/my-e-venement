@@ -2,7 +2,7 @@
   'form_ranks_field',
   array(
     'name'  => 'top',
-    'label' => __('Top'),
+    'label' => __('Best rank'),
     'size'  => 2,
     'value' => 1,
   )

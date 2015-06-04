@@ -1898,6 +1898,58 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <source>New Price</source>
         <target>Nouveau tarif</target>
       </trans-unit>
+      <trans-unit>
+        <source>Best rank</source>
+        <target>Meilleur score</target>
+      </trans-unit>
+      <trans-unit>
+        <source>First number</source>
+        <target>Premier numéro de place</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last number</source>
+        <target>Dernier numéro de place</target>
+      </trans-unit>
+      <trans-unit>
+        <source>First row</source>
+        <target>Première rangée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last row</source>
+        <target>Dernière rangée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Hop value between seats</source>
+        <target>Valeur du pas entre les places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Hop value between rows</source>
+        <target>Valeur du pas entre les rangées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contiguous?</source>
+        <target>Places contiguës</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Exceptions to remove</source>
+        <target>Exceptions à retirer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Exceptions to add</source>
+        <target>Exceptions à ajouter</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Build</source>
+        <target>Construire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Clear</source>
+        <target>Vider</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
