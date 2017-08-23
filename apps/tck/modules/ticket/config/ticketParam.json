@@ -1,0 +1,574 @@
+{
+    "id": {
+        "optional": false,
+        "displayed": true
+    },
+    "sf_guard_user_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "automatic": {
+        "optional": true,
+        "displayed": true
+    },
+    "transaction_id": {
+        "optional": false,
+        "displayed": true
+    },
+    "vat": {
+        "optional": true,
+        "displayed": true
+    },
+    "value": {
+        "optional": false,
+        "displayed": true
+    },
+    "manifestation_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "gauge_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "price_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "price_name": {
+        "optional": false,
+        "displayed": true
+    },
+    "seat_id": {
+        "optional": false,
+        "displayed": true
+    },
+    "duplicating": {
+        "optional": true,
+        "displayed": true
+    },
+    "grouping_fingerprint": {
+        "optional": true,
+        "displayed": true
+    },
+    "cancelling": {
+        "optional": true,
+        "displayed": true
+    },
+    "printed_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "integrated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "barcode": {
+        "optional": true,
+        "displayed": true
+    },
+    "othercode": {
+        "optional": true,
+        "displayed": true
+    },
+    "member_card_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "taxes": {
+        "optional": true,
+        "displayed": true
+    },
+    "contact_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "comment": {
+        "optional": true,
+        "displayed": true
+    },
+    "auto_by_hold": {
+        "optional": true,
+        "displayed": true
+    },
+    "created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "version": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.sf_guard_user_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.automatic": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.contact_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.professional_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.transaction_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.type": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.closed": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.description": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.send_an_email": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.deposit": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.with_shipment": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.postalcode": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.version": {
+        "optional": true,
+        "displayed": true
+    },
+    "Transaction.Tickets.0": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.sf_guard_user_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.automatic": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.event_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.location_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.color_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.happens_at": {
+        "optional": false,
+        "displayed": true
+    },
+    "Manifestation.duration": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.description": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.vat_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.online_limit": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.online_limit_per_transaction": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.no_print": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.depends_on": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.contact_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.organism_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.blocking": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.reservation_begins_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.reservation_ends_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.reservation_description": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.reservation_optional": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.reservation_confirmed": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.expected_income": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.voucherized": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.version": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.name": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.address": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.postalcode": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.city": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.country": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.email": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.email_no_newsletter": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.email_npai": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.npai": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.vcard_uid": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.last_accessor_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.automatic": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.rank": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.description": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.contact_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.organism_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.gauge_max": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.gauge_min": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.reservation_price": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.place": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.licenses": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.unlimited": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.auto_control": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.slug": {
+        "optional": false,
+        "displayed": true
+    },
+    "Manifestation.Location.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Location.version": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.sf_guard_user_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.automatic": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.meta_event_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.event_category_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.event_category_description": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.staging": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.staging_label": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.writer": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.writer_label": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.duration": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.age_min": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.age_max": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.web_price": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.web_price_group": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.image_url": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.picture_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.display_by_default": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.accounting_account": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.slug": {
+        "optional": false,
+        "displayed": true
+    },
+    "Manifestation.Event.museum": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.version": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.hide_in_month_calendars": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.picture_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Manifestation.Event.MetaEvent.slug": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.workspace_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.manifestation_id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.value": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.online": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.onsite": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.group_name": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.updated_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.id": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.name": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.on_ticket": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.seated": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.created_at": {
+        "optional": true,
+        "displayed": true
+    },
+    "Gauge.Workspace.updated_at": {
+        "optional": true,
+        "displayed": true
+    }
+}

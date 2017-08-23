@@ -1,0 +1,20 @@
+## YAML Template.
+Link4Custom:
+  package: link4Custom
+  actAs:
+    Timestampable: ~
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    custom_template_id:  
+      type:  integer
+      notnull:  false
+    event_id:  
+      type:  integer
+      notnull:  false
+  relations:
+    Event:
+      foreignAlias: link4custom
+    CustomTemplate:
+      foreignAlias: link4custom

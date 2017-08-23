@@ -1,0 +1,7 @@
+all:
+  javascripts: []
+  stylesheets: []
+  
+newSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts: [event]

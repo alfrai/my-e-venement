@@ -1,0 +1,6 @@
+## YAML Template.
+fontFamilies: {"arial":"Arial", "arial narrow":"Arial Narrow", "helvetica":"Helvetica", "courier":"Courier", "georgia":"Georgia"}
+
+therm:
+    height:  145
+    width:  60

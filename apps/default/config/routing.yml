@@ -1,3 +1,12 @@
+link4custom:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                link4custom
+    module:               link4custom
+    prefix_path:          /link4custom
+    column:               id
+    with_wildcard_routes: true
+
 slave_ping:
   class: sfDoctrineRouteCollection
   options:
@@ -31,6 +40,15 @@ picture:
     model:                Picture
     module:               picture
     prefix_path:          /picture
+    column:               id
+    with_wildcard_routes: true
+
+customTemplate:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                CustomTemplate
+    module:               customTemplate
+    prefix_path:          /customTemplate
     column:               id
     with_wildcard_routes: true
 

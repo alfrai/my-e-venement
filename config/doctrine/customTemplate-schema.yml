@@ -1,0 +1,17 @@
+## YAML Template.
+CustomTemplate:
+  package: customTemplate
+  actAs:
+    Timestampable: ~
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(80)
+      notnull: true
+      notblank: true
+    description: string(255)
+    dataCustom: string
+    tckHeight : smallint
+    tckWidth : smallint

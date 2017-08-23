@@ -372,4 +372,124 @@ class ticketActions extends sfActions
     // tarif_names []
     require('transaction-form.php');
   }
+  
+  
+  // goto customize
+  public function executeCustomize(sfWebRequest $request)
+  {
+          //$this->form = new CustomTicketForm();
+          $fileJson = fopen(__DIR__.'/../config/ticketParam.json', 'r');
+          $jsonParam = json_decode(fread($fileJson,filesize(__DIR__.'/../config/ticketParam.json')), TRUE);
+          fclose($fileJson);
+//
+          // TODO USE THAT FOR GENERALISATION!!  
+          //$this->tckForm =new CustomTicketForm(array(),array('param'=>$jsonParam));
+          
+          $this->tempType = $request->getPostParameter('tempType');
+          $this->eventId = $request->getPostParameter('selecItem');
+          
+          $this->json = $jsonParam;
+          
+          $customParams = sfConfig::get('app_tickets_customize');
+          $this->font = $customParams['fontFamilies'];
+          $this->tckSize = $customParams[$this->tempType];
+          $this->fontSizeRange = $customParams['fontSize'];
+          $this->controller = '';
+          // add controller if the size is known
+          if($this->tckSize['controller']){
+              if (sfConfig::has('app_tickets_control_left')){
+                  $this->controller = 'L';
+              }else{
+                  $this->controller = 'R';
+              }
+          }
+          
+  }
+  
+  //goto customPrint
+  public function executeCustomPrint(sfWebRequest $request)
+  {
+      require('customPrint.php');
+      
+  }
+  
+  //save the template
+  public function executeCustomizeSubmit(sfWebRequest $request){
+      //$this->forwardUnless($query = $request->getParameter('query'), 'job', 'index');
+
+      //$this->jobs = Doctrine_Core::getTable('JobeetJob')->getForLuceneQuery($query);
+
+      if ($request->isXmlHttpRequest()) {
+//            if ('*' == $query || !$this->jobs) {
+//                return $this->renderText('No results.');
+//            }
+//
+//            return $this->renderPartial('job/list', array('jobs' => $this->jobs));
+          $event = $request->getParameter('event_id');
+          //$all = $request->extractParameters
+          $data = $request->getParameter('datacustom');
+          $tckheight = $request->getParameter('tckheight');
+          $tckwidth = $request->getParameter('tckwidth');
+          $template = Doctrine_Core::getTable('tckCustom')
+                  ->findOneByEventId($event);
+          if($template==null){
+              $template=new TckCustom();
+          }else{
+              $template->version +=1;
+          }
+          $template->name = 'testing';
+          $template->event_id = $event;
+          $template->dataCustom = $data;
+          $template->description = 'mouhahahahha';
+          $template->tckHeight = $tckheight;
+          $template->tckWidth = $tckwidth;
+          
+          $template->save();
+          
+          return $this->renderText('ticket template saved for '.$event);
+        }
+    }
+  
+  protected function getEvents(){
+      $q = Doctrine::getTable('Event')
+    ->createQuery('e')
+    ->orderBy('translation.name')
+    ->limit(500)
+    ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
+    
+    $events = array();
+    foreach ( $q->execute() as $event )
+      $events[$event.' ('.$event->MetaEvent.')'] = $event->id;
+    
+    return $events;
+  }
+    
+    
+    
+  public function executeCustomizeSave(sfWebRequest $request){
+      $this->setLayout('empty');
+      $this->events = $this->getEvents();
+  }
+  
+
+  
+  public function executeCustomizeMenu(sfWebRequest $request){
+      
+    $q = Doctrine::getTable('Event')
+    ->createQuery('e')
+    ->orderBy('translation.name')
+    ->limit(500)
+    ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
+    
+    $this->events = $this->getEvents();
+    
+    $qTemplate = Doctrine::getTable('customTemplate')
+                    ->createQuery('cT')
+                    ->leftJoin('link4custom')
+                    ->orderBy('updated_at DESC');
+    
+    $this->customTemplates = array();
+    foreach ( $qTemplate->execute() as $cTemp )
+      $this->customTemplates[] = $cTemp;
+  }
 }
