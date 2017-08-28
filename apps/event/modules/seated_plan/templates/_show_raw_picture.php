@@ -6,6 +6,7 @@
       'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : ''
     )) ?>
     <?php use_stylesheet('/private/event-seated-plan?'.date('Ymd')) ?>
+    <canvas class="zones"></canvas>
   </a>
   <?php if ( isset($form->transaction_id) ): ?>
   <?php use_helper('CrossAppLink') ?>

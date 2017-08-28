@@ -48,6 +48,7 @@
         .prop('id', id)
         .attr('style',widget.attr('style'))
         .append($('<div></div>').addClass('anti-handling'))
+        .append(widget.find('canvas'))
         .prepend($(this))
       ;
       
