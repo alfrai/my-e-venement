@@ -2,4 +2,8 @@ indexSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+getZonesSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
         

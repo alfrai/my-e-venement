@@ -15,7 +15,6 @@
 <?php endif ?>
 <?php $sf_response->addMeta('og:description', array('property'=>'og:description', 'content'=>$manifestation->getSocialDescription())); ?>
 
-
 <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
 <div class="synthetic">
 

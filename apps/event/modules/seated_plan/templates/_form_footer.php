@@ -13,3 +13,10 @@
     <input type="text" name="seat[id]" value="" />
   </p></form>
 </div>
+<div id="colorpicker"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#colorpicker').insertBefore('#seated_plan_background');
+  $('#colorpicker').farbtastic('#seated_plan_background');
+});
+</script>

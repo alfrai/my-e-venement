@@ -1,5 +1,5 @@
 default:
-  javascripts: [jquery, event-seated-plan?<?php echo date('Ymd') ?>]
+  javascripts: [jquery, event-seated-plan?<?php echo date('Ymd') ?>, event-seated-plan-zones?<?php echo date('Ymd') ?>]
   stylesheets: [event-seated-plan?<?php echo date('Ymd') ?>]
 indexSuccess:
   javascripts: [public?<?php echo date('Ymd') ?>, helper]

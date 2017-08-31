@@ -29,6 +29,12 @@ seatDel:
 delPicture:
   credentials: [event-seated-plan-edit]
 
+getZones:
+  credentials: [event-seats-allocation]
+setZones:
+  credentials: [event-seats-allocation]
+clearZones:
+  credentials: [event-seats-allocation]
 getSeats:
   credentials: [event-seats-allocation]
 getShortnames:

@@ -69,11 +69,14 @@ class SeatedPlan extends PluginSeatedPlan
       class="seats-url"
     ></a>';
     
+    $canvas = '<canvas class="zones" data-urls-get="'.url_for('seats/getZones?gauge_ids='.json_encode($ids)).'"></canvas>';
+            
+    
     return '<span
-      id="plan-'.$this->id.(count($gauges) > 0 ? '-manif-'.$gauges[0]->Manifestation->id : '').'"
+      id="plan-'.$this->id.(count($gauges) > 0 ? '-manif-'.$gauges[0]->manifestation_id : '').'"
       class="seated-plan picture '.($attributes['on-demand'] ? 'on-demand' : '').'"
       style="'.(count($gauges) == 1 ? 'background-color: '.$this->background.';' : '').'"
-    >'.$img.$data.'</span>';
+    >'.$img.$data.$canvas.'</span>';
   }
   
   public function clearLinks()

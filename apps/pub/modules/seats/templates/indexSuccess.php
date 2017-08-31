@@ -3,7 +3,7 @@
   $prices = $seats = array();
   
   // preparing stuff to optimize fetching Seats from seated plans
-  $prepare = array();
+  $prepare = array('?');
   $seated_plan_workspaces = new Doctrine_Collection('Workspace');
   foreach ( $seated_plans as $sp )
   {
@@ -17,7 +17,7 @@
   //  $seat_records->merge($seated_plan->Seats);
   $seat_records = Doctrine::getTable('Seat')->createQuery('s')
     ->leftJoin('s.Holds h')
-    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plan_workspaces->getKeys())
+    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $arr = array_merge(array(0), $seated_plan_workspaces->getKeys())) // 0 is a workaround to avoid empty "IN" condition
     ->andWhere('sp.id IS NOT NULL')
     ->execute()
   ;

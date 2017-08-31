@@ -32,6 +32,7 @@ generator:
         background:
           label: Background color
           help: HTML colors
+          type: color
         list_nb_seats:
           label: Size
           type: number

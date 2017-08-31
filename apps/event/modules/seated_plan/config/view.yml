@@ -8,8 +8,8 @@ updateSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data]
 editSuccess:
-  stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data, event-seated-plan-shortcuts, event-seated-plan-zones]
+  stylesheets: [picture, event-seated-plan, /js/farbtastic/farbtastic]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data, event-seated-plan-shortcuts, event-seated-plan-zones, farbtastic/farbtastic]
 showSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan]
@@ -18,6 +18,18 @@ indexSuccess:
   stylesheets: [event-seated-plan]
 
 linksBuildSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getZonesSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+setZonesSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+clearZonesSuccess:
   has_layout: false
   http_metas:
     content-type: application/json

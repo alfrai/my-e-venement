@@ -8,7 +8,7 @@
 #content .picture.seated-plan .seat.asked { background-color: blue; }
 #content .picture.seated-plan .seat.ordered { background-color: orange; }
 #content .picture.seated-plan .seat.printed { background-color: red; }
-#content .picture.seated-plan .pre-seat, #content .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
+#content .picture.seated-plan .pre-seat, #content .picture.seated-plan .seat.txt { background-color: transparent; z-index: 4; margin: -2px 0 0 -2px; }
 .picture.seated-plan .pre-seat { z-index: 2; }
 .picture.seated-plan .seat.txt.in-progress { border: 2px solid red; }
 .show-all .picture.seated-plan .seat.txt { background-color: #413839; border: 2px solid black; }
@@ -41,11 +41,10 @@
 #sf_fieldset_plan .sf_admin_form_field_show_picture .picture { margin: 0 auto; background-color: white; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture *:not(input) { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .label { margin-left: 24.5em; }
-#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: -11em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: -14em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools label { display: inline-block; width: 8em; margin-right: 1em; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools input { width: 8em; }
-#sf_fieldset_plan .sf_admin_form_field_show_picture .tools a { text-decoration: none; border: 1px solid gray; background-color: silver; padding: 2px 7px; border-radius: 2px; }
-#sf_fieldset_plan .sf_admin_form_field_show_picture .tools .show_links a { display: none; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools a { display: none; }
 #sf_fieldset_plan .sf_admin_form_field_Picture table label, #sf_fieldset_online_sales .sf_admin_form_field_OnlinePicture table label { display: none; }
 .js_seated_plan_useful { display: none; }
 #sf_fieldset_ranks label { min-width: 15em; display: inline-block; }
@@ -81,4 +80,8 @@
 #menu li.disabled { color: silver; }
 
 /* ZONES */
-.seated-plan.done canvas { position: absolute; width: 100%; height: 100%; margin-left: -50%; z-index: 3; }
+.seated-plan canvas { position: absolute; width: 100%; height: 100%; z-index: 4; }
+.sf_admin_form .seated-plan canvas { opacity: 0.6; }
+.synthetic .seated-plan canvas { z-index: -1; }
+.synthetic .seated-plan canvas.clickme { z-index: 3; }
+.seated-plan canvas, .set-zones [name="clear-zones"] { display: none; }

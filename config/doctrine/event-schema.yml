@@ -728,6 +728,20 @@ SeatedPlan:
       foreignAlias: SeatedPlans
       refClass: SeatedPlanWorkspace
       class: Workspace
+SeatedPlanZone:
+  package: event
+  columns:
+    seated_plan_id:
+      type: integer
+      notnull: true
+    zone:
+      type: string
+      notnull: true
+  relations:
+    SeatedPlan:
+      foreignAlias: Zones
+      onDelete: CASCADE
+      onUpdate: CASCADE
 SeatedPlanWorkspace:
   package: event
   columns:

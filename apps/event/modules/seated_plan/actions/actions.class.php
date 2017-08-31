@@ -23,8 +23,8 @@
 ?>
 <?php
 
-require_once dirname(__FILE__).'/../lib/seated_planGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
+require_once __DIR__.'/../lib/seated_planGeneratorConfiguration.class.php';
+require_once __DIR__.'/../lib/seated_planGeneratorHelper.class.php';
 
 /**
  * seated_plan actions.
@@ -98,35 +98,47 @@ class seated_planActions extends autoSeated_planActions
   }
   public function executeGetHoldSeats(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-hold-seats.php');
+    return require(__DIR__.'/get-hold-seats.php');
   }
   public function executeGetControls(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-controls.php');
+    return require(__DIR__.'/get-controls.php');
   }
   public function executeGetDebts(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-debts.php');
+    return require(__DIR__.'/get-debts.php');
   }
   public function executeGetRanks(sfWebRequest $request)
   {
-    require(dirname(__FILE__).'/get-ranks.php');
+    require(__DIR__.'/get-ranks.php');
+  }
+  public function executeGetZones(sfWebRequest $request)
+  {
+    require(__DIR__.'/get-zones.php');
+  }
+  public function executeSetZones(sfWebRequest $request)
+  {
+    require(__DIR__.'/set-zones.php');
+  }
+  public function executeClearZones(sfWebRequest $request)
+  {
+    require(__DIR__.'/clear-zones.php');
   }
   public function executeGetShortnames(sfWebRequest $request)
   {
-    require(dirname(__FILE__).'/get-shortnames.php');
+    require(__DIR__.'/get-shortnames.php');
   }
   public function executeGetSeats(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-seats.php');
+    return require(__DIR__.'/get-seats.php');
   }
   public function executeGetGroup(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-group.php');
+    return require(__DIR__.'/get-group.php');
   }
   public function executeGetTransaction(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-transaction.php');
+    return require(__DIR__.'/get-transaction.php');
   }
   
   // Seat links definition
@@ -211,7 +223,7 @@ class seated_planActions extends autoSeated_planActions
   }
   public function executeGetLinks(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-links.php');
+    return require(__DIR__.'/get-links.php');
   }
   public function executeLinksRemove(sfWebRequest $request)
   {
@@ -300,7 +312,7 @@ class seated_planActions extends autoSeated_planActions
   // Seat ranks definition
   public function executeBatchSeatSetRank(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/batch-seat-set-rank.php');
+    return require(__DIR__.'/batch-seat-set-rank.php');
   }
   public function executeSeatSetRank(sfWebRequest $request)
   {

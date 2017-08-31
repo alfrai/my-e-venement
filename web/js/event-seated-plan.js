@@ -166,19 +166,27 @@
   
   LI.seatedPlanLoadData = function(url, extra_selector, no_reset)
   {
-    var selector = '.picture.seated-plan';
-    if ( extra_selector )
-    {
-      if ( typeof(extra_selector) == 'string' )
-        selector = $(extra_selector+selector);
-      else if ( typeof(extra_selector) == 'object' )
-        selector = $(extra_selector);
-    }
-    
     if ( typeof(LI.window_transition) == 'function' )
       LI.window_transition();
-    $(selector).find('.seat').remove();
+    //$(selector).find('.seat').remove();
     $.get(url,function(json){
+      LI.seatedPlanLoadDataRaw(json, no_reset, extra_selector);
+      $('#transition .close').click();
+    });
+    
+    setTimeout(function(){ $('#transition .close').click(); }, 1500);
+  }
+
+  LI.seatedPlanLoadDataRaw = function(json, no_reset, extra_selector) {
+      var selector = '.picture.seated-plan';
+      if ( extra_selector )
+      {
+        if ( typeof(extra_selector) == 'string' )
+          selector = $(extra_selector+selector);
+        else if ( typeof(extra_selector) == 'object' )
+          selector = $(extra_selector);
+      }
+    
       if ( !no_reset )
         $(selector).find('.seat').remove();
       for ( i = 0 ; i < json.length ; i++ )
@@ -193,13 +201,8 @@
         for ( var i = 0 ; fct = LI.seatedPlanInitializationFunctions[i] ; i++ )
           fct(selector);
       },200);
-      
-      $('#transition .close').click();
-    });
-    
-    setTimeout(function(){ $('#transition .close').click(); }, 1500);
   }
-
+  
   // the function that add a seat on every click (mouseup) or on data loading
   LI.seatedPlanMouseup = function(data) { setTimeout(function() // optimization !?
   {
