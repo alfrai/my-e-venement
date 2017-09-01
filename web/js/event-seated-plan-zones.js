@@ -41,44 +41,90 @@ LI.seatedPlanZonesDrawing.setDebug = function(debug){
     LI.seatedPlanZonesDrawing.debug = debug === undefined ? location.hash == '#debug' : debug;
 }
 
-LI.seatedPlanZonesDrawing.clear = function(){
-    var canvas = $('.seated-plan canvas');
-    canvas[0].getContext('2d').clearRect(0, 0, canvas.width(), canvas.height());
+LI.seatedPlanZonesDrawing.clear = function(canvas){
+    LI.seatedPlanZonesDrawing.log('Seated plan: clearing canvas.');
+    
+    if ( canvas == undefined ) {
+        canvas = $('.seated-plan canvas');
+    }
+    
+    $(canvas)[0].getContext('2d').clearRect(0, 0, $(canvas).width(), $(canvas).height());
     LI.seatedPlanZonesDrawing.points = [];
 }
 
 LI.seatedPlanZonesDrawing.load = function(){
-    LI.logIf(LI.seatedPlanZonesDrawing.debug, 'Seated plan: loading zones');
+    if ( LI.seatedPlanZonesDrawing.zones != undefined ) {
+        LI.seatedPlanZonesDrawing.log('Seated plan: zones are already loaded, then redraw & dispatch zones');
+        LI.seatedPlanZonesDrawing.drawZones();
+        return;
+    }
+    
+    LI.seatedPlanZonesDrawing.log('Seated plan: loading zones');
     $.ajax({
         url: $('.seated-plan canvas').attr('data-urls-get'),
-        data: { except: LI.seatedPlanZonesDrawing.exceptZones },
         method: 'get',
         type: 'json',
         success: function(data){
             if ( data.type != 'zones' ) {
-                LI.logIf(LI.seatedPlanZonesDrawing.debug, 'Seated plan: nothing to load... data is', data);
+                LI.seatedPlanZonesDrawing.log('Seated plan: nothing to load... data is', data);
                 return;
             }
-
-            LI.logIf(LI.seatedPlanZonesDrawing.debug, 'Seated plan: this data is going to be loaded into the canvas:', data);
             
-            var canvas = $('.seated-plan canvas')[0].getContext('2d');
-            $.each(data.zones, function(zone_id, zone){
-                for ( i = 0 ; i < zone.length ; i++ ) {
-                    var type = false;
-                    if ( i == 0 ) {
-                        type = 'first';
-                    }
-                    else {
-                        if ( i == zone.length - 1 ) {
-                            type = 'lastauto';
-                        }
-                    }
-                    LI.canvasPlot(canvas, zone[i].x, zone[i].y, type, data.color, zone_id);
-                }
-            });
+            LI.seatedPlanZonesDrawing.log('Seated plan: this data is going to be loaded into the canvas:', data);
+            LI.seatedPlanZonesDrawing.zones = data.zones;
+            LI.seatedPlanZonesDrawing.drawZones();
         }
     });
+}
+
+LI.seatedPlanZonesDrawing.drawZones = function(){
+    var canvas = $('.seated-plan canvas:first');
+    var context;
+    var c2 = false;
+    LI.seatedPlanZonesDrawing.clear(canvas);
+    
+    $.each(LI.seatedPlanZonesDrawing.zones, function(zone_id, zone){
+        if ( $.inArray(zone.id, LI.seatedPlanZonesDrawing.exceptZones) === -1 ) {
+            context = canvas[0].getContext('2d');
+            LI.seatedPlanZonesDrawing.drawZone(zone, context);
+        }
+        
+        // if a first pass have been already done to create the "under-seats" zones, then exceptZones > 0
+        if ( LI.seatedPlanZonesDrawing.exceptZones.length > 0 ) {
+            return;
+        }
+        
+        LI.seatedPlanZonesDrawing.log('Seated plan: add a canvas under defined seats');
+        c2 = $('.seated-plan canvas.under-seats[data-spid='+zone.seated_plan_id+']');
+        if ( c2.length == 0 ) {
+            c2 = $(canvas).clone()
+                .removeClass('visible')
+                .addClass('under-seats')
+                .attr('data-spid', zone.seated_plan_id)
+                .insertAfter(canvas)
+            ;
+            LI.seatedPlanZonesDrawing.log('creates a sub-seats canvas');
+        }
+        context = c2[0].getContext('2d');
+        LI.seatedPlanZonesDrawing.drawZone(zone, context);
+    });
+    
+    return canvas;
+}
+
+LI.seatedPlanZonesDrawing.drawZone = function(zone, context){
+    for ( i = 0 ; i < zone.polygon.length ; i++ ) {
+        var type = false;
+        if ( i == 0 ) {
+            type = 'first';
+        }
+        else {
+            if ( i == zone.polygon.length - 1 ) {
+                type = 'lastauto';
+            }
+        }
+        LI.canvasPlot(context, zone.polygon[i].x, zone.polygon[i].y, type, zone.color, zone.id);
+    }
 }
 
 LI.seatedPlanZonesDrawing.pointInPolygon = function(x, y, polygon){
@@ -104,29 +150,68 @@ LI.seatedPlanZonesDrawing.pointInPolygon = function(x, y, polygon){
 // What to do after having loaded the zones
 LI.seatedPlanZonesDrawing.loaded = function(){
     $('.seated-plan canvas.clickme').remove();
-    $('.seated-plan canvas:first').each(function(){
-        var canvas = this;
-        $(this).clone().addClass('clickme')
-            .insertAfter(this)
-            .click(function(e){
-                $.each(LI.seatedPlanZonesDrawing.points, function(zone_id, polygon){
-                    LI.logIf(LI.seatedPlanZonesDrawing.debug, 'Test if a point is in a polygon', {x: e.offsetX, y: e.offsetY}, polygon, LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ? 'inside' : 'outside');
-                    if ( LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ) {
-                        if ( typeof(LI.window_transition) == 'function' ) {
-                            LI.window_transition();
-                        }
-                        LI.seatedPlanZonesDrawing.exceptZones.push(zone_id);
-                        $.get($(canvas).closest('.seated-plan').find('.seats-url').prop('href')+"&from_zone="+zone_id, function(data){
-                            LI.logIf(LI.seatedPlanZonesDrawing.debug, 'loading seats in zone...', data);
-                            LI.seatedPlanLoadDataRaw(data, true, null);
-                            
-                            $('#transition .close').click();
-                        });
+    var canvas = $('.seated-plan canvas:first');
+    var tos = [];
+    canvas.addClass('light');
+    canvas.clone()
+        .addClass('clickme')
+        .insertAfter(canvas)
+        .mousemove(function(event){
+            var e = event;
+            var elt = this;
+            for ( var i = 0 ; i < tos.length ; i++ ) { clearTimeout(tos[i]); } // clear previous timeouts
+            
+            tos.push(setTimeout(function(){
+                var hover;
+                $.each(LI.seatedPlanZonesDrawing.zones, function(zone_id, zone){
+                    hover = LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, zone.polygon);
+                    if ( hover ) {
+                        $(elt).addClass('hover');
+                        var spid = LI.seatedPlanZonesDrawing.zones[zone_id].seated_plan_id;
+                        $('.seated-plan canvas.under-seats.visible').removeClass('visible');
+                        $('.seated-plan canvas.under-seats[data-spid='+spid+']').addClass('visible');
+                        LI.seatedPlanZonesDrawing.log('Seated Plans: mouse over a zone', zone_id, 'of this plan', spid);
                     }
+                    return !hover;
                 });
-            })
-        ;
-    });
+                
+                if ( !hover ) {
+                    $('.seated-plan canvas.under-seats.visible').removeClass('visible');
+                    $(elt).removeClass('hover');
+                }
+            }, 100));
+        })
+        .mousemove()
+        .mouseout(function(e){
+            $(this).removeClass('hover');
+            $('.seated-plan canvas.under-seats.visible').removeClass('visible');
+        })
+        .click(function(e){
+            $.each(LI.seatedPlanZonesDrawing.points, function(zone_id, polygon){
+                LI.seatedPlanZonesDrawing.log('Test if a point is in a polygon', {x: e.offsetX, y: e.offsetY}, polygon, LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ? 'inside' : 'outside');
+                if ( LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ) {
+                    if ( typeof(LI.window_transition) == 'function' ) {
+                        LI.window_transition();
+                    }
+                    
+                    $.each(LI.seatedPlanZonesDrawing.zones, function(zid, zone){
+                        if ( LI.seatedPlanZonesDrawing.zones[zone_id].seated_plan_id == zone.seated_plan_id ) {
+                            LI.seatedPlanZonesDrawing.exceptZones.push(zone.id);
+                        }
+                    });
+                    $.get(canvas.closest('.seated-plan').find('.seats-url').prop('href')+"&from_zone="+zone_id, function(data){
+                        LI.seatedPlanZonesDrawing.log('loading seats in zone...', data);
+                        $('#transition .close').click();
+                        
+                        LI.seatedPlanLoadDataRaw(data, true, null);
+                        LI.seatedPlanZonesDrawing.drawZones();
+                    });
+                    
+                    return false;
+                }
+            });
+        })
+    ;
 }
 
 /**
@@ -151,10 +236,16 @@ LI.logIf = function() {
     return true;
 }
 
+LI.seatedPlanZonesDrawing.log = function(){
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift(LI.seatedPlanZonesDrawing.debug);
+    return LI.logIf.apply(null, args);
+}
+
 // draw zones on each click
 LI.seatedPlanZonesDrawing.activateDefinitionProcess = function(e){
-    $('.seated-plan canvas')
-        .css('display', 'block')
+    $('.seated-plan canvas:first')
+        .addClass('visible')
         .unbind('mouseup')
         .mouseup(function(e){ 
             var canvas = this.getContext('2d');
@@ -179,12 +270,13 @@ LI.seatedPlanZonesDrawing.activateDefinitionProcess = function(e){
 
 LI.seatedPlanZonesDrawing.resizeCanvas = function(){
     $('.seated-plan canvas').each(function(){
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, 'Resize canvas', 'to', $(this).width(), 'from', $(this).prop('width'));
-        
-        $(this)
-            .prop('width', $(this).width())
-            .prop('height', $(this).height())
-        ;
+        if (!( $(this).prop('width') == $(this).width() && $(this).prop('height') == $(this).height() )) {
+            LI.seatedPlanZonesDrawing.log('Resize canvas', 'to', $(this).width(), 'from', $(this).prop('width'));
+            $(this)
+                .prop('width', $(this).width())
+                .prop('height', $(this).height())
+            ;
+        }
     });
 }
 
@@ -206,22 +298,22 @@ LI.canvasPlot = function(canvas, x, y, state, color, zone_id) {
             LI.seatedPlanZonesDrawing.points[zone_id] = [{ x: x, y: y }];
         }
         
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, "c2.fillStyle = 'red';");
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, 'c2.beginPath();');
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, 'c2.moveTo('+x+', '+y+');');
+        LI.seatedPlanZonesDrawing.log("c2.fillStyle = '"+color+"';");
+        LI.seatedPlanZonesDrawing.log('c2.beginPath();');
+        LI.seatedPlanZonesDrawing.log('c2.moveTo('+x+', '+y+');');
         return true;
     }
     
     canvas.lineTo(x, y);
     LI.seatedPlanZonesDrawing.points[zone_id == undefined ? LI.seatedPlanZonesDrawing.points.length-1 : zone_id]
         .push({ x: x, y: y });
-    LI.logIf(LI.seatedPlanZonesDrawing.debug, 'c2.lineTo('+x+', '+y+');');
+    LI.seatedPlanZonesDrawing.log('c2.lineTo('+x+', '+y+');');
     
     if ( state == 'last' || state == 'lastauto' ) {
         canvas.closePath();
         canvas.fill();
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, 'c2.closePath();');
-        LI.logIf(LI.seatedPlanZonesDrawing.debug, 'c2.fill();');
+        LI.seatedPlanZonesDrawing.log('c2.closePath();');
+        LI.seatedPlanZonesDrawing.log('c2.fill();');
     }
     
     if ( state == 'last' ) {

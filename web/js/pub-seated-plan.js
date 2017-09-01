@@ -85,7 +85,7 @@ $(document).ready(function(){
   });
   
   // zones
-  $('.seated-plan canvas').css('display', 'block');
+  $('.seated-plan canvas').addClass('visible');
   LI.seatedPlanInitializationFunctions.push(LI.seatedPlanZonesDrawing.load);
   LI.seatedPlanInitializationFunctions.push(LI.seatedPlanZonesDrawing.loaded);
 });

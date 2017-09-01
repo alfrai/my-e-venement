@@ -167,7 +167,6 @@ class seatsActions extends sfActions
     $this->data = array(
         'type' => 'zones',
         'zones' => array(),
-        'color' => null,
     );
     
     // data validation
@@ -179,6 +178,8 @@ class seatsActions extends sfActions
     if ( !is_array($except) ) {
         $except = [0];
     }
+    $this->gcache = new Doctrine_Collection('Gauge');
+    $this->colors = $this->getZoneColors();
     
     // the map of the zone
     $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
@@ -202,38 +203,106 @@ class seatsActions extends sfActions
     ;
     $zones = $q->fetchArray();
     foreach ( $zones as $zone ) {
-        $this->data['zones'][$zone['id']] = json_decode($zone['zone'], true);
+        $this->data['zones'][$zone['id']] = array(
+            'id'                => $zone['id'],
+            'seated_plan_id'    => $zone['seated_plan_id'],
+            'polygon'           => json_decode($zone['zone'], true),
+            'color'             => 'purple' // default color
+        );
+        
+        // the state of the zone: calculating ratio between the size of the gauge and its free space
+        $this->setZoneColor($zone, $ids);
+    }
+  }
+  
+  private function getCurrentGauges($seated_plan_id, $gauge_ids)
+  {
+    // trying to use cache of gauges to get back their state
+    if ( !isset($this->gcache[$seated_plan_id]) ) {
+        $q = Doctrine::getTable('Gauge')->createQuery('g')
+                ->andWhereIn('g.id', $gauge_ids)
+            ->leftJoin('ws.SeatedPlans sp')
+            ->andWhere('sp.id = ?', $seated_plan_id)
+        ;
+        $gauges = $q->execute();
+        $this->gcache[$seated_plan_id] = $gauges;
     }
     
-    // the state of the zone
-    $q = Doctrine::getTable('Gauge')->createQuery('g')
-        ->andWhereIn('g.id', $ids)
-    ;
-    $gauges = $q->execute();
+    return $this->gcache[$seated_plan_id];
+  }
+  
+  private function setZoneColor($zone, $gauge_ids)
+  {
+    $gauges = $this->getCurrentGauges($zone['seated_plan_id'], $gauge_ids);
+    
     $state = array('total' => 0, 'free' => 0);
     foreach ( $gauges as $gauge ) {
         $state['free']  += $gauge->free;
         $state['total'] += $gauge->value;
     }
-    
     $ratio = $state['free']/$state['total'];
-    if ( $ratio == 0 ) {
-        $this->data['color'] = 'red';
-    }
-    elseif ( $ratio == 0.8 ) {
-        $this->data['color'] = 'green';
+    
+    // setting the good color representing the state of the gauge
+    if ( $ratio > 0.8 ) {
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['free'];
     }
     elseif ( $ratio > 0.6 ) {
-        $this->data['color'] = 'YellowGreen';
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['partially-free'];
     }
     elseif ( $ratio > 0.4 ) {
-        $this->data['color'] = 'yellow';
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['middlestate'];
     }
     elseif ( $ratio > 0.2 ) {
-        $this->data['color'] = 'gold';
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['partially-booked'];
+    }
+    elseif ( $ratio > 0 ) {
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['mostly-booked'];
     }
     else {
-        $this->data['color'] = 'orange';
+        $this->data['zones'][$zone['id']]['color'] = $this->colors['booked'];
     }
+  }
+  
+  private function getZoneColors()
+  {
+    $props = $colors = array();
+    
+    foreach ( array('css/pub-seated-plan-masscolors.css', 'private/pub-seated-plan-masscolors.css') as $file ) {
+        $colors = array_merge($colors, $this->parseCSS($file));
+    }
+    
+    return $colors;
+  }
+  
+  private function parseCSS($file)
+  {
+    if ( !is_readable($file) ) {
+        return array();
+    }
+    
+    $colors = array();
+    $lines = explode("\n", file_get_contents(sfConfig::get('sf_web_dir').'/css/pub-seated-plan-masscolors.css'));
+    
+    foreach ( $lines as $line ) {
+        preg_match('/zone\.([\w\.#-_]+)\s*{\s*background-color:\s*([\w-_#\d]+);?\s*}/', $line, $matches);
+        $props[] = $matches;
+    }
+    
+    foreach ( $props as $prop ) {
+        if ( count($prop) != 3 ) {
+            continue;
+        }
+        
+        $colors[$prop[1]] = $prop[2];
+    }
+    
+    foreach ( array('free', 'partially-free', 'middlestate', 'partially-booked', 'mostly-booked', 'booked') as $color ) {
+        if ( isset($colors[$color]) ) {
+            continue;
+        }
+        $colors[$color] = 'purple';
+    }
+    
+    return $colors;
   }
 }

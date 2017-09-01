@@ -38,7 +38,7 @@
         
         $zones = $q->fetchArray();
         foreach ( $zones as $zone ) {
-            $this->data['zones'][] = json_decode($zone['zone'],true);
+            $this->data['zones'][] = array('id' => $zone->id, 'polygon' => json_decode($zone['zone'],true), 'color' => 'red');
         }
     }
     
