@@ -87,6 +87,7 @@
 .synthetic .seated-plan canvas.clickme { z-index: 3; }
 .synthetic .seated-plan canvas.hover { cursor: zoom-in; }
 .synthetic .seated-plan .seat:not(.txt) { opacity: 0.7; }
-.seated-plan canvas, .set-zones [name="clear-zones"] { display: none; }
+.seated-plan canvas, .set-zones [name="clear-zones"], .set-zones .help { display: none; }
+.set-zones .help { width: 375px; }
 .seated-plan canvas.under-seats { opacity: 1; }
 .seated-plan canvas.visible { display: block !important; }

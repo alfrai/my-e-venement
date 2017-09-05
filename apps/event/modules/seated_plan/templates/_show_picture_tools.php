@@ -9,8 +9,12 @@
     </div>
     <div style="display: none;" class="rank"><a class="ajax" href="<?php echo url_for('seated_plan/seatSetRank?id='.$seated_plan->id) ?>"></a></div>
     <div class="set-zones">
-      <label><?php echo __('Set zones') ?></label>
+      <label><?php echo __('Define zones') ?></label>
       <input type="checkbox" name="yummy" class="set_zones" value="1" />
       <a href="<?php echo url_for('seated_plan/getZones?id='.$seated_plan->id) ?>"></a>
       <button name="clear-zones" data-url="<?php echo url_for('seated_plan/clearZones?id='.$seated_plan->id) ?>" value=""><?php echo __('Clear zones') ?></button>
+      <div class="help">
+        <span class="ui-icon ui-icon-help floatleft"></span>
+        <?php echo __('Click on each edge of the first polygon you want to materialize over the seats of the zone, and finish with a CTRL+MAJ+Click to close your path. Repeat this each time an other polygon is required.') ?>
+      </div>
     </div>

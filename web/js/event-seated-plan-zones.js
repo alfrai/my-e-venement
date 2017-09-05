@@ -12,15 +12,15 @@ $(document).ready(function(){
         // hide if not expected
         if ( !$(this).is(':checked') ) {
             $('.seated-plan canvas').hide();
-            $(this).siblings('[name="clear-zones"]').hide();
+            $(this).siblings('[name="clear-zones"], .help').hide();
             return;
         }
         
         // mouse action
         LI.seatedPlanZonesDrawing.activateDefinitionProcess();
         
-        // clear zones
-        $(this).siblings('button').show();
+        // show buttons & helpers
+        $(this).siblings('[name="clear-zones"], .help').show();
         
         // load zones
         LI.seatedPlanZonesDrawing.load();
@@ -263,15 +263,19 @@ LI.seatedPlanZonesDrawing.activateDefinitionProcess = function(e){
         .mouseup(function(e){ 
             var canvas = this.getContext('2d');
             
-            if ( LI.seatedPlanZonesDrawing.last == undefined ) {
-                if ( e.button == 0 ) {
-                    LI.canvasPlot(canvas, e.offsetX, e.offsetY, 'first');
-                    LI.seatedPlanZonesDrawing.last = e;
-                }
+            if ( e.button != 0 ) {
+                return false;
+            }
+            
+            if ( LI.seatedPlanZonesDrawing.last == undefined || !(e.ctrlKey && e.shiftKey) ) {
+                // set a new edge
+                LI.canvasPlot(canvas, e.offsetX, e.offsetY, LI.seatedPlanZonesDrawing.last == undefined ? 'first' : false);
+                LI.seatedPlanZonesDrawing.last = e;
             }
             else {
-                LI.canvasPlot(canvas, e.offsetX, e.offsetY, e.button == 0 ? false : 'last');
-                LI.seatedPlanZonesDrawing.last = e.button == 0 ? e : null;
+                // define the last edge and close the path
+                LI.canvasPlot(canvas, e.offsetX, e.offsetY, 'last');
+                LI.seatedPlanZonesDrawing.last = null;
             }
             
             e.stopPropagation();
@@ -318,6 +322,7 @@ LI.canvasPlot = function(canvas, x, y, state, color, zone_id) {
     }
     
     canvas.lineTo(x, y);
+    canvas.stroke();
     LI.seatedPlanZonesDrawing.points[zone_id == undefined ? LI.seatedPlanZonesDrawing.points.length-1 : zone_id]
         .push({ x: x, y: y });
     LI.seatedPlanZonesDrawing.log('c2.lineTo('+x+', '+y+');');

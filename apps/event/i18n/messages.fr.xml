@@ -2314,6 +2314,18 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <source>Edit Color "%%name%%" for manifestations</source>
         <target>Modification de la couleur "%%name%%" pour les manifestations</target>
       </trans-unit>
+      <trans-unit id="578">
+        <source>Define zones</source>
+        <target>Définir les zones</target>
+      </trans-unit>
+      <trans-unit id="579">
+        <source>Clear zones</source>
+        <target>Nettoyer les zones</target>
+      </trans-unit>
+      <trans-unit id="580">
+        <source>Click on each edge of the first polygon you want to materialize over the seats of the zone, and finish with a CTRL+MAJ+Click to close your path. Repeat this each time an other polygon is required.</source>
+        <target>Définissez chaque sommet du premier polygon que vous voulez matérialiser en cliquant sur le plan au-dessus des sièges de cette zone. Pour finir cliquez sur le dernier sommet avec CTRL+MAJ+Click. Répétez la procédure autant que nécessaire.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
