@@ -98,4 +98,19 @@ abstract class PluginEvent extends BaseEvent implements liMetaEventSecurityAcces
 
     return $new;
   }
+  public function postInsert($event) 
+  {
+      $autocheckpoint = sfConfig::get('app_checkpoint_autocheckpoint', false);
+      $name = sfConfig::get('app_checkpoint_name','Entrance');
+                  
+      if ($autocheckpoint) 
+      {
+        $cp = new Checkpoint;
+        $cp->event_id = $this->id;
+        $cp->name =$name;
+        $cp->type ='entrance';
+        $cp->save();
+      }
+      parent::postInsert($event);
+  }
 }

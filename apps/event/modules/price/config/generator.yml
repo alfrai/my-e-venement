@@ -39,7 +39,7 @@ generator:
       filter:
         display:
           Price: [name, description, value, online, hide, member_card_linked, x_days_valid]
-          Links: [manifestations_list, member_cards_list, products_list, linked_products_list, taxes_list]
+          Links: [manifestations_list, products_list, linked_products_list, taxes_list]
           Permissions: [users_list, workspaces_list, not_workspaces_list]
       form:
         display:

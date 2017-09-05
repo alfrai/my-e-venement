@@ -116,12 +116,14 @@ Country:
   package: generic
   actAs:
     I18n:
-      fields: [name]
+      fields: [name, nationality]
   columns:
     name:
       type: string(255)
       notnull: true
       notblank: true
+    nationality:
+      type: string(255)
     codeiso2:
       type: string(2)
 

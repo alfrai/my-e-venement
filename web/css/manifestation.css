@@ -6,6 +6,9 @@ select[disabled] { color: #444; }
 
 #sf_admin_actions_menu_list .sf_admin_action_cancelperiodicity a {  }
 
+.action-new .sf_admin_form_row.sf_admin_text.sf_admin_form_field_online_limit_per_transaction {display: none}
+.action-new .sf_admin_form_row.sf_admin_boolean.sf_admin_form_field_voucherized {display: none}    
+
 #content .sf_admin_form_field_participants_list ul,
 #content .sf_admin_form_field_organizers_list ul,
 #content .sf_admin_form_field_workspaces_list ul,

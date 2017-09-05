@@ -52,7 +52,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email, _groups_picto]
+            fields: [organism_category_id, email, external_id, _groups_picto]
           Address:
             fields: [address]
           City:
@@ -61,7 +61,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [email_no_newsletter, email_npai, family_contact, npai, no_mailing, password, culture]
+            fields: [email_no_newsletter, email_npai, family_contact, npai, no_mailing, password, culture, nationality]
           Direct_Contact:
             fields: [_form_phonenumbers_list, _show_member_cards_list]
           Relations:

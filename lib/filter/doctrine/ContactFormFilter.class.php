@@ -103,6 +103,10 @@ class ContactFormFilter extends BaseContactFormFilter
       'choices' => array('' => '') + sfConfig::get('project_internals_cultures', array()),
     ));
     
+    $this->widgetSchema['nationality']
+      ->setOption('method', 'getName')
+      ->setOption('table_method', 'retrieveNationalities');
+    
     // has postal address ?
     $this->widgetSchema   ['has_address'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_address'] = $this->validatorSchema['npai'];

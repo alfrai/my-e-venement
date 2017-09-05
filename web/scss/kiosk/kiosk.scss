@@ -84,6 +84,15 @@ $info-panel-color: #fff;
   &.light { color: $text-color; }
 }
 
+#admin-trigger {
+  width: 200px;
+  height: 100px;
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+
 /* BREADCRUMBS */
 #breadcrumbs-wrapper {
   height: 7%;
@@ -517,23 +526,52 @@ ul{
   }
 }
 
+#pin {
+  width: 60%;
+  height: 85%;
+
+  button {
+    font-size: 1.5em;
+  }
+
+  #pin-error {
+    display: none;
+  }
+
+  #pin-field {
+    width: 10%;
+    margin-left: 45%;
+
+    #pin-input {
+      font-size: 2em;
+    }
+  }
+
+  .mdl-selectfield__label, .mdl-textfield__label {
+    color: $primary-color;
+    font-size: 1.5em;
+  }
+}
+
+.keypad {
+  width: 30%;
+
+  .key {
+    height: 80px;
+    width: 80px;
+    font-size: 3em;
+    border-radius: 15px;
+    margin: 10px;
+  }
+}
+
 #location {
   width: 60%;
   height: 85%;
-  
-  #keypad {
-    width: 30%;
 
+  .keypad {
     .submit {
       display: none;
-    }
-
-    .key {
-      height: 80px;
-      width: 80px;
-      font-size: 3em;
-      border-radius: 15px;
-      margin: 10px;
     }
   }
 

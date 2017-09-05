@@ -51,6 +51,7 @@ generator:
         dates_range: { type: date }
         Picture: { label: Poster }
         voucherized: { label: Using vouchers }
+        close_before: {label : Online sales close before}
         <?php if ( $museum ): ?><?php echo PHP_EOL ?>
         MetaEvent: { label: Meta <?php echo $type == 'museum' ? 'visit' : 'opening' ?> }
         meta_event_id: { label: Meta <?php echo $type == 'museum' ? 'visit' : 'opening' ?> }
@@ -85,7 +86,7 @@ generator:
         title: Edit <?php echo $museum ? ($type == 'museum' ? 'Visit' : 'Opening') : 'Event' ?> %%name%%
         display:
           General:   [name, short_name, subtitle, meta_event_id, event_category_id, event_category_description, companies_list]
-          Details:   [duration, _form_duration_days, display_by_default, accounting_account, age_min, age_max, description]
+          Details:   [duration, _form_duration_days, display_by_default, close_before, accounting_account, age_min, age_max, description]
           Files:     [_form_files_list]
           Web Content: [Picture, _show_picture, _form_picture_del, extradesc, extraspec]
           <?php if ( sfConfig::get('app_ticketting_dematerialized',false) ): ?>Checkpoints: [_show_checkpoints_notice, _form_checkpoints]<?php endif; echo PHP_EOL; ?>
@@ -93,12 +94,12 @@ generator:
         <?php if ( $museum ) echo 'title: New '.($type == 'museum' ? 'Visit' : 'Opening') ?><?php echo PHP_EOL ?>
         display:
           General:   [name, short_name, subtitle, meta_event_id, event_category_id, event_category_description<?php if ( !$museum ): ?>, companies_list<?php endif ?>]
-          Details:   [<?php echo !$museum ? 'duration, ' : '' ?>display_by_default, accounting_account, age_min, age_max, description]
+          Details:   [<?php echo !$museum ? 'duration, ' : '' ?>display_by_default, close_before , accounting_account, age_min, age_max, description]
           Web Content: [extradesc, extraspec]
       show:
         display:
           General:   [name, short_name, subtitle, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
-          Details:   [_show_duration, _show_display_by_default, age_min_h_r, age_max_h_r, _show_description]
+          Details:   [_show_duration, _show_display_by_default, close_before, age_min_h_r, age_max_h_r, _show_description]
           Files:     [_show_files_list]
           Web Content: [_show_picture, _show_extradesc, _show_extraspec]
           Checkpoints: [_show_checkpoints, _show_checkpoints_notice]

@@ -114,10 +114,12 @@ PriceRank:
     price_id:
       type: integer
       notnull: true
+      primary: true
     domain:
       type: string(255)
       notnull: true
       default: ''
+      primary: true
     rank:
       type: integer
       notnull: true

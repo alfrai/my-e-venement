@@ -31,7 +31,7 @@ class PriceTable extends PluginPriceTable
     if ( sfContext::hasInstance() && ($user = sfContext::getInstance()->getUser()) && $user->getId()
       && (!$override_credentials || !$user->isSuperAdmin() && !$user->hasCredential('event-admin-price')) )
       $q->andWhere("$alias.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0",array($user->getId(),$user->getId()));
-    $q->leftJoin("$alias.Translation pt");
+    $q->leftJoin("$alias.Translation pt WITH pt.lang = ?", $user->getCulture());
     
     return $q;
   }
@@ -41,7 +41,7 @@ class PriceTable extends PluginPriceTable
     $q = $this->getCredentials(parent::createQuery($alias), $alias, $override_credentials);
     
     if ( $dom = sfConfig::get('project_internals_users_domain', null) )
-      $q->leftJoin("$alias.Ranks pr WITH pr.domain ILIKE '%$dom' OR pr.domain = '$dom'");
+      $q->leftJoin("$alias.Ranks pr WITH pr.domain = '$dom'");    // Root domain should not access sub domains
     else
       $q->leftJoin("$alias.Ranks pr");
       

@@ -57,6 +57,8 @@ Contact:
     familial_quotient_id: integer
     type_of_resources_id: integer
     familial_situation_id: integer
+    nationality: integer
+    external_id: string(255)
     sf_guard_user_id:
       type: integer
       unique: true
@@ -93,6 +95,11 @@ Contact:
       foreignAlias: Contacts
       onDelete: SET NULL
       onUpdate: CASCADE
+    Nationality:
+      foreignAlias: Contacts
+      class: Country
+      local: nationality
+      foreign: id
 ContactArchive:
   package: rp
   indexes:

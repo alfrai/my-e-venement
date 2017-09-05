@@ -51,17 +51,13 @@ class priceActions extends autoPriceActions
     
     $dom = sfConfig::get('project_internals_users_domain', false);
     
-    $before = new PriceRank;
-    $before->rank = 0;
-    $after = new PriceRank;
-    $after->rank = $max+1;
     $newRank = 0;
     $update = false;
     
     $prices = array(
       'current' => NULL,
-      'before'  => $before,
-      'after'   => $after,
+      'before'  => NULL,
+      'after'   => NULL,
     );
     
     foreach ( $this->prices as $price )
@@ -83,29 +79,33 @@ class priceActions extends autoPriceActions
         }
     }
     
+    $currentRank = $prices['current']->Ranks[0]->rank;
+    $before = $prices['before'] ? $prices['before']->Ranks[0]->rank : 0;
+    $after = $prices['after'] ? $prices['after']->Ranks[0]->rank : $max+1;
+
     $q = Doctrine_Query::create()
         ->from('PriceRank pr')
         ->update();
 
     // Id previous price rank > selected price rank, the price went down in the list (the rank has risen)
-    if ($prices['before']->rank > $prices['current']->rank) 
+    if ($before > $currentRank) 
     {
-        $newRank = $prices['before']->rank;        
+        $newRank = $before;        
         $q->set('rank', 'rank - 1')
-          ->where('rank BETWEEN ? AND ?', array($prices['current']->rank, $prices['before']->rank));
+          ->where('rank BETWEEN ? AND ?', array($currentRank+1, $before));
         $update = true;
     }
     // If next price rank < selected price rank, the price went up in the list (the rank has lowered)
-    if ($prices['after']->rank < $prices['current']->rank) 
+    if ($after < $currentRank) 
     {
-        $newRank = $prices['after']->rank;
+        $newRank = $after;
         $q->set('rank', 'rank + 1')
-          ->where('rank BETWEEN ? AND ?', array($prices['after']->rank, $prices['current']->rank));
+          ->where('rank BETWEEN ? AND ?', array($after, $currentRank-1));
           $update = true;
     }
 
     if ( $dom && $dom != '.' )
-      $q->andWhere('pr.domain ILIKE ? OR pr.domain = ?', array('%.'.$dom, $dom));
+      $q->andWhere('pr.domain = ?', $dom);  // Root domain should not access sub domains
 
     if ( $update )
       $q->execute();

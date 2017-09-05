@@ -1,0 +1,14 @@
+default:
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css, main: { media: all }, menu, content]
+  javascripts:    [menu, helper]
+  has_layout:     true
+  layout:         layout
+
+newSuccess:
+  stylesheets: [kiosk/admin-task]
+  javascripts: [kiosk/admin-task]
+
+editSuccess:
+  stylesheets: [kiosk/admin-task]
+  javascripts: [kiosk/admin-task]
+

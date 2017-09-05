@@ -19,8 +19,18 @@
   if ( $manifestation->online_limit_per_transaction && $manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
     $vel['max_per_manifestation'] = $manifestation->online_limit_per_transaction;
 ?>
-
-<?php if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($manifestation->happens_at) ): ?>
+<?php $hour = $this->manifestation->Event->close_before;?>
+<?php
+    if (!$hour) 
+    {
+        $delay = sfConfig::get('app_tickets_close_before','36 hours');
+    }
+    else 
+    {
+        $delay = $hour.' hours';
+    }
+?>
+<?php if ( strtotime('now + '.$delay) > strtotime($manifestation->happens_at) ): ?>
   <?php echo nl2br(pubConfiguration::getText('app_texts_manifestation_closed')) ?>
 <?php else: ?>
 <?php use_helper('Number') ?>

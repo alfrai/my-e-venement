@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           AdminTask
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          admin_task
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields: 
+        updated_at:
+          label: 'Date'
+      list:
+        sort: [updated_at]
+        display: [=transaction_id, type, updated_at]
+      filter:
+        display: [updated_at]
+      form:
+        display: [transaction_id, type, pin, updated_at]
+      edit:    ~
+      new:     ~

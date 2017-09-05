@@ -1,4 +1,4 @@
-<div class="sf_admin_form_row sf_admin_foreignkey sf_admin_form_field_color_id">
+<div class="sf_admin_form_row sf_admin_foreignkey">
   <label for="manifestation_color_id"><?php echo __('Clear all prices') ?></label>
   <div class="label ui-helper-clearfix"></div>
   <div class="widget">

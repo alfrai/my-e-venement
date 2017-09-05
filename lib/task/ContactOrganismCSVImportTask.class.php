@@ -91,16 +91,30 @@ class ContactOrganismCSVImportTask extends sfBaseTask{
         $contact->$field = trim($line[$i++]);
       $contact->address = trim($line[4].($line[5] ? "\n".$line[5] : ''));
 
-      for ( $j = 0 ; $j < 2 ; $j++ )
+      $phonenumbers = new Doctrine_Collection('ContactPhonenumber');
+      for ( $j = 0 ; $j < 3 ; $j++ )
       {
         $pn = new ContactPhonenumber;
         $pn->name = $line[$i++];
         $pn->number = $line[$i++];
         if ( trim($pn->number) )
-          $contact->Phonenumbers[] = $pn;
+          $phonenumbers[] = $pn;
       }
 
       $contact->email = trim($line[$i++]);
+      
+      $yobs = new Doctrine_Collection('YOB');
+      $birthday = explode('/', trim($line[$i++]));
+      if ( $birthday )
+      {
+        $yob = new yob();
+        $yob->year = intval($birthday[2]);
+        $yob->month = intval($birthday[1]);
+        $yob->day = intval($birthday[0]);
+        $yob->name = $contact->firstname;
+        $yobs[] = $yob;           
+      }
+      
       $contact->email_no_newsletter = trim($line[$i++]) ? true : false;
       $contact->description = trim($line[$i++]);
 
@@ -109,6 +123,16 @@ class ContactOrganismCSVImportTask extends sfBaseTask{
         if ( $arguments['go'] )
         {
           $contact->save();
+          
+          foreach ($phonenumbers as $pn) {
+            $pn->contact_id = $contact->id;
+            $pn->save();
+          }
+          foreach ($yobs as $yob) {
+            $yob->contact_id = $contact->id;
+            $yob->save();
+          }
+
           $contacts[$contact->id] = $contact;
         }
         $this->logSection('Contact', $contact.' added or updated with id #'.$contact->id);

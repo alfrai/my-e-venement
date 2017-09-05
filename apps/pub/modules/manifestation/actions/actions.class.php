@@ -189,8 +189,17 @@ class manifestationActions extends autoManifestationActions
     
     $this->getResponse()->setTitle($this->manifestation->Event.' - ');
     
-    if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($this->manifestation->happens_at) )
-      return 'Closed';
+    $hour = $this->manifestation->Event->close_before;
+    if (!$hour) 
+    {
+        $delay = sfConfig::get('app_tickets_close_before','36 hours');
+    } 
+    else 
+    {
+        $delay = $hour.' hours';        
+    }
+    if ( strtotime('now + '.$delay) > strtotime($this->manifestation->happens_at) )
+    return 'Closed';
   }
   
   protected function getAvailableMCPrices(Manifestation $manifestation = NULL)

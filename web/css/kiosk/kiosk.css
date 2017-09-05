@@ -51,6 +51,14 @@
 .material-icons.light {
   color: #fff; }
 
+#admin-trigger {
+  width: 200px;
+  height: 100px;
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  left: 50%; }
+
 /* BREADCRUMBS */
 #breadcrumbs-wrapper {
   height: 7%;
@@ -374,19 +382,36 @@ ul {
     #status form #status-actions, #status form #status-ept {
       display: none; }
 
+#pin {
+  width: 60%;
+  height: 85%; }
+  #pin button {
+    font-size: 1.5em; }
+  #pin #pin-error {
+    display: none; }
+  #pin #pin-field {
+    width: 10%;
+    margin-left: 45%; }
+    #pin #pin-field #pin-input {
+      font-size: 2em; }
+  #pin .mdl-selectfield__label, #pin .mdl-textfield__label {
+    color: #960048;
+    font-size: 1.5em; }
+
+.keypad {
+  width: 30%; }
+  .keypad .key {
+    height: 80px;
+    width: 80px;
+    font-size: 3em;
+    border-radius: 15px;
+    margin: 10px; }
+
 #location {
   width: 60%;
   height: 85%; }
-  #location #keypad {
-    width: 30%; }
-    #location #keypad .submit {
-      display: none; }
-    #location #keypad .key {
-      height: 80px;
-      width: 80px;
-      font-size: 3em;
-      border-radius: 15px;
-      margin: 10px; }
+  #location .keypad .submit {
+    display: none; }
   #location #location-submit {
     height: 50px; }
   #location #country-field, #location #postcode-field {
@@ -416,7 +441,7 @@ ul {
   z-index: 999;
   border-radius: 15px; }
   #info-panel p, #info-panel a {
-    color: #F06292; }
+    color: #fff; }
 
 /* LOADER */
 #spinner {

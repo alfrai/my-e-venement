@@ -309,10 +309,11 @@ class manifestationActions extends autoManifestationActions
     
     if ( $date && $date = DateTime::createFromFormat($pattern, $date) )
     {
-      $q->andWhere('m.happens_at >= ? AND m.happens_at < ?', array(
-        $date->format('Y').'-'.$date->format('m').'-'.$date->format('d'),
-        $date->format('Y').'-'.$date->format('m').'-'.($date->format('d')+1),
-      ));
+      $from = $date->format('Y-m-d');
+      $dateto = $date->add(new DateInterval('P1D'));
+      $to = $dateto->format('Y-m-d');
+      
+      $q->andWhere('m.happens_at >= ? AND m.happens_at < ?', array($from, $to));
     }
     else
     {

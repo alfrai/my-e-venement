@@ -76,6 +76,10 @@ class ContactForm extends BaseContactForm
       'required' => false,
     ));
     
+    $this->widgetSchema['nationality']
+      ->setOption('method', 'getName')
+      ->setOption('table_method', 'retrieveNationalities');
+    
     $this->widgetSchema   ['sf_guard_user_id'] =
     $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden;
     

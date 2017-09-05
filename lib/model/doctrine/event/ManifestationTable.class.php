@@ -73,6 +73,7 @@ class ManifestationTable extends PluginManifestationTable
     
     $culture = sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : 'fr';
     $json = class_exists('jsonActions') && sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance() instanceof jsonActions;
+    $dom = sfConfig::get('project_internals_users_domain', '');
     
     $q = parent::createQuery($alias)
       ->leftJoin("$alias.Event $e")
@@ -103,6 +104,7 @@ class ManifestationTable extends PluginManifestationTable
     {
       $q->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
+        ->leftJoin("$p.Ranks pr WITH pr.domain = '$dom'")
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")

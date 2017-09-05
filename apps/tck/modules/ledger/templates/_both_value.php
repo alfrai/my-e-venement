@@ -56,12 +56,12 @@
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Quantity of free products') ?></td>
     <td class="value"><?php echo $total['exo'] ?></td>
-    <td class="rating"><?php echo format_number($percent = round(100*$total['exo'] / $total['nb'],1)) ?> %</td>
+    <td class="rating"><?php echo $total['nb'] > 0 ? format_number($percent = round(100*$total['exo'] / $total['nb'],1)) : 'N/A' ?> %</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Quantity of paid products') ?></td>
     <td class="value"><?php echo $total['nb']-$total['exo'] ?></td>
-    <td class="rating"><?php echo format_number(round(100 - $percent,1)) ?> %</td>
+    <td class="rating"><?php echo isset($percent) ? format_number(round(100 - $percent,1)) : 'N/A' ?> %</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Average price for paid products') ?></td>

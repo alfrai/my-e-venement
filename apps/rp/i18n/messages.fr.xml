@@ -2128,6 +2128,14 @@
         <source>Alerts for member cards expirations</source>
         <target>Alertes d'expiration de carte d'abonnement</target>
       </trans-unit>  
+      <trans-unit id="532">
+        <source>Nationality</source>
+        <target>Nationalité</target>
+      </trans-unit>  
+      <trans-unit id="533">
+        <source>External</source>
+        <target>N° externe</target>
+      </trans-unit>  
     </body>
   </file>
 </xliff>

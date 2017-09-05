@@ -57,3 +57,6 @@ all:
       #who: [organizers, applicant, location, admins, resources] # default: [organizers, applicant, location]
   #cacher:
   #  timeout: 1 day ago
+  checkpoint:
+    autocheckpoint: false
+    name: Entrance

@@ -8,6 +8,7 @@ all:
   idle_time: 60000 #allowed idle time in milliseconds before reset (default: 90000, set to false to disable)
   payment_method_id: 3
   location_prompt: true #display a popup asking for customer geo origin on checkout
+  admin: true
   user:
     templating: kiosk
     #other_templates: []

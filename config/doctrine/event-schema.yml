@@ -217,6 +217,8 @@ Event:
       type: boolean
       notnull: true
       default: false
+    close_before:
+      type: integer  
   relations:
     EventCategory:
       foreignAlias: Events

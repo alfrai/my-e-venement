@@ -16,4 +16,17 @@ class CountryTable extends PluginCountryTable
     {
         return Doctrine_Core::getTable('Country');
     }
+    
+    public function retrieveNationalities()
+    {
+      $culture = sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : 'fr';
+      
+      $q = parent::createQuery('c')
+        ->innerJoin('c.Translation ct WITH ct.lang = ?', $culture)
+        //->andWhere('ct.nationality IS NOT NULL')
+        ->orderBy('ct.name')
+      ;
+      
+      return $q;
+    }
 }

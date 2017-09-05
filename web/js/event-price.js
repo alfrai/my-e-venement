@@ -22,16 +22,17 @@ $(document).ready(function(){
           url: url,
           type: 'get',
           success: function(json){
+            LI.alert(json.message, 'success');
             if ( json.reload )
               location.reload();
             
             if ( !json.rank )
-              LI.alert('An error occurred (02)', 'error');
+              LI.alert('An error occurred (json)', 'error');
             $('.sf_admin_list [name="ids[]"][value='+json.id+']').closest('.sf_admin_row').find('.sf_admin_list_td_rank').text(json.rank);
             $('#sf_admin_footer [name="nb_seats"]').change();
           },
           error: function(){
-            LI.alert('An error occurred (01)', 'error');
+            LI.alert('An error occurred (function)', 'error');
             location.reload();
           }
         });

@@ -95,7 +95,7 @@ generator:
         sort: ['c.name, c.firstname', '']
       filter:
         display:
-          Personal: [title, name, firstname, shortname, district, postalcode, city, region_id, country, email, az]
+          Personal: [title, name, firstname, shortname, district, postalcode, city, region_id, country, email, external_id, az]
           <?php if ( sfConfig::get('app_contact_social_informations', false) ): echo PHP_EOL; ?>
           Social informations: [familial_quotient_id, familial_situation_id, type_of_resources_id]
           <?php endif ?><?php echo PHP_EOL ?>
@@ -108,7 +108,7 @@ generator:
           Flow management: [control_created_at, control_manifestation_id, control_checkpoint_id]
           <?php endif ?><?php echo PHP_EOL ?>
           Surveys: [survey_id, survey_query_id, survey_answer]
-          Additional: [duplicates, culture, description, YOB, email_npai, email_newsletter, no_mailing, family_contact, npai, has_address, has_email, has_category, emails_list, created_at, updated_at]
+          Additional: [duplicates, culture, nationality, description, YOB, email_npai, email_newsletter, no_mailing, family_contact, npai, has_address, has_email, has_category, emails_list, created_at, updated_at]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%

@@ -5,3 +5,34 @@ OptionKioskTexts:
     type: column_aggregation
     keyField: type
     keyValue: 'kiosk-texts'
+
+EptRecord:
+  package: kiosk
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:  integer
+    client_receipt:  string
+    seller_receipt:  string
+  relations:
+    Transaction:
+      foreignAlias: EptRecord
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
+AdminTask:
+  package: kiosk
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id: integer
+    type:           string
+    pin:            integer
+    done:           boolean
+  relations:
+    Transaction:
+      foreignAlias: AdminTasks
+      onDelete: SET NULL
+      onUpdate: CASCADE
