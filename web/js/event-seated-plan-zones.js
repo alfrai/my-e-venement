@@ -162,6 +162,10 @@ LI.seatedPlanZonesDrawing.loaded = function(){
             for ( var i = 0 ; i < tos.length ; i++ ) { clearTimeout(tos[i]); } // clear previous timeouts
             
             tos.push(setTimeout(function(){
+                if ( LI.seatedPlanZonesDrawing.zones == undefined ) {
+                    return;
+                }
+                
                 var hover;
                 $.each(LI.seatedPlanZonesDrawing.zones, function(zone_id, zone){
                     hover = LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, zone.polygon);
@@ -210,15 +214,38 @@ LI.seatedPlanZonesDrawing.loaded = function(){
                     });
                     
                     var sp = $('.seated-plan.picture');
-                    var coef = sp.attr('data-scale') == sp.attr('data-scale-init') ? 1.7 : 1;
-                    LI.seatedPlanCenterScroll(sp.parent(), e, coef);
-                    if ( coef > 1 ) {
-                        sp.closest('.gauge').find('.magnify .magnify-in')
-                            .click() // zoom once
-                            .click() // zoom a 2nd time
-                            .click() // zoom again
-                        ;
+                        
+                    var magnify = sp.closest('.gauge').find('.magnify .magnify-in');
+                    var scales = { init: sp.attr('data-scale-init'), current: sp.attr('data-scale') };
+                    
+                    var zoom = function(){
+                        if ( scales.current >= scales.init*1.3*1.3*1.3) {
+                            return 1;
+                        }
+                        if ( scales.current >= scales.init*1.3*1.3 ) {
+                            magnify.click();
+                            return 1.25;
+                        }
+                        if ( scales.current >= scales.init*1.3 ) {
+                            magnify.click();
+                            magnify.click();
+                            return 1.48;
+                        }
+                        if ( scales.current >= scales.init ) {
+                            magnify.click();
+                            magnify.click();
+                            magnify.click();
+                            return 1.70;
+                        }
+                        magnify.click();
+                        magnify.click();
+                        magnify.click();
+                        magnify.click();
+                        return 1.90;
                     }
+                    var coef = zoom();
+                    coef = coef > 1 ? coef : 1;
+                    LI.seatedPlanCenterScroll(sp.parent(), e, coef);
                     
                     return false;
                 }

@@ -530,7 +530,7 @@
         var new_scale = zoom == 'in' ? old_scale*factor : old_scale/factor;
 
         if ( zoom != 'in' && new_scale < parseFloat($(this).attr('data-scale-init'))*2/3 )
-          new_scale = parseFloat($(this).data('scale'));
+          new_scale = parseFloat($(this).attr('data-scale'));
         
         $(this)
             .css('transform', 'scale('+new_scale+')')
@@ -540,7 +540,7 @@
     ;
   }
   
-  LI.seatedPlanCenterOrigin = function(plan, coords){
+  LI.seatedPlanCenterOrigin = function(plan, coords){setTimeout(function(){ // setTimeout() is a workaround for very speedy browsers...
     $(plan == undefined ? '.seated-plan.picture' : plan).each(function(){
         if ( !coords ) {
             coords = {
@@ -560,7 +560,7 @@
         parent.scrollLeft(0).scrollTop(0);
         LI.seatedPlanCenterScroll(parent);
     });
-  }
+  },100)}
   
   LI.seatedPlanCenterScroll = function(container, event, coef){
     var pic;
