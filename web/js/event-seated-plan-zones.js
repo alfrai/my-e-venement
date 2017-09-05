@@ -166,7 +166,9 @@ LI.seatedPlanZonesDrawing.loaded = function(){
                 $.each(LI.seatedPlanZonesDrawing.zones, function(zone_id, zone){
                     hover = LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, zone.polygon);
                     if ( hover ) {
-                        $(elt).addClass('hover');
+                        if ( $.inArray(zone_id, LI.seatedPlanZonesDrawing.exceptZones) == -1 ) {
+                            $(elt).addClass('hover');
+                        }
                         var spid = LI.seatedPlanZonesDrawing.zones[zone_id].seated_plan_id;
                         $('.seated-plan canvas.under-seats.visible').removeClass('visible');
                         $('.seated-plan canvas.under-seats[data-spid='+spid+']').addClass('visible');
@@ -206,6 +208,17 @@ LI.seatedPlanZonesDrawing.loaded = function(){
                         LI.seatedPlanLoadDataRaw(data, true, null);
                         LI.seatedPlanZonesDrawing.drawZones();
                     });
+                    
+                    var sp = $('.seated-plan.picture');
+                    var coef = sp.attr('data-scale') == sp.attr('data-scale-init') ? 1.7 : 1;
+                    LI.seatedPlanCenterScroll(sp.parent(), e, coef);
+                    if ( coef > 1 ) {
+                        sp.closest('.gauge').find('.magnify .magnify-in')
+                            .click() // zoom once
+                            .click() // zoom a 2nd time
+                            .click() // zoom again
+                        ;
+                    }
                     
                     return false;
                 }
