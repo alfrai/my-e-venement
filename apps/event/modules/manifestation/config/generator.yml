@@ -107,6 +107,7 @@ generator:
           <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, _form_applicant_organism_id, organism_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
+          Pass:         [_form_member_cards]
           Extra informations:  [_form_files_list, description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, ExtraInformations<?php endif ?>]
           #Tickets:      [_show_tickets_list]
           #Spectators:   [_show_spectators_list]

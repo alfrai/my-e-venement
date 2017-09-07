@@ -17,7 +17,10 @@ class MemberCardPriceModelForm extends BaseMemberCardPriceModelForm
   {
     parent::configure();
     
-    $this->widgetSchema   ['member_card_type_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema   ['member_card_type_id']
+        ->setOption('order_by',array('name',''))
+        ->setOption('query', Doctrine::getTable($this->widgetSchema['member_card_type_id']->getOption('model'))->createQuery('mcpm'))
+    ;
     
     $this->widgetSchema   ['price_id']->setOption('order_by',array('name',''));
     $this->widgetSchema   ['price_id']->setOption('query',$q = Doctrine::getTable('Price')->createQuery('p')->andWhere('p.member_card_linked = true'));
@@ -30,7 +33,9 @@ class MemberCardPriceModelForm extends BaseMemberCardPriceModelForm
     $this->widgetSchema['quantity']
       ->setOption('type', 'number')
       ->setAttribute('min', -1)
-      ->setAttribute('max', 50);
+      ->setAttribute('max', 50)
+      ->setDefault(1)
+    ;
     
     if ( $this->object->isNew() )
     {

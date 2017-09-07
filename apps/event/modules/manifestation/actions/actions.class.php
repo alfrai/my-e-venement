@@ -36,6 +36,38 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeSeatMemberCards(sfWebRequest $request)
+  {
+    $this->manifestation = $this->getRoute()->getObject();
+    $services = array(
+        'mc'  => $this->getContext()->getContainer()->get('member_cards_service'),
+        'seater' => $this->getContext()->getContainer()->get('member_cards_seating_service'),
+    );
+    
+    $mcs = $services['mc']->getActiveMemberCardsForEvent($this->manifestation->Event);
+    $this->tickets = $services['seater']->seatManyMemberCardForOneManifestation($mcs, $this->manifestation);
+  }
+  
+  public function executeAssociateMemberCards(sfWebRequest $request)
+  {
+    $this->manifestation = $this->getRoute()->getObject();
+    
+    $this->form = new MemberCardPriceModelForm;
+    $this->form->bind($request->getParameter('member_card_price_model', array()) + array('_csrf_token' => $this->form->getCSRFToken()));
+    
+    if ( !$this->form->isValid() ) {
+        $this->errors = array();
+        foreach ( $this->form->getErrorSchema()->getErrors() as $name => $error ) {
+            $this->errors[$name] = (string)$error;
+        }
+        return 'Error';
+    }
+    
+    $service = $this->getContext()->getContainer()->get('member_cards_service');
+    $mcs = $service->completeMemberCardsWithMCPrice($this->form->getValues(), $this->manifestation->Event);
+    $this->mcs = $mcs->toArray();
+  }
+  
   public function executeClearPrices(sfWebRequest $request)
   {
     $this->forward404Unless($manifestation = $this->getRoute()->getObject());
@@ -564,6 +596,10 @@ class manifestationActions extends autoManifestationActions
       $this->redirect(cross_app_url_for('museum', 'manifestation/edit?id='.$this->manifestation->id));
     elseif ( !$this->manifestation->Event->museum && $museum )
       $this->redirect(cross_app_url_for('event', 'manifestation/edit?id='.$this->manifestation->id));
+    
+    $this->form->mcform = new MemberCardPriceModelForm;
+    $ws = $this->form->mcform->getWidgetSchema();
+    $ws['event_id'] = new sfWidgetFormInputHidden;
 
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();

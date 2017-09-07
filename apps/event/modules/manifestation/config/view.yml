@@ -32,6 +32,18 @@ templatingSuccess:
   stylesheets: [manifestation-templating.css,/sfFormExtraPlugin/css/jquery.autocompleter.css]
   javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js, /cxFormExtraPlugin/js/cx_open_list.js]
 
+associateMemberCardsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+associateMemberCardsError:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+seatMemberCardsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 listSuccess:
   has_layout: false
   http_metas:
