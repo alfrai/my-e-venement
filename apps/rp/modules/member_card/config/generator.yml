@@ -24,12 +24,17 @@ generator:
         has_email_address: { label: Has an email address }
         list_email: { label: Email }
         list_address: { label: Address }
+        privileged_seat_name: { label: Privilegied seat }
       list:
         title: List of active member cards on the period (cf. filters)
-        display: [_id, _name, _list_contact, _list_email, _list_address, created_at, expire_at, _value, checks_count]
+        display: [_id, _name, _list_contact, privileged_seat_name, _list_email, _list_address, created_at, expire_at, _value, checks_count]
         sort: [created_at, desc]
         object_actions:
           _show: ~
+          _changeSeat:
+            ui-icon: radio-off
+            label: Change seat
+            action: setSeat
           _delete:
             credentials: [pr-card-mod]
         batch_actions: {}
@@ -43,4 +48,4 @@ generator:
       show:
         display:
           Ticketting: [_show_prices_list, _show_tickets_list, _show_products_list, _show_payments_list, _show_pending_tickets_list]
-          General: [_show_id, _show_contact, name, _show_value, expire_at, _show_active, _show_transaction_id, created_at, checks_count]
+          General: [_show_id, _show_contact, name, _show_privileged_seat_name, _show_value, expire_at, _show_active, _show_transaction_id, created_at, checks_count]

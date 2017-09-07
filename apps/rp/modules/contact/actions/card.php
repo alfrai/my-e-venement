@@ -26,7 +26,7 @@
     // TDP design
     $this->useClassicTemplateDir(true);
     
-    $params = $request->getParameter('member_card');
+    $params = $request->getParameter('member_card', array());
     if ( array_key_exists('created_at', $params) && $params['created_at']['year'] && $params['created_at']['month'] && $params['created_at']['day'] )
       $params['created_at'] = $params['created_at']['year'].'-'.$params['created_at']['month'].'-'.$params['created_at']['day'];
     else

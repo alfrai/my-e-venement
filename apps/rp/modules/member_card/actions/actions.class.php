@@ -13,8 +13,16 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
-  public function executeCsv(sfWebRequest $request)
+  public function executeSetSeat(sfWebRequest $request)
   {
+    $this->mc = $this->getRoute()->getObject();
+    $seat_name = trim($request->getParameter('seat_name', ''));
+    
+    $this->mc->privileged_seat_name = $seat_name ? $seat_name : NULL;
+    $this->mc->save();
+  }
+  
+  public function executeCsv(sfWebRequest $request) {
     $this->getContext()->getConfiguration()->loadHelpers(array('Number','Date'));
     $this->executeIndex($request);
     

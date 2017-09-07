@@ -2136,6 +2136,22 @@
         <source>External</source>
         <target>N° externe</target>
       </trans-unit>  
+      <trans-unit id="534">
+        <source>Change seat</source>
+        <target>Changer la place</target>
+      </trans-unit>  
+      <trans-unit id="535">
+        <source>Privileged seat</source>
+        <target>Place privilégiée</target>
+      </trans-unit>  
+      <trans-unit id="536">
+        <source>Case and space sensitive</source>
+        <target>Sensible aux espaces et aux majuscules</target>
+      </trans-unit>  
+      <trans-unit id="537">
+        <source>Privilegied seat</source>
+        <target>Place privilégiée</target>
+      </trans-unit>  
     </body>
   </file>
 </xliff>
