@@ -286,7 +286,7 @@
                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->happens_at . ' - ' .$future))
               ));
             }
-            elseif ( strtotime($ticket->Manifestation->ends_at) < strtotime('now - '.$past)) )
+            elseif ( strtotime($ticket->Manifestation->ends_at) < strtotime('now - '.$past) )
             {
                // It's too late man !
                $this->error_tickets[$ticket->id] = $ticket;
