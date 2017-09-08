@@ -89,26 +89,16 @@ class MemberCardsService extends EvenementService
   
   public function getActiveMemberCards($type_id = NULL)
   {
-    $q = $this->createQueryForActiveMemberCards();
-    
-    if ( isset($type_id) ) {
-        $q->andWhere('mc.member_card_type_id = ?', $type_id);
-    }
-    
+    $q = $this->createQueryForActiveMemberCards($type_id);
     return $q->execute();
   }
   
   public function getActiveMemberCardsForEvent(Event $event, $type_id = NULL)
   {
-    return $this->createQueryForActiveMemberCards()
+    $q = $this->createQueryForActiveMemberCards($type_id)
         ->leftJoin('mc.MemberCardPrices mcp')
         ->andWhere('mcp.event_id = ?', $event->id)
     ;
-    
-    if ( isset($type_id) ) {
-        $q->andWhere('mc.member_card_type_id = ?', $type_id);
-    }
-    
     return $q->execute();
   }
   
@@ -184,12 +174,17 @@ class MemberCardsService extends EvenementService
     { return $mcp; }
   }
 
-  private function createQueryForActiveMemberCards()
+  private function createQueryForActiveMemberCards($type_id = NULL)
   {
     $q = Doctrine::getTable('MemberCard')->retreiveListOfActivatedCards()
         ->andWhere('mc.expire_at > NOW()')
         ->select('mc.*')
     ;
+    
+    if ( isset($type_id) ) {
+        $q->andWhere('mc.member_card_type_id = ?', $type_id);
+    }
+    
     return $q;
   }
 }

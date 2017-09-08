@@ -1,2 +1,3 @@
 <?php
-    echo json_encode($tickets->getPrimaryKeys());
+    $pks = $sf_data->getRaw('tickets')->getPrimaryKeys();
+    echo json_encode($pks && $pks != array(null) ? $pks : array());

@@ -21,11 +21,23 @@ class MemberCardSeatingService
         $seat = $this->getSeatInGaugeFor($mc, $manif);
         $price = $this->getPriceFor($mc, $manif);
         
-        $ticket = $this->createTicket($seat, $price, $transac);
-        $this->completeTicket($mc, $ticket);
-        $ticket->save();
+        try {
+            $ticket = $this->createTicket($seat, $price, $transac);
+            $this->completeTicket($mc, $ticket);
+            $ticket->save();
+        }
+        catch ( Doctrine_Connection_Exception $e ) {
+            $this->log($e);
+        }
         
         return $ticket;
+    }
+    
+    private function log(Exception $e)
+    {
+        if ( sfConfig::get('sf_web_debug') ) {
+            error_log($e->getMessage());
+        }
     }
     
     private function completeTicket(MemberCard $mc, Ticket $ticket)
@@ -65,7 +77,7 @@ class MemberCardSeatingService
         $seat_name = $mc->privileged_seat_name;
         
         $q = Doctrine::getTable('Seat')->createQuery('s')
-            ->select('s.*, g.id AS gauge_id')
+            ->select('s.*, sp.id, ws.id, g.id, g.id AS gauge_id')
             
             ->andWhere('s.name = ?', $seat_name)
             
@@ -73,7 +85,7 @@ class MemberCardSeatingService
             ->leftJoin('sp.Workspaces ws')
             ->leftJoin('sp.Location l')
             ->leftJoin('l.Manifestations m')
-            ->leftJoin('m.Gauges g WITH g.workspace_id = ws.id')
+            ->leftJoin('ws.Gauges g WITH g.manifestation_id = m.id')
             ->andWhere('g.manifestation_id = ?', $manif->id)
             
             ->leftJoin('g.Tickets tck WITH tck.seat_id = s.id')
@@ -82,7 +94,7 @@ class MemberCardSeatingService
         $seat = $q->fetchOne();
         
         if ( !$seat ) {
-            throw new liException(sprintf('No seat available for name "%s"', $seat_name));
+            throw new liEvenementException(sprintf('No seat available for seat name "%s"', $seat_name));
         }
         
         return $seat;

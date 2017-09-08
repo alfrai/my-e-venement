@@ -30,8 +30,12 @@ class MemberCardsSeatingService
         $tickets = new Doctrine_Collection('Ticket');
         
         foreach ( $mcs as $mc ) {
-            $new_tickets = $this->seatOneMemberCardForAllManifestation($mc);
-            $tickets->merge($new_tickets);
+            try {
+                $tickets->merge($this->seatOneMemberCardForAllManifestation($mc));
+            }
+            catch ( liEvenementException $e ) {
+                $this->log($e);
+            }
         }
         
         return $tickets;
@@ -65,8 +69,12 @@ class MemberCardsSeatingService
         $tickets = new Doctrine_Collection('Ticket');
         
         foreach ( $mcs as $mc ) {
-            $tickets[] = $this->seatOneMemberCardForOneManifestation($mc, $manif);
-            $tickets->merge($new_tickets);
+            try {
+                $tickets->merge($this->seatOneMemberCardForOneManifestation($mc, $manif));
+            }
+            catch ( liEvenementException $e ) {
+                $this->log($e);
+            }
         }
         
         return $tickets;
@@ -83,10 +91,13 @@ class MemberCardsSeatingService
     public function seatOneMemberCardForOneManifestation(MemberCard $mc, Manifestation $manif)
     {
         $tickets = new Doctrine_Collection('Ticket');
-        $tickets[] = $this->memberCardSeatingService->seatMemberCard($mc, $manif);
+        $tickets->add($this->memberCardSeatingService->seatMemberCard($mc, $manif));
         return $tickets;
     }
     
+    /**
+     * @return Doctrine_Collection('Ticket')
+     **/
     private function seatMemberCardPrices(Doctrine_Collection $mcps)
     {
         $tickets = new Doctrine_Collection('Ticket');
@@ -94,13 +105,16 @@ class MemberCardsSeatingService
         foreach ( $mcps as $mcp ) {
             $ticket = $this->seatMemberCardPrice($mcp);
             if ( isset($ticket) ) {
-                $tickets[] = $ticket;
+                $tickets->add($ticket);
             }
         }
         
         return $tickets;
     }
     
+    /**
+     * @return Ticket|NULL
+     **/
     private function seatMemberCardPrice($mcp, Manifestation $manifestation = NULL)
     {
         foreach ( $mcp->Event->Manifestations as $manif ) {
@@ -143,5 +157,12 @@ class MemberCardsSeatingService
         }
         
         return $mcps;
+    }
+    
+    private function log(Exception $e)
+    {
+        if ( sfConfig::get('sf_web_debug') ) {
+            error_log($e->getMessage());
+        }
     }
 }
