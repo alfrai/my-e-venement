@@ -193,62 +193,66 @@ LI.seatedPlanZonesDrawing.loaded = function(){
             $('.seated-plan canvas.under-seats.visible').removeClass('visible');
         })
         .click(function(e){
-            $.each(LI.seatedPlanZonesDrawing.points, function(zone_id, polygon){
-                LI.seatedPlanZonesDrawing.log('Test if a point is in a polygon', {x: e.offsetX, y: e.offsetY}, polygon, LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ? 'inside' : 'outside');
-                if ( LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, polygon) ) {
-                    if ( typeof(LI.window_transition) == 'function' ) {
-                        LI.window_transition();
-                    }
-                    
-                    $.each(LI.seatedPlanZonesDrawing.zones, function(zid, zone){
-                        if ( LI.seatedPlanZonesDrawing.zones[zone_id].seated_plan_id == zone.seated_plan_id ) {
-                            LI.seatedPlanZonesDrawing.exceptZones.push(zone.id);
-                        }
-                    });
-                    $.get(canvas.closest('.seated-plan').find('.seats-url').prop('href')+"&from_zone="+zone_id, function(data){
+            $.each(LI.seatedPlanZonesDrawing.zones, function(zone_id, zone){
+                LI.seatedPlanZonesDrawing.log('Test if a point is in a zone', {x: e.offsetX, y: e.offsetY}, zone.polygon, LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, zone.polygon) ? 'inside' : 'outside');
+                if ( !LI.seatedPlanZonesDrawing.pointInPolygon(e.offsetX, e.offsetY, zone.polygon) ) {
+                    return;
+                }
+
+                if ( typeof(LI.window_transition) == 'function' ) {
+                    LI.window_transition();
+                }
+                
+                if ( $.inArray(zone.id, LI.seatedPlanZonesDrawing.exceptZones) == -1 ) {
+                    LI.seatedPlanZonesDrawing.exceptZones.push(zone.id);
+                }
+                
+                if ( LI.seatedPlanZonesDrawing.points[zone.id] != undefined ) {
+                    LI.seatedPlanZonesDrawing.log('The zone still needs to be drawn');
+                    $.get(canvas.closest('.seated-plan').find('.seats-url').prop('href')+"&from_zone="+zone.id, function(data){
                         LI.seatedPlanZonesDrawing.log('loading seats in zone...', data);
                         $('#transition .close').click();
                         
                         LI.seatedPlanLoadDataRaw(data, true, null);
                         LI.seatedPlanZonesDrawing.drawZones();
                     });
-                    
-                    var sp = $('.seated-plan.picture');
-                        
-                    var magnify = sp.closest('.gauge').find('.magnify .magnify-in');
-                    var scales = { init: sp.attr('data-scale-init'), current: sp.attr('data-scale') };
-                    
-                    var zoom = function(){
-                        if ( scales.current >= scales.init*1.3*1.3*1.3) {
-                            return 1;
-                        }
-                        if ( scales.current >= scales.init*1.3*1.3 ) {
-                            magnify.click();
-                            return 1.25;
-                        }
-                        if ( scales.current >= scales.init*1.3 ) {
-                            magnify.click();
-                            magnify.click();
-                            return 1.48;
-                        }
-                        if ( scales.current >= scales.init ) {
-                            magnify.click();
-                            magnify.click();
-                            magnify.click();
-                            return 1.70;
-                        }
-                        magnify.click();
-                        magnify.click();
-                        magnify.click();
-                        magnify.click();
-                        return 1.90;
-                    }
-                    var coef = zoom();
-                    coef = coef > 1 ? coef : 1;
-                    LI.seatedPlanCenterScroll(sp.parent(), e, coef);
-                    
-                    return false;
                 }
+                
+                var sp = $('.seated-plan.picture');
+                
+                // zoom
+                var magnify = sp.closest('.gauge').find('.magnify .magnify-in');
+                var scales = { init: sp.attr('data-scale-init'), current: sp.attr('data-scale') };
+                var zoom = function(){
+                    if ( scales.current >= scales.init*1.3*1.3*1.3) {
+                        return 1;
+                    }
+                    if ( scales.current >= scales.init*1.3*1.3 ) {
+                        magnify.click();
+                        return 1.25;
+                    }
+                    if ( scales.current >= scales.init*1.3 ) {
+                        magnify.click();
+                        magnify.click();
+                        return 1.48;
+                    }
+                    if ( scales.current >= scales.init ) {
+                        magnify.click();
+                        magnify.click();
+                        magnify.click();
+                        return 1.70;
+                    }
+                    magnify.click();
+                    magnify.click();
+                    magnify.click();
+                    magnify.click();
+                    return 1.90;
+                }
+                var coef = zoom();
+                coef = coef > 1 ? coef : 1;
+                LI.seatedPlanCenterScroll(sp.parent(), e, coef);
+                
+                return false;
             });
         })
     ;
