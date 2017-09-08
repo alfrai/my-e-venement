@@ -528,6 +528,9 @@
         var factor = 1.3;
         var old_scale = parseFloat($(this).attr('data-scale'));
         var new_scale = zoom == 'in' ? old_scale*factor : old_scale/factor;
+        if ( new_scale >= 1.3 ) {
+            new_scale = old_scale;
+        }
 
         if ( zoom != 'in' && new_scale < parseFloat($(this).attr('data-scale-init'))*2/3 )
           new_scale = parseFloat($(this).attr('data-scale'));
