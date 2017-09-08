@@ -140,7 +140,7 @@
         if ( scale < 1 )
         {
           elt.css('margin-bottom', $(this).height()*(scale-1)); //+ 50);
-          LI.seatedPlanCenterOrigin(elt, elt.closest('.seated-plan-parent, .sf_admin_form').length == 0 ? null : { x: 0, y: 0 });
+          LI.seatedPlanCenterOrigin(elt, elt.closest('.seated-plan-parent, .seats-allocation, .sf_admin_form').length == 0 ? null : { x: 0, y: 0 });
         }
         
         // box resizing
