@@ -52,7 +52,7 @@ class Price extends PluginPrice implements liUserAccessInterface
     if ( !$this->member_card_linked )
       return true;
     
-    $mcp = $user->getAvailableMCPrices($manifestation);
+    $mcp = $user->getAvailableMCPrices($manifestation instanceof sfOutputEscaper ? $manifestation->getRawValue() : $manifestation);
     
     if ( !isset($mcp[$this->id]) )
       return false;

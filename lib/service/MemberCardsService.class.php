@@ -38,7 +38,7 @@ class MemberCardsService extends EvenementService
 
     $mcs = $transaction->contact_id
       ? $transaction->getContact()->MemberCards
-      : $transaction()->MemberCards;
+      : $transaction->MemberCards;
     if ( $mcs->count() == 0 )
       return $mcp;
     
