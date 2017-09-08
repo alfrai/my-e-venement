@@ -286,13 +286,13 @@
                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->happens_at . ' - ' .$future))
               ));
             }
-            elseif ( $ticket->Manifestation->happens_at < date('Y-m-d H:i',strtotime('now - '.$past)) )
+            elseif ( strtotime($ticket->Manifestation->ends_at) < strtotime('now - '.$past)) )
             {
                // It's too late man !
                $this->error_tickets[$ticket->id] = $ticket;
                $this->errors[] = __('Too late for ticket #%%id%% (gates closed at %%datetime%%)', array(
                  '%%id%%' => $ticket->id,
-                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->happens_at . ' + ' .$past))
+                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->end_at . ' - ' .$past))
                ));
             }
             else
