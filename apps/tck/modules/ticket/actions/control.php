@@ -45,7 +45,7 @@
       ->leftJoin('e.Manifestations m')
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->andWhere('m.happens_at < ?',date('Y-m-d H:i',strtotime('now + '.$future)))
-      ->andWhere('m.happens_at + m.duration >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
+      ->andWhere('manifestation_ends_at(m.happens_at, m.duration) >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
     ;
     $this->form->getWidget('checkpoint_id')->setOption('query',$q);
     

@@ -345,11 +345,11 @@ class manifestationActions extends autoManifestationActions
       $dateto = $date->add(new DateInterval('P1D'));
       $to = $dateto->format('Y-m-d');
       
-      $q->andWhere('m.happens_at >= ? AND m.happens_at < ?', array($from, $to));
+      $q->andWhere('m.happens_at >= ? AND manifestation_ends_at(m.happens_at, m.duration) < ?', array($from, $to));
     }
     else
     {
-      $q->andWhere("m.happens_at >= now() - INTERVAL '1 day'");
+      $q->andWhere("m.happens_at - INTERVAL '1 day' < now() OR manifestation_ends_at(m.happens_at, m.duration) + INTERVAL '6 hours' > now()");
     }
     if ( $eids )
       $q->andWhereIn('m.event_id',$eids);
