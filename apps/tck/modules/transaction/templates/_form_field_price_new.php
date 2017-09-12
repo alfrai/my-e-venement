@@ -19,8 +19,19 @@
 <span class="count-demands"></span>
 <?php endif ?>
 </form>
+
 <form action="<?php echo url_for('transaction/seatsFirst?id='.$transaction->id) ?>" target="_blank" class="seats-first" method="get">
   <button type="submit" name="gauge_id" value=""><?php echo __('Seats first') ?></button>
+</form>
+<?php echo $form->seat->renderFormTag(url_for('transaction/complete?id='.$transaction->id), array(
+  'method'  => 'get',
+  'target'  => '_blank',
+  'autocomplete' => 'off',
+  'title'   => 'Auto-seat tickets of selected gauge',
+  'class'   => 'seat',
+)) ?>
+  <?php echo $form->seat ?>
+  <input class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" type="submit" value="<?php echo __('Auto-seat') ?>" name="seat"></input>
 </form>
 <form action="<?php echo url_for('transaction/dispatch') ?>" class="dispatch" method="get" title="<?php echo __("Check ticket's ids shown below any price") ?>">
   <input type="submit" name="prepare" value="<?php echo __('Prepare dispatching') ?>" />

@@ -360,7 +360,28 @@ class transactionActions extends autoTransactionActions
       'min' => 0,
       'required' => false,
     ));
-
+    
+    // AUTO-SEAT
+    $this->form['price_new']->seat = new sfForm;
+    $ws = $this->form['price_new']->seat->getWidgetSchema()->setNameFormat('transaction[seat][%s]');
+    $vs = $this->form['price_new']->seat->getValidatorSchema();
+    $ws['gauge_id'] = new sfWidgetFormInputHidden;
+    $vs['gauge_id'] = new sfValidatorDoctrineChoice(array(
+        'model' => 'Gauge',
+    ));
+    $ws['qty'] = new sfWidgetFormInputHidden;
+    $vs['qty'] = new sfValidatorInteger(array(
+        'min' => 0,
+    ));
+    $ws['id'] = new sfWidgetFormInputHidden;
+    $ws['id']->setDefault($this->transaction->id);
+    $vs['id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Transaction',
+      'query' => Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.closed = ?', false)
+        ->andWhere('t.id = ?', $this->transaction->id),
+    ));
+    
     // NEW "PRODUCTS"
     $this->form['content'] = array();
     $this->form['content']['manifestations'] = new sfForm;

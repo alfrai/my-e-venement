@@ -12,6 +12,12 @@ all:
       class: ManifestationsService
     member_cards_service:
       class: MemberCardsService
+    member_card_seating_service:
+      class: MemberCardSeatingService
+    member_cards_seating_service:
+      class: MemberCardsSeatingService
+      calls:
+        - ['setMemberCardSeatingService', ['@member_card_seating_service']]
     app_country_service:
       class: CountryService
     pub_service:
@@ -20,4 +26,3 @@ all:
       class: PasswordPlainTextService
     password_md5_service:
       class: PasswordMD5Service
-

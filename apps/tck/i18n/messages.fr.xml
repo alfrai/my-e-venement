@@ -2156,6 +2156,14 @@
         <source>The membercard "%%mc%%" does not exist.</source>
         <target>La carte d'abonnement "%%mc%%" n'existe pas.</target>
       </trans-unit>         
+      <trans-unit id="538">
+        <source>Auto-seat</source>
+        <target>Placer auto</target>
+      </trans-unit>         
+      <trans-unit id="539">
+        <source>Auto-seat tickets of selected gauge</source>
+        <target>Placer automatiquement les billets de la jauge sélectionnée</target>
+      </trans-unit>         
     </body>
   </file>
 </xliff>

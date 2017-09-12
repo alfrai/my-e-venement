@@ -27,7 +27,19 @@ abstract class PluginEvent extends BaseEvent implements liMetaEventSecurityAcces
         $this->duration = intval($arr[1])*60 + intval($arr[0])*3600;
       }
     }
-
+    // converting close_before from "1:00" to 3600 (seconds)
+    if ( intval($this->close_before).'' != ''.$this->close_before )
+    {
+      $str = $this->close_before;
+      $this->close_before = intval(strtotime($this->duration.'+0',0));
+      
+      // for close_before > 24h
+      if ( !$this->close_before )
+      {
+        $arr = explode(':', $str);
+        $this->close_before = intval($arr[1])*60 + intval($arr[0])*3600;
+      }
+    }
     parent::preSave($event);
   }
   public function preInsert($event)
@@ -49,6 +61,17 @@ abstract class PluginEvent extends BaseEvent implements liMetaEventSecurityAcces
     $days = floor($this->duration/(3600*24));
     $hours = floor($this->duration%(3600*24)/3600);
     $minutes = str_pad(floor($this->duration%3600/60), 2, '0', STR_PAD_LEFT);
+    return ($days > 0 ? __('%%d%% day(s)',array('%%d%%' => $days)) : '').' '.$hours.':'.$minutes;
+  }
+  public function getClose_BeforeHR()
+  {
+    if ( intval($this->close_before).'' != ''.$this->close_before )
+      return $this->close_before;
+    
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+    $days = floor($this->close_before/(3600*24));
+    $hours = floor($this->close_before%(3600*24)/3600);
+    $minutes = str_pad(floor($this->close_before%3600/60), 2, '0', STR_PAD_LEFT);
     return ($days > 0 ? __('%%d%% day(s)',array('%%d%%' => $days)) : '').' '.$hours.':'.$minutes;
   }
   

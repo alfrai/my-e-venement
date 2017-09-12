@@ -16,4 +16,18 @@ class PluginControlTable extends TraceableTable
     {
         return Doctrine_Core::getTable('PluginControl');
     }
+    
+    public function createQuery($alias = 'c')
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      
+      $q = parent::createQuery($alias);
+      $a = $q->getRootAlias();
+      $q->innerJoin("$a.Checkpoint cp")
+        ->innerJoin('cp.Event e')
+        ->andWhereIn('e.meta_event_id', array_keys($sf_user->getMetaEventsCredentials()))
+      ;
+      
+      return $q;
+    }
 }

@@ -152,7 +152,7 @@ class Ticket extends PluginTicket
     
     // the HTML code
     return sprintf(<<<EOF
-  <div class="cmd-element ticket">
+  <div class="cmd-element ticket meta-%s">
   <table><tr>
     <td class="desc">
       <div class="meta-event"><table><tbody><tr><td><span>%s:</span> <span>%s</span></td></tr></tbody></table></div>
@@ -175,6 +175,7 @@ class Ticket extends PluginTicket
   <img class="background" src="%s" alt="" />
   </div>
 EOF
+      , $this->Manifestation->Event->meta_event_id
       , __('Meta-event', null, 'li_tickets_email'), $this->Manifestation->Event->MetaEvent
       , __('Event', null, 'li_tickets_email'), nl2br($this->Manifestation->Event)
       , '', $this->Manifestation->Event->subtitle

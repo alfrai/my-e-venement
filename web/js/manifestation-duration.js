@@ -11,6 +11,7 @@ $(document).ready(function(){
   
   // transforming seconds into HH:ii
   LI.manifestation_duration();
+  LI.event_close_before();
 
   // if duration or happens_at change, updating the ends_at date (for coherence only)
   $('.sf_admin_form_field_duration input[type=text]').change(function(){
@@ -118,6 +119,21 @@ LI.manifestation_duration = function(duration = null)
   });
   
   return duration;
+}
+LI.event_close_before = function(close_before = null)
+{
+  // setting the new close_before if given
+  if ( !isNaN(parseInt(close_before,10)) )
+    $('.sf_admin_form_field_close_before input[type=text]').val(close_before);
+  
+  // converting seconds into HH:ii
+  $('.sf_admin_form_field_close_before input[type=text]').each(function(){
+    if ( $(this).val().indexOf(':') < 0 )
+    if ( !isNaN(parseInt($(this).val(),10)) ) // if is a number
+      $(this).val(Math.floor(parseInt($(this).val(),10)/3600)+':'+('0'+Math.floor(parseInt($(this).val(),10)%3600/60)).slice(-2));
+  });
+  
+  return close_before;
 }
 
 // errors/coherence anticipation ...

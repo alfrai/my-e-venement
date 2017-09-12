@@ -85,6 +85,9 @@
     
     // weird cases pre-processing
     $this->form['store_integrate'] = $this->form['content']['store']->integrate;
+    if ( isset($params['seat']) ) {
+        $this->form['seat'] = $this->form['price_new']->seat;
+    }
     
     $success = array(
       'data' => array(),
@@ -145,7 +148,7 @@
     }
     
     // more complex data
-    foreach ( array('price_new', 'payment_new', 'payments_list', 'store_integrate', 'close', 'gift_coupon') as $field )
+    foreach ( array('price_new', 'seat', 'payment_new', 'payments_list', 'store_integrate', 'close', 'gift_coupon') as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;
@@ -202,6 +205,29 @@
       // post-processing
       if ( $this->form[$field]->isValid() )
       switch ( $field ) {
+      case 'seat':
+        $gid = $params[$field]['gauge_id'];
+        $qty = $params[$field]['qty'];
+        $seater = new Seater($gid);
+        $seats = $seater->findSeats($qty);
+        
+        $q = Doctrine::getTable('Ticket')->createQuery('tck')
+            ->andWhere('tck.gauge_id = ?', $gid)
+            ->andWhere('tck.seat_id IS NULL')
+            ->andWhere('tck.transaction_id = ?', $params[$field]['id'])
+        ;
+        $tickets = $q->execute();
+        $res = array();
+        for ( $i = 0 ; $i < $tickets->count() && $i < $qty && $i < $seats->count() ; $i++ ) {
+            $seat_keys = $seats->getKeys();
+            $tickets[$i]->Seat = $seats[$seat_keys[$i]];
+            $res[] = $tickets[$i]->toArray(false) + array('seat_name' => $tickets[$i]->Seat->name);
+            $tickets[$i]->save();
+        }
+        
+        $this->json['success']['success_fields']['seat']['data']['tickets'] = $res;
+        $this->json['success']['success_fields']['seat']['data']['type'] = 'seat';
+        break;
       case 'price_new':
         if ( !$params[$field]['qty'] )
           $params[$field]['qty'] = 1;
@@ -341,7 +367,7 @@
         if ( $this->transaction->isModified() )
           $this->transaction->save(); // saving the transaction even if nothing has changed, because of the dispatcher's actions
         break;
-        
+      
       case 'gift_coupon':
         $id = null;
         $code = $this->form[$field]->getValue('code');

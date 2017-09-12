@@ -242,7 +242,7 @@ LI.completeContent = function(data, type, replaceAll = true)
               ? $('<span></span>').text($.inArray(type, ['manifestations', 'museum']) != -1 && price.numerotation[index] ? ' '+price.numerotation[index] : '')
                 .prepend($('<a></a>').prop('href', price.ids_url[index]).prop('target', '_blank').text(value))
               : $('<span></span>').text(value+( $.inArray(type, ['manifestations', 'museum']) && price.numerotation[index] ? ' '+price.numerotation[index] : '' ));
-            ids.push($('<div></div>').append(elt.prepend('#').attr('data-id', value)).html());
+            ids.push($('<div></div>').append(elt.prepend('#').attr('data-id', value).addClass(price.numerotation[index] ? 'seated' : 'not-seated')).html());
           });
           wprice.find('.ids').html(ids.join(', '));
           

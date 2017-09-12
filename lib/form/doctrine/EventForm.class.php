@@ -60,7 +60,10 @@ class EventForm extends BaseEventForm
       'required' => false,
       'pattern'  => '/^\d+:\d\d$/',
     ));
-    
+    $this->validatorSchema['close_before'] = new sfValidatorRegex(array(
+      'required' => false,
+      'pattern'  => '/^\d+:\d\d$/',
+    ));
     if ( $this->object->isNew() )
     {
       $this->object->id = 12;
@@ -80,7 +83,7 @@ class EventForm extends BaseEventForm
         foreach(array(
           'event_id', 'sf_guard_user_id', 'version', 'automatic',
           'workspaces_list', 'prices_list', 'organizers_list',
-          'description', 'duration',
+          'description', 'duration', 
           'depends_on', 'contact_id',
           'ends_at',
           'ExtraInformations',
@@ -111,7 +114,7 @@ class EventForm extends BaseEventForm
     }
     
     unset($this->widgetSchema['files_list'], $this->validatorSchema['files_list']);
-    
+      
     parent::configure();
   }
   

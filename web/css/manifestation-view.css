@@ -62,3 +62,4 @@ html body #content { margin-right: 0; }
 #sf_fieldset_statistics .filling-complete tbody .f-st-ag, #sf_fieldset_statistics .filling-complete tbody .sos-st-ag, #sf_fieldset_statistics .filling-complete tbody .f-at-ag, #sf_fieldset_statistics .filling-complete tbody .sos-at-ag { font-weight: bold; }
 #sf_fieldset_statistics h4 { margin-bottom: 1em; }
 
+#sf_fieldset_pass * + h3 { clear: both; margin-top: 4em; }

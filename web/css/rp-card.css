@@ -4,3 +4,5 @@
 #member-cards #card_duplicate { padding-top: 4px; }
 
 #i18n { display: none; }
+
+#member-cards .sf_admin_list_td_list_email, #member-cards .sf_admin_list_th_list_email, #member-cards .sf_admin_list_td_list_address, #member-cards .sf_admin_list_th_list_address { display: none; }

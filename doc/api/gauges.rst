@@ -30,7 +30,7 @@ Gauges API response structure
 |                  | `ISO 8601 Extended Format <https://fr.wikipedia.org/wiki/ISO_8601>`_     |
 +------------------+--------------------------------------------------------------------------+
 
-Prices API response structure
+Gauges API response structure
 ------------------------------
 
 When you get a collection of resources, "Default" serialization group will be used and the following fields will be exposed:
@@ -42,33 +42,31 @@ When you get a collection of resources, "Default" serialization group will be us
 +------------------+--------------------------------------------------------------------------+
 | translations     | Collection of translations                                               |
 +------------------+--------------------------------------------------------------------------+
-| value            | Amount of the price in the current currency                              |
-+------------------+--------------------------------------------------------------------------+
-| currencyCode     | Currency of the cart                                                     |
+| prices           | Collection of prices available from this gauge                           |
 +------------------+--------------------------------------------------------------------------+
 
 Available actions to interact with a gauge
 -------------------------------------------
 
-+------------------+----------------------------------------------+
-| Action           | Description                                  |
-+==================+==============================================+
-| List             | Getting a single manifestation               |
-+------------------+----------------------------------------------+
-| Show             | Getting a single manifestation               |
-+------------------+----------------------------------------------+
-| Update           | Update a single manifestation                |
-+------------------+----------------------------------------------+
-| Create           | Create a single manifestation                |
-+------------------+----------------------------------------------+
-| Delete           | Delete a single manifestation                |
-+------------------+----------------------------------------------+
++------------------+-----------------------------------------------+
+| Action           | Description                                   |
++==================+===============================================+
+| List             | Getting a list of gauges from a manifestation |
++------------------+-----------------------------------------------+
+| Show             | Getting a single gauge                        |
++------------------+-----------------------------------------------+
+| Update           | Update a single gauge                         |
++------------------+-----------------------------------------------+
+| Create           | Create a single gauge                         |
++------------------+-----------------------------------------------+
+| Delete           | Delete a single gauge                         |
++------------------+-----------------------------------------------+
 
 
-Getting a collection of manifestations
+Getting a collection of gauges
 ---------------------------------------
 
-To retrieve the full customers list, you will need to call the /api/v2/manifestations/{mid}/gauges endpoint with the GET method.
+To retrieve the full gauge list, you will need to call the /api/v2/manifestations/{mid}/gauges endpoint with the GET method.
 
 Definition
 ^^^^^^^^^^

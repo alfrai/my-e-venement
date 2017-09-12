@@ -2,7 +2,7 @@
 <div class="page">
 <div class="member_card">
   <div class="content card">
-    <p class="picture"></p>
+    <p class="picture"><?php echo $contact->Picture->getRawValue()->getHtmlTagInline() ?> </p>
     <p class="cardid"><span class="title"><?php echo __('N° mumber card') ?></span><?php echo(' '.$card->id); ?></p>
     <p class="name"><span class="title"><?php echo __('Name') ?></span> <?php echo $contact->name ?></p>
     <p class="firstname"><span class="title"><?php echo __('Firstname') ?></span> <?php echo $contact->firstname ?></p>

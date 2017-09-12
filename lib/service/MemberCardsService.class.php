@@ -23,6 +23,85 @@
 
 class MemberCardsService extends EvenementService
 {
+  public function completeMemberCardsWithMCPrice(array $values, Event $event = NULL)
+  {
+    $mcs = $this->getActiveMemberCards($values['member_card_type_id']);
+    
+    foreach ( $mcs as $mc ) {
+        $mcp = new MemberCardPrice;
+        $mcp->price_id = $values['price_id'];
+        
+        // anonymous MemberCardPrice
+        if ( !isset($event) ) {
+            $this->addMemberCardPriceToMemberCard($mcp, $mc, $values['quantity']);
+            continue;
+        }
+        
+        // if there is already a MemberCardPrice for this event_id, do not process
+        if ( in_array($event->id, $mc->MemberCardPrices->toKeyValueArray('id', 'event_id')) ) {
+            continue;
+        }
+        
+        // if there is already a ticket pointing on the given $event linked to the current MemberCard, do not process
+        if ( !$this->hasMemberCardTicketLinkedToEvent($mc, $event) ) {
+            $mcp->Event = $event;
+            $this->addMemberCardPriceToMemberCard($mcp, $mc, $values['quantity']);
+        }
+    }
+    
+    return $mcs;
+  }
+  
+  private function hasMemberCardTicketLinkedToEvent(MemberCard $mc, Event $event)
+  {
+     foreach ( $mc->Tickets as $ticket ) {
+        if ( $ticket->Manifestation->event_id == $event_id ) {
+            return true;
+        }
+    }
+    return false;
+  }
+  
+  private function addMemberCardPriceToMemberCard(MemberCardPrice $mcp, MemberCard $mc, $quantity = 1)
+  {
+    $mcps = new Doctrine_Collection('MemberCardPrice');
+    
+    // nothing to add
+    if ( $quantity == 0 ) {
+        return $mcps;
+    }
+    
+    // infinite quantity cases
+    if ( $quantity < 0 ) {
+        $quantity = 1;
+    }
+    
+    // action !
+    for ( $i = 0 ; $i < $quantity ; $i++ ) {
+        $tmp = $mcp->copy();
+        $tmp->MemberCard = $mc;
+        $tmp->save();
+        $mcps[] = $tmp;
+    }
+    
+    return $mcps;
+  }
+  
+  public function getActiveMemberCards($type_id = NULL)
+  {
+    $q = $this->createQueryForActiveMemberCards($type_id);
+    return $q->execute();
+  }
+  
+  public function getActiveMemberCardsForEvent(Event $event, $type_id = NULL)
+  {
+    $q = $this->createQueryForActiveMemberCards($type_id)
+        ->leftJoin('mc.MemberCardPrices mcp')
+        ->andWhere('mcp.event_id = ?', $event->id)
+    ;
+    return $q->execute();
+  }
+  
   /**
    * This function returns available MemberCardPrices for a Transaction and optionaly a Manifestation
    *
@@ -93,5 +172,19 @@ class MemberCardsService extends EvenementService
     }
     catch ( liEvenementException $e )
     { return $mcp; }
+  }
+
+  private function createQueryForActiveMemberCards($type_id = NULL)
+  {
+    $q = Doctrine::getTable('MemberCard')->retreiveListOfActivatedCards()
+        ->andWhere('mc.expire_at > NOW()')
+        ->select('mc.*')
+    ;
+    
+    if ( isset($type_id) ) {
+        $q->andWhere('mc.member_card_type_id = ?', $type_id);
+    }
+    
+    return $q;
   }
 }

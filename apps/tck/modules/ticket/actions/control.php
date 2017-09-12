@@ -45,7 +45,8 @@
       ->leftJoin('e.Manifestations m')
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->andWhere('m.happens_at < ?',date('Y-m-d H:i',strtotime('now + '.$future)))
-      ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)));
+      ->andWhere('manifestation_ends_at(m.happens_at, m.duration) >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
+    ;
     $this->form->getWidget('checkpoint_id')->setOption('query',$q);
     
     // retrieving the configurate field <- need some improvement for a composite nature : qrcode / id if failing (for instance)
@@ -285,13 +286,13 @@
                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->happens_at . ' - ' .$future))
               ));
             }
-            elseif ( $ticket->Manifestation->happens_at < date('Y-m-d H:i',strtotime('now - '.$past)) )
+            elseif ( strtotime($ticket->Manifestation->ends_at) < strtotime('now - '.$past) )
             {
                // It's too late man !
                $this->error_tickets[$ticket->id] = $ticket;
                $this->errors[] = __('Too late for ticket #%%id%% (gates closed at %%datetime%%)', array(
                  '%%id%%' => $ticket->id,
-                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->happens_at . ' + ' .$past))
+                 '%%datetime%%' => date('Y-m-d H:i',strtotime($ticket->Manifestation->end_at . ' - ' .$past))
                ));
             }
             else

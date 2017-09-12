@@ -131,6 +131,7 @@ MemberCard:
       default: 0
       notnull: true
     detail: string(255)
+    privileged_seat_name: string(255)
   relations:
     Contact:
       foreignAlias: MemberCards

@@ -1,9 +1,14 @@
 default:
   stylesheets: [contact-card-form]
   javascripts: [list-scroll]
+indexSuccess:
+  javascripts: [rp-member-card-seat]
 csvSuccess:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename="membercards.csv"
-            
+setSeatSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
