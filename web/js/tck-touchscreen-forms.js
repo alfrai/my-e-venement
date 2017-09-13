@@ -76,7 +76,6 @@ LI.formSubmit = function(){
         case 'museum_price':
         case 'store_price':
           $('#li_transaction_field_price_new [name="transaction[price_new][qty]"]').val('');
-          LI.checkAutoseatable($('#li_transaction_field_content .item.highlight'));
           if ( !value.data.reset )
             return;
           
@@ -156,6 +155,7 @@ LI.formSubmit = function(){
                   if ( data.success.success_fields[type] !== undefined && data.success.success_fields[type].data !== undefined )
                     LI.completeContent(data.success.success_fields[type].data.content, type, reset);
                 });
+                LI.checkAutoseatable($('#li_transaction_field_content .item.ui-state-highlight'));
               }
             })
           });
