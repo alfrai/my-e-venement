@@ -69,8 +69,7 @@
     ;
     
     $this->manifestation = $this->gauge->Manifestation;
-    $this->seated_plan = $this->manifestation->Location
-      ->getWorkspaceSeatedPlan($this->gauge->workspace_id);
+    $this->seated_plan = $this->gauge->getSeatedPlan();
   }
   else
   {
